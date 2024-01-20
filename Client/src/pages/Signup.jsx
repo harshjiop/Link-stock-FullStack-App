@@ -1,4 +1,27 @@
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import authentication from "../services/authentication";
 export default function Signup() {
+  const navigate = useNavigate();
+  const { handleSubmit, register, watch } = useForm();
+
+  function onsubmit(data) {
+    if(data.password === data.re_password){
+      authentication.signUp(data).then(response=>{
+        if(response){
+          console.log('account created')
+          navigate('/login')
+        }else{
+          console.log('account not created')
+        }
+      }).catch(error=>{
+        console.log('error is',error)
+      })
+    }else{
+      alert('Password Not Matched')
+    }
+  }
+
   return (
     <div className="h-screen w-full">
       {/* content */}
@@ -15,7 +38,10 @@ export default function Signup() {
 
           {/* form container */}
           <div className="w-full">
-            <form className="w-full px-5 flex flex-col items-center gap-5">
+            <form
+              onSubmit={handleSubmit(onsubmit)}
+              className="w-full px-5 flex flex-col items-center gap-5"
+            >
               {/* username */}
               <div className="w-[30%] flex flex-col">
                 <label className="text-xl font-semibold" htmlFor="userName">
@@ -26,6 +52,38 @@ export default function Signup() {
                   type="text"
                   name="userName"
                   id="userName"
+                  placeholder="Enter username"
+                  {...register("username", { required: true })}
+                />
+              </div>
+
+               {/* full name */}
+               <div className="w-[30%] flex flex-col">
+                <label className="text-xl font-semibold" htmlFor="fullName">
+                  Full Name
+                </label>
+                <input
+                  className="text-xl border-2 outline-none px-2  rounded-xl border-[#C92138]"
+                  type="text"
+                  name="fullName"
+                  id="fullName"
+                  placeholder="Enter fullName"
+                  {...register("fullName", { required: true })}
+                />
+              </div>
+
+               {/* email */}
+               <div className="w-[30%] flex flex-col">
+                <label className="text-xl font-semibold" htmlFor="email">
+                  Email
+                </label>
+                <input
+                  className="text-xl border-2 outline-none px-2  rounded-xl border-[#C92138]"
+                  type="text"
+                  name="email"
+                  id="email"
+                  placeholder="Enter email"
+                  {...register("email", { required: true })}
                 />
               </div>
 
@@ -39,10 +97,12 @@ export default function Signup() {
                   type="text"
                   name="password"
                   id="password"
+                  placeholder="Enter Password"
+                  {...register("password", { required: true })}
                 />
               </div>
 
-              {/* password */}
+              {/* retype password */}
               <div className="w-[30%] flex flex-col">
                 <label className="text-xl font-semibold" htmlFor="re-password">
                   Retype-Password
@@ -52,6 +112,8 @@ export default function Signup() {
                   type="text"
                   name="re-password"
                   id="re-password"
+                  placeholder="Re-Enter Password"
+                  {...register("re_password", { required: true })}
                 />
               </div>
 

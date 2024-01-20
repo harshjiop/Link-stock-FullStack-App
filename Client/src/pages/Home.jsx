@@ -1,6 +1,9 @@
+import { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
+import authentication from "../services/authentication";
 
 export default function Home() {
+  
   return (
     <div
       className="bg-[#F2EDE3] w-full h-screen"
