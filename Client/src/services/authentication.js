@@ -1,6 +1,5 @@
 class Authentication {
     async signUp(data) {
-        console.log(data)
         try {
             const response = await fetch('http://localhost:8000/api/v1/users/register', {
                 method: 'POST',
@@ -33,13 +32,55 @@ class Authentication {
                 body: JSON.stringify({ username: data.userName, password: data.password }),
             })
             if (response.ok) {
-                return response
+                return await response.json();
             } else {
                 console.log('some issue', response)
             }
         } catch (error) {
             console.log('some error in catch', error)
             return error.message;
+        }
+    }
+
+    async updateUser(token,data) {
+        // console.log('token',token,data);
+
+        try {
+            const response = await fetch('http://localhost:8000/api/v1/users/update-account', {
+                method: 'PATCH',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(token,{ username: data.userName, password: data.password }),
+            })
+            if (response.ok) {
+                return true;
+            } else {
+                console.log('some issue', response)
+            }
+        } catch (error) {
+            console.log('some error in catch', error)
+            return error.message;
+        }
+    }
+
+    async getUser(userName) {
+        try {
+            const response = await fetch(`http://localhost:8000/api/v1/users/u/${userName}`)
+            if (response.ok) {
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json()
+                    console.log(data)
+                    return data.data;
+                }
+            } else {
+                console.log('some issue', response)
+                return false;
+            }
+        } catch (error) {
+            console.log('some error in catch', error)
+            return error;
         }
     }
 }

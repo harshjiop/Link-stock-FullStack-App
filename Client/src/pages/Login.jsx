@@ -2,22 +2,29 @@ import { useEffect } from "react";
 import authentication from "../services/authentication";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { login } from "../store/authSlice";
+import { useDispatch } from "react-redux";
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { handleSubmit, register, watch } = useForm();
 
-  function onSubmit(data) {
-    authentication.login({...data}).then(response=>{
-      if(response){
-        console.log('login successful')
-        navigate('/admin');
-      }else{
-        console.log('some error');
+  async function onSubmit(data) {
+    authentication.login({ ...data }).then(async (response) => {
+      if (response) {
+        console.log("login successful");
+        const userData = response.data
+          if (userData) {
+            dispatch(login({ userData }));
+            navigate("/admin/links");
+          }
+        
+        
+      } else {
+        console.log("some error");
       }
-    })
+    });
   }
-
-
 
   return (
     <div className="h-screen w-full">
