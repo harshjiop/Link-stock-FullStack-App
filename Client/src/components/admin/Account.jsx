@@ -1,26 +1,57 @@
 import { useEffect, useState } from "react";
 import { AdminContainer } from "../index";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import authentication from "../../services/authentication";
+import { login } from "../../store/authSlice";
 
 export default function Account() {
   const [data, setData] = useState({});
+  const [token, setToken] = useState("");
   const userData = useSelector((state) => state.auth.userData);
   const { handleSubmit, register, watch } = useForm();
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    console.log("userData",userData['user'] );
-    setData(userData['user']);
+    try {
+      const localToken = localStorage.getItem("token");
+      // console.log('local token',typeof localToken)
+      if (localToken) {
+        setToken(localToken);
+      }else{
+        console.log('token not found in local storage')
+      }
+    } catch (error) {
+      console.log('error is ',error);
+      // console.log('error is ',localToken);
+    }
+  }, []);
+
+  useEffect(() => {
+    // console.log("userData", userData);
+    setData(userData);
   }, [userData]);
 
-
-  const onSubmit = (data)=>{
-    authentication.updateUser(userData.accessToken,data).then(response=>{
-      if(response){
-        console.log('updated');
-      }
-    })
-  }
+  const onSubmit = (data) => {
+    if (token) {
+      authentication.updateUser(token, data).then((response) => {
+        if (response) {
+          console.log("updated");
+          const data = response.data;
+          console.log({userData:data});
+          try {
+            localStorage.setItem('userData',JSON.stringify(data));
+            dispatch(login({userData:data}))
+          } catch (error) {
+            console.log('error is ',error)
+          }
+         
+        }
+      });
+    } else {
+      console.log("token not found to update user",token);
+    }
+  };
 
   if (data) {
     return (
@@ -35,7 +66,7 @@ export default function Account() {
             id="username"
             defaultValue={data.username}
             placeholder="User Name"
-            {...register('username',{required:true})}
+            {...register("username", { required: true })}
           />
 
           {/* email */}
@@ -46,7 +77,7 @@ export default function Account() {
             id="email"
             defaultValue={data.email}
             placeholder="Email"
-            {...register('email',{required:true})}
+            {...register("email", { required: true })}
           />
 
           {/* full name */}
@@ -57,7 +88,7 @@ export default function Account() {
             id="fullname"
             defaultValue={data.fullName}
             placeholder="full name"
-            {...register('fullName',{required:true})}
+            {...register("fullName", { required: true })}
           />
 
           <input

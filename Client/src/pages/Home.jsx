@@ -1,9 +1,33 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../store/authSlice";
 import authentication from "../services/authentication";
 
 export default function Home() {
-  
+  const dispatch = useDispatch();
+  const [isLogin, setUserLogin] = useState(false);
+  const userStatus = useSelector(state=>state.auth.status);
+
+  useEffect(() => {
+    try {
+      const localUserData = localStorage.getItem("userData");
+      if (localUserData) {
+        const userData = JSON.parse(localUserData);
+        if (userData) {
+          dispatch(login({ userData }));
+          setUserLogin(true);
+        } else {
+          console.log("no user data");
+        }
+      } else {
+        console.log("no user Data in local storage");
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  }, []);
+
   return (
     <div
       className="bg-[#F2EDE3] w-full h-screen"
@@ -27,6 +51,9 @@ export default function Home() {
                 <li>About</li>
                 <li>Features</li>
                 <li>Pricing</li>
+                <li className={`${userStatus ? "" : "hidden"}`}>
+                  <NavLink to={"/admin/links"}>Admin</NavLink>
+                </li>
               </ul>
             </div>
 
