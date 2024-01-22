@@ -7,9 +7,21 @@ export default function Logout() {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
   const logoutHandler = () => {
-    dispatch(logout());
-    console.log("logout successfully");
-    navigate("/");
+    try {
+      const localUserData = localStorage.getItem('userData')
+      const localToken = localStorage.getItem('token')
+
+      if(localUserData && localToken){
+        dispatch(logout());
+        localStorage.removeItem('userData')
+        localStorage.removeItem('token')
+        console.log("logout successfully");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log('error is ',error)
+    }
+    
   };
   return <button onClick={logoutHandler}>Logout</button>;
 }

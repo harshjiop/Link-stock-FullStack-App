@@ -3,23 +3,30 @@ import authentication from "../services/authentication";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { login } from "../store/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const authStatus = useSelector((state) => state.auth.status);
+
   const { handleSubmit, register, watch } = useForm();
 
   async function onSubmit(data) {
     authentication.login({ ...data }).then(async (response) => {
       if (response) {
         console.log("login successful");
-        const userData = response.data
-          if (userData) {
+        const userData = response.data;
+        if (userData) {
+          try {
+            const localUserData = JSON.stringify(userData.user);
+            localStorage.setItem("userData", localUserData);
+            localStorage.setItem("token", userData.accessToken);
             dispatch(login({ userData }));
             navigate("/admin/links");
+          } catch (error) {
+            console.log("some error", error);
           }
-        
-        
+        }
       } else {
         console.log("some error");
       }

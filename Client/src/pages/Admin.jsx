@@ -1,8 +1,12 @@
 import { Outlet } from "react-router";
 import { NavLink } from "react-router-dom";
 import { Logout } from "../components";
+import { useEffect } from "react";
+import { useSelector,useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
 
 export default function Admin() {
+
   return (
     <div className="h-screen w-full flex justify-center items-center bg-[#F2EDE3]">
       {/* admin container */}
@@ -33,6 +37,10 @@ export default function Admin() {
               </li>
               <li>
                 <NavLink to={"/admin/account"}>My Account</NavLink>
+              </li>
+
+              <li>
+                <NavLink to={'/'}>Home</NavLink>
               </li>
             </ul>
           </div>

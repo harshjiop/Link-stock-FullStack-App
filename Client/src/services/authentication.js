@@ -43,18 +43,22 @@ class Authentication {
     }
 
     async updateUser(token,data) {
-        // console.log('token',token,data);
+        // console.log('token',typeof token);
+        console.log('token',`${token}`);
 
         try {
+            const headers = new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `${token}`
+            })
             const response = await fetch('http://localhost:8000/api/v1/users/update-account', {
                 method: 'PATCH',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify(token,{ username: data.userName, password: data.password }),
+                headers: headers,
+                body: JSON.stringify({username: data.username, fullName: data.fullName, email: data.email}),
+                // body: JSON.stringify({...data}),
             })
             if (response.ok) {
-                return true;
+                return await response.json()
             } else {
                 console.log('some issue', response)
             }
@@ -75,7 +79,7 @@ class Authentication {
                     return data.data;
                 }
             } else {
-                console.log('some issue', response)
+                console.log('some issue', response.status, response.statusText)
                 return false;
             }
         } catch (error) {
