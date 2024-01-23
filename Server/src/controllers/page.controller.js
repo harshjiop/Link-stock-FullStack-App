@@ -5,14 +5,21 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import fs from "fs";
 
-const PageProfileUpdate = asyncHandler(async (req, res) => {});
+const GetAllLink = asyncHandler(async (req, res) => {
+  const owner = req.user._id;
+  const AllLink = await Page.find({ owner });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, AllLink, "All Link Geting sucessful"));
+});
 const Addlink = asyncHandler(async (req, res) => {
   const { title, url, isActive } = req.body;
   if (!title || !url || !isActive) {
     throw new ApiError(400, "All fields are required");
   }
   const thumbnailLocalPath = req.file?.path;
-  const thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
+  const ThumbnailCloudinary = await uploadOnCloudinary(thumbnailLocalPath);
+  // console.log("thubnail",ThumbnailCloudinary);
   if (thumbnailLocalPath) {
     console.log("note run");
     const thumbnailLocalPathDelete = await fs.unlink(
@@ -29,7 +36,13 @@ const Addlink = asyncHandler(async (req, res) => {
   const linkCreated = await Page.create({
     title,
     url,
-    thumbnail: thumbnail?.url || "",
+    thumbnail: {
+      public_id: ThumbnailCloudinary?.public_id,
+      url: ThumbnailCloudinary?.url,
+    } || {
+      public_id: "",
+      url: "",
+    },
     isActive,
     owner: req.user._id,
   });
@@ -43,7 +56,63 @@ const Addlink = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Something went wrong while add link");
   }
 });
-const Deletelink = asyncHandler(async (req, res) => {});
-const Updatelink = asyncHandler(async (req, res) => {});
+const Deletelink = asyncHandler(async (req, res) => {
+  const linkId = req.params.linkId;
+  // const { linkId } = req.body;
+  // console.log(linkId);
 
-export { Addlink, Deletelink, Updatelink, PageProfileUpdate };
+  // if (!isValidObjectId(videoId)) {
+  //   throw new ApiError(400, "Invalid video id");
+  // }
+
+  const deletedlink = await Page.findById(linkId);
+
+  if (!deletedlink) {
+    throw new ApiError(400, "Link not found");
+  }
+
+  const thumbnailPublicId = deletedlink.thumbnail.public_id;
+  if (thumbnailPublicId) {
+    const removeLinkFromCloudinary = await deleteFromCloudinary(
+      videoFilePublicId,
+      "video"
+    );
+    if (!removeLinkFromCloudinary) {
+      throw new ApiError(400, "Error while deleting file from cloudinary");
+    }
+  }
+
+  const DeleteLink = await deletedlink.deleteOne();
+
+  if (!DeleteLink) {
+    throw new ApiError(400, "Error while deleting video");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, DeleteLink, "video deleted successfully"));
+});
+
+const Updatelink = asyncHandler(async (req, res) => {
+  console.log("start");
+  // const linkId = req.params.linkId;
+  const { title, url, isActive } = req.body;
+  console.log(title, url, isActive);
+  // if (!title && !url && !isActive) {
+  //   throw new ApiError(400, "Update Somthing");
+  // }
+  console.log("End");
+
+  // const UpdateLinkId = await Page.findById(linkId);
+});
+const UpdateThumbnail = asyncHandler(async (req, res) => {});
+const isAcctiveLink = asyncHandler(async (req, res) => {});
+
+export {
+  Addlink,
+  Deletelink,
+  Updatelink,
+  GetAllLink,
+  UpdateThumbnail,
+  isAcctiveLink,
+};

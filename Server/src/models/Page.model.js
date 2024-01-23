@@ -14,7 +14,12 @@ const PageSchema = new Schema({
     required: true,
   },
   thumbnail: {
-    type: String, // cloudinary url
+    public_id: {
+      type: String, // cloudinary
+    },
+    url: {
+      type: String, // cloudinary
+    },
   },
   isActive: {
     type: Boolean,

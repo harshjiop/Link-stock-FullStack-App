@@ -5,8 +5,10 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 import {
   Addlink,
   Deletelink,
-  PageProfileUpdate,
+  GetAllLink,
+  UpdateThumbnail,
   Updatelink,
+  isAcctiveLink,
 } from "../controllers/page.controller.js";
 
 const router = Router();
@@ -14,9 +16,12 @@ const router = Router();
 router.use(verifyJWT);
 
 //SECURED ROUTES
-router.route("/add-link").post(upload.single("thumbnail"), Addlink);
-router.route("/page-profile").patch(PageProfileUpdate);
+router.route("/all-link").get(GetAllLink);
+router.route("/delete-link").post(Deletelink);
 router.route("/update-link").patch(Updatelink);
-router.route("delete-link").post(Deletelink);
+router.route("/acctive-link").patch(isAcctiveLink);
 
+router.route("/add-link").post(upload.single("thumbnail"), Addlink);
+
+router.route("/update-thumbnail").patch(UpdateThumbnail);
 export default router;
