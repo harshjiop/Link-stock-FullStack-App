@@ -14,7 +14,7 @@ const router = Router();
 router.use(verifyJWT);
 
 //SECURED ROUTES
-router.route("/add-link").post(Addlink);
+router.route("/add-link").post(upload.single("thumbnail"), Addlink);
 router.route("/page-profile").patch(PageProfileUpdate);
 router.route("/update-link").patch(Updatelink);
 router.route("delete-link").post(Deletelink);

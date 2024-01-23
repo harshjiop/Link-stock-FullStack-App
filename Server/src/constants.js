@@ -1,10 +1,11 @@
 export const DB_NAME = "NewLinkStock";
-// export const DB_URL =
-//   "mongodb+srv://Harsh:Harsh123@youtube-backend.n9qz6ew.mongodb.net";
 export const DB_URL =
   "mongodb+srv://Harsh:Harsh123@newlinkstock.xe5pugx.mongodb.net";
+// export const DB_URL = process.env.DB_URLS;
+// console.log("constend",DB_URL);
+// console.log("constend1",process.env.DB_URLS);
 export const PORT = 8000;
-export const Cors_Origin = "http://localhost:3000/";
+export const Cors_Origin = "http://localhost:5173";
 export const ACCESS_TOKEN_SECRET = "mongodb://localhost:27017";
 export const ACCESS_TOKEN_EXPIRY = "1d";
 export const REFRESH_TOKEN_SECRET = "123";

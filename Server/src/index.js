@@ -1,11 +1,13 @@
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import connectDB from "./db/index.js";
 import { app } from "./app.js";
 import { PORT } from "./constants.js";
+import dotenv from "dotenv";
+dotenv.config();
+// dotenv.config({
+//   path: ".env",
+// });
 
-dotenv.config({
-  path: "../env",
-});
 connectDB()
   .then(() => {
     // console.log("RUN index.js than part");
