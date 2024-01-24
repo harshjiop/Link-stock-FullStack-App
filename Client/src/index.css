@@ -1,3 +1,99 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer utilities {
+   
+    @variants responsive {
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+    }
+
+    @variants animation {
+
+        @keyframes skeleton-loading {
+            0% {
+                background-color: rgb(46, 64, 83);
+
+            }
+
+            100% {
+                background-color: rgb(174, 182, 191);
+            }
+        }
+
+        .skeleton {
+            animation: skeleton-loading 1s linear infinite alternate;
+        }
+
+
+        /* error loader animation */
+        @keyframes loading-bar {
+            0% {
+                width: 100%;
+            }
+
+            100% {
+                width: 0%;
+            }
+        }
+
+        .loadingBar {
+            animation: loading-bar 3s ease;
+            border: 2px solid red;
+        }
+
+
+
+        /* strip animation */
+        @keyframes stripAnimation {
+            from {
+                left: 0%;
+
+            }
+
+            to {
+                left: -40%;
+
+            }
+        }
+
+        @keyframes reverseStripAnimation {
+            from {
+                left: -40%;
+            }
+
+            to {
+                left: 0%;
+
+            }
+        }
+
+        .strip {
+
+            animation: stripAnimation 7s linear infinite;
+
+        }
+
+        .reverseStrip {
+            animation: reverseStripAnimation 7s linear infinite;
+            
+        }
+    }
+
+
+
+
+}
