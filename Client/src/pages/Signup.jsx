@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import authentication from "../services/authentication";
+import { Link } from "react-router-dom";
 export default function Signup() {
   const navigate = useNavigate();
   const { handleSubmit, register, watch } = useForm();
@@ -23,17 +24,30 @@ export default function Signup() {
   }
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen w-full bg-[#F2EDE3] ">
       {/* content */}
       <div className="w-full h-full flex justify-between ">
         {/* left section */}
-        <div className="w-[40%] bg-center bg-no-repeat bg-cover h-full bg-[url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/pexels-photo-3844786%201_4cRCSqrpP.png?updatedAt=1705680095987)]"></div>
+         <div className="md:w-[40%] w-0 md:inline-block hidden border-r-4 border-[#C92138] bg-center bg-no-repeat bg-cover h-full relative">
+          <div className="absolute top-0 left-0 w-full h-full bg-slate-900/20 flex justify-center items-center">
+            <h2 className="rotate-[-90deg] text-7xl font-bold text-[#F2EDE3]">
+              SIGNUP
+            </h2>
+          </div>
+          <video
+            className="w-full object-cover  h-full"
+            src="https://ik.imagekit.io/8fgpvoiai/Link%20Stock/pexels-pachon-in-motion-15283218%20(Original)%20(online-video-cutter.com)_l_sXOcPt1R.mp4?updatedAt=1705951634647"
+            autoPlay
+            loop
+            muted
+          ></video>
+        </div>
 
         {/* right section */}
-        <div className="h-full w-[60%] gap-20  flex flex-col justify-center items-center">
+        <div className="h-full md:w-[60%] w-full py-5 gap-20  flex flex-col justify-center items-center overflow-y-auto no-scrollbar">
           {/* upper heading */}
-          <h1 className="text-7xl outline-4  text-[#F2EDE3]  drop-shadow-[0px_0px_2px_#C92138]">
-            Signup
+          <h1 className="text-7xl font-bold text-[#C92138]" >
+            SIGNUP
           </h1>
 
           {/* form container */}
@@ -43,12 +57,9 @@ export default function Signup() {
               className="w-full px-5 flex flex-col items-center gap-5"
             >
               {/* username */}
-              <div className="w-[30%] flex flex-col">
-                <label className="text-xl font-semibold" htmlFor="userName">
-                  Username
-                </label>
+              <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl border-2 outline-none px-2  rounded-xl border-[#C92138]"
+                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
                   type="text"
                   name="userName"
                   id="userName"
@@ -58,12 +69,9 @@ export default function Signup() {
               </div>
 
                {/* full name */}
-               <div className="w-[30%] flex flex-col">
-                <label className="text-xl font-semibold" htmlFor="fullName">
-                  Full Name
-                </label>
+               <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl border-2 outline-none px-2  rounded-xl border-[#C92138]"
+                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
                   type="text"
                   name="fullName"
                   id="fullName"
@@ -73,12 +81,9 @@ export default function Signup() {
               </div>
 
                {/* email */}
-               <div className="w-[30%] flex flex-col">
-                <label className="text-xl font-semibold" htmlFor="email">
-                  Email
-                </label>
+               <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl border-2 outline-none px-2  rounded-xl border-[#C92138]"
+                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
                   type="text"
                   name="email"
                   id="email"
@@ -88,13 +93,10 @@ export default function Signup() {
               </div>
 
               {/* password */}
-              <div className="w-[30%] flex flex-col">
-                <label className="text-xl font-semibold" htmlFor="password">
-                  Password
-                </label>
+              <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl border-2 outline-none px-2  rounded-xl border-[#C92138]"
-                  type="text"
+                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
+                  type="password"
                   name="password"
                   id="password"
                   placeholder="Enter Password"
@@ -103,13 +105,10 @@ export default function Signup() {
               </div>
 
               {/* retype password */}
-              <div className="w-[30%] flex flex-col">
-                <label className="text-xl font-semibold" htmlFor="re-password">
-                  Retype-Password
-                </label>
+              <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl border-2 outline-none px-2  rounded-xl border-[#C92138]"
-                  type="text"
+                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
+                  type="password"
                   name="re-password"
                   id="re-password"
                   placeholder="Re-Enter Password"
@@ -117,8 +116,14 @@ export default function Signup() {
                 />
               </div>
 
+                {/* remembered section */}
+                <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end ">
+                <h2>Already Registered ?</h2> <h2 className="text-[#C92138] font-bold"><Link to={'/login'}>Login</Link>
+              </h2>
+              </div>
+
               <input
-                className="w-[30%] py-1  border-2 text-xl text-[#F2EDE3] rounded-2xl bg-[#C92138]"
+                className="md:w-[40%] w-full py-1 font-bold  border-2 text-xl text-[#F2EDE3] h-14 rounded bg-[#C92138]"
                 type="submit"
                 value="Create Account"
               />
