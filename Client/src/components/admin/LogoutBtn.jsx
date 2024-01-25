@@ -15,6 +15,7 @@ export default function Logout() {
         dispatch(logout());
         localStorage.removeItem('userData')
         localStorage.removeItem('token')
+        localStorage.removeItem('links')
         console.log("logout successfully");
         navigate("/");
       }

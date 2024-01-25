@@ -36,9 +36,7 @@ export default function Account() {
     if (token) {
       authentication.updateUser(token, data).then((response) => {
         if (response) {
-          console.log("updated");
           const data = response.data;
-          console.log({userData:data});
           try {
             localStorage.setItem('userData',JSON.stringify(data));
             dispatch(login({userData:data}))
@@ -58,9 +56,12 @@ export default function Account() {
       <AdminContainer className="rounded-lg bg-white">
         {/* form */}
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-7">
+          {/* avatar */}
+          <input className="hidden" type="file" name="input file" id="" />
+
           {/* user name */}
           <input
-            className="bg-slate-300 text-center text-black outline-none text-xl py-2 font-bold"
+            className="text-center border-2 border-[#C92138] bg-zinc-100 text-black outline-none text-xl py-2 font-bold"
             type="text"
             name="username"
             id="username"
@@ -71,7 +72,7 @@ export default function Account() {
 
           {/* email */}
           <input
-            className="bg-slate-300 text-center text-black outline-none text-xl py-2 font-bold"
+            className="border-2 border-[#C92138] bg-zinc-100 text-center text-black outline-none text-xl py-2 font-bold"
             type="email"
             name="email"
             id="email"
@@ -82,7 +83,7 @@ export default function Account() {
 
           {/* full name */}
           <input
-            className="bg-slate-300 text-center text-black outline-none text-xl py-2 font-bold"
+            className="border-2 border-[#C92138] bg-zinc-100 text-center text-black outline-none text-xl py-2 font-bold"
             type="text"
             name="fullname"
             id="fullname"
@@ -92,7 +93,7 @@ export default function Account() {
           />
 
           <input
-            className="text-center bg-[#C92138] py-2 rounded-lg text-xl font-bold text-white"
+            className="text-center cursor-pointer bg-[#C92138] py-2 rounded-lg text-xl font-bold text-white"
             type="submit"
             value="Update Details"
           />
