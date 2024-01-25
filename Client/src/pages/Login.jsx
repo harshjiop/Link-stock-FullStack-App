@@ -58,9 +58,7 @@ export default function Login() {
         {/* right section */}
         <div className="h-full md:w-[60%] w-full gap-20  flex flex-col justify-center items-center">
           {/* upper heading */}
-          <h1 className="text-7xl font-bold text-[#C92138]" >
-            LOGIN
-          </h1>
+          <h1 className="text-7xl font-bold text-[#C92138]">LOGIN</h1>
 
           {/* form container */}
           <div className="w-full">
@@ -94,14 +92,17 @@ export default function Login() {
 
               {/* remembered section */}
               <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end ">
-                <h2>Forgot Password ? </h2> <h2 className="text-[#C92138] font-bold"><Link to={'/'}> Reset Password</Link>
-              </h2>
+                <h2>Forgot Password ? </h2>{" "}
+                <h2 className="text-[#C92138] font-bold">
+                  <Link to={"/"}> Reset Password</Link>
+                </h2>
               </div>
 
               {/* remembered section */}
               <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end ">
-              <h2 className="text-[#C92138] font-bold"><Link to={'/signup'}> Register Now</Link>
-              </h2>
+                <h2 className="text-[#C92138] font-bold">
+                  <Link to={"/signup"}> Register Now</Link>
+                </h2>
               </div>
 
               <input

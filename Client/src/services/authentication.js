@@ -42,9 +42,9 @@ class Authentication {
         }
     }
 
-    async updateUser(token,data) {
+    async updateUser(token, data) {
         // console.log('token',typeof token);
-        console.log('token',`${token}`);
+        console.log('token', `${token}`);
 
         try {
             const headers = new Headers({
@@ -54,7 +54,7 @@ class Authentication {
             const response = await fetch('http://localhost:8000/api/v1/users/update-account', {
                 method: 'PATCH',
                 headers: headers,
-                body: JSON.stringify({username: data.username, fullName: data.fullName, email: data.email}),
+                body: JSON.stringify({ username: data.username, fullName: data.fullName, email: data.email }),
                 // body: JSON.stringify({...data}),
             })
             if (response.ok) {

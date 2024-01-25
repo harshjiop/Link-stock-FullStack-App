@@ -1,6 +1,9 @@
 import { AdminContainer } from "../index";
 import { MdEdit } from "../../icons";
+import { useSelector } from "react-redux";
 export default function Design() {
+  const userData = useSelector(state=>state.auth.userData);
+
   return (
     <AdminContainer className="rounded-lg bg-white">
       {/* profile picture */}
@@ -15,17 +18,19 @@ export default function Design() {
 
       {/* content section  */}
       <div className="flex flex-col gap-5 w-full items-center">
-        <h2 className="w-[30%] text-center px-10 bg-slate-300 py-3 font-bold">
-          Name
+        <h2 className="w-[40%] selection:bg-transparent border-2 border-[#C92138] rounded text-center px-10 bg-zinc-100 py-3 font-bold">
+          {userData?.fullName}
         </h2>
-        <h2 className="w-[50%] text-center px-10 bg-slate-300 py-3 font-bold">
-          Bio
+        <h2 className="w-[60%] selection:bg-transparent border-2 border-[#C92138] rounded text-center px-10 bg-zinc-100 py-3 font-bold">
+          {userData?.email}
         </h2>
       </div>
 
       {/* theme section */}
       <div className="bg-[#F2F5FA] w-full rounded-tl-xl rounded-tr-xl rounded-e h-full px-10 py-2">
         <h1 className="text-xl font-bold w-full text-center">Themes</h1>
+
+        <h2 className="text-red-600 text-xl w-full text-center my-5">Coming Soon...</h2>
       </div>
     </AdminContainer>
   );
