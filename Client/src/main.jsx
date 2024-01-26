@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, Login, Signup, Admin } from "./pages";
+import { Home, Login, Signup, Admin, Error } from "./pages";
 import { Provider } from "react-redux";
 import {
   Account,
@@ -18,6 +18,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    errorElement: <Error />,
   },
   {
     path: "/login",
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
         <Login />
       </AuthLayout>
     ),
+    errorElement: <Error />,
   },
   {
     path: "/signup",
@@ -34,6 +36,7 @@ const router = createBrowserRouter([
         <Signup />
       </AuthLayout>
     ),
+    errorElement: <Error />,
   },
   {
     path: "/admin",
@@ -42,6 +45,7 @@ const router = createBrowserRouter([
         <Admin />
       </AuthLayout>
     ),
+    errorElement: <Error />,
     children: [
       {
         path: "",
@@ -50,6 +54,7 @@ const router = createBrowserRouter([
             <Admin />
           </AuthLayout>
         ),
+        errorElement: <Error />,
       },
       {
         path: "/admin/links",
@@ -58,6 +63,7 @@ const router = createBrowserRouter([
             <Links />
           </AuthLayout>
         ),
+        errorElement: <Error />,
       },
       {
         path: "/admin/design",
@@ -66,6 +72,7 @@ const router = createBrowserRouter([
             <Design />
           </AuthLayout>
         ),
+        errorElement: <Error />,
       },
       {
         path: "/admin/settings",
@@ -74,6 +81,7 @@ const router = createBrowserRouter([
             <Settings />
           </AuthLayout>
         ),
+        errorElement: <Error />,
       },
       {
         path: "/admin/account",
@@ -82,6 +90,7 @@ const router = createBrowserRouter([
             <Account />
           </AuthLayout>
         ),
+        errorElement: <Error />,
       },
     ],
   },
