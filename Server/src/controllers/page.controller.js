@@ -57,13 +57,7 @@ const Addlink = asyncHandler(async (req, res) => {
   }
 });
 const Deletelink = asyncHandler(async (req, res) => {
-  const linkId = req.params.linkId;
-  // const { linkId } = req.body;
-  // console.log(linkId);
-
-  // if (!isValidObjectId(videoId)) {
-  //   throw new ApiError(400, "Invalid video id");
-  // }
+  const { linkId } = req.body;
 
   const deletedlink = await Page.findById(linkId);
 
@@ -94,19 +88,51 @@ const Deletelink = asyncHandler(async (req, res) => {
 });
 
 const Updatelink = asyncHandler(async (req, res) => {
-  console.log("start");
-  // const linkId = req.params.linkId;
-  const { title, url, isActive } = req.body;
-  console.log(title, url, isActive);
-  // if (!title && !url && !isActive) {
-  //   throw new ApiError(400, "Update Somthing");
-  // }
-  console.log("End");
+  const { title, url, isActive, linkId } = req.body;
+  if (!title || !url || !linkId) {
+    throw new ApiError(400, "All Fild is required");
+  }
 
-  // const UpdateLinkId = await Page.findById(linkId);
+  console.log(title, url, isActive, linkId);
+
+  const Update = await Page.findByIdAndUpdate(
+    linkId,
+    {
+      $set: {
+        title,
+        url,
+        isActive: isActive || true,
+      },
+    },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, Update, "Link updated successfully"));
 });
+
 const UpdateThumbnail = asyncHandler(async (req, res) => {});
-const isAcctiveLink = asyncHandler(async (req, res) => {});
+const isAcctiveLink = asyncHandler(async (req, res) => {
+  const { isActive, linkId } = req.body;
+  if (!isActive || !linkId) {
+    throw new ApiError(400, "All Fild is required");
+  }
+
+  const Update = await Page.findByIdAndUpdate(
+    linkId,
+    {
+      $set: {
+        isActive: isActive || true,
+      },
+    },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, Update, "Link updated successfully"));
+});
 
 export {
   Addlink,
