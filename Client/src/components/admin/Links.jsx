@@ -15,6 +15,7 @@ export default function Links() {
   const { register, handleSubmit, setValue } = useForm();
   const dispatch = useDispatch();
   const userLinks = useSelector((state) => state.links.links);
+  const userName = useSelector((state) => state.auth.userData.username);
 
   useEffect(() => {
     try {
@@ -111,6 +112,26 @@ export default function Links() {
     }
   }
 
+  function handleShare() {
+    if (userName) {
+      const baseUrl =
+        window.location.hostname === "localhost" ? "http://localhost:5173" : "";
+      const dummyInput = document.createElement("input");
+      dummyInput.value = `${baseUrl}/${userName}`;
+      document.body.appendChild(dummyInput);
+      dummyInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummyInput);
+
+      document.querySelector(".shareButton").innerHTML = "Link Copied";
+      setTimeout(() => {
+        document.querySelector(".shareButton").innerHTML = "Share";
+      }, 500);
+    } else {
+      console.log("invalid user name");
+    }
+  }
+
   return (
     <AdminContainer className="gap-1 justify-start relative">
       {/* add buttons */}
@@ -123,8 +144,11 @@ export default function Links() {
           Add Heading
         </button>
 
-        <button className="text w-[40%] bg-[#C92138] py-2 rounded-xl">
-          Add Heading
+        <button
+          onClick={handleShare}
+          className="text w-[40%] bg-[#C92138] py-2 rounded-xl shareButton"
+        >
+          Share
         </button>
       </div>
 

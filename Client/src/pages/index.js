@@ -4,4 +4,5 @@ import Signup from './Signup'
 import Admin from "./Admin";
 import Loader from "./loader/Loader";
 import Error from './Error'
-export { Home, Login, Signup, Admin, Loader, Error };
+import Guest from "./Guest";
+export { Home, Login, Signup, Admin, Loader, Error,Guest };

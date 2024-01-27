@@ -86,6 +86,23 @@ class Links {
             throw error;
         }
     }
+
+    async getGuestLinks(userName){
+        try {
+            const response = await fetch(`http://localhost:8000/${userName}`)
+            if(response.ok){
+                const contentType = response.headers.get('content-type');
+                if(contentType && contentType.includes('application/json')){
+                    const data = await response.json();
+                    return data.data[0];
+                }
+            }else{
+                throw new Error(`Links ${response.statusText}`)
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default new Links;

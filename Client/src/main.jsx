@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, Login, Signup, Admin, Error } from "./pages";
+import { Home, Login, Signup, Admin, Error, Guest } from "./pages";
 import { Provider } from "react-redux";
 import {
   Account,
@@ -93,6 +93,11 @@ const router = createBrowserRouter([
         errorElement: <Error />,
       },
     ],
+  },
+  {
+    path: "/:userName",
+    element: <Guest />,
+    errorElement: <Error />,
   },
 ]);
 
