@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { AdminContainer } from "../index";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import authentication from "../../services/authentication";
 import { login } from "../../store/authSlice";
+import { clearStatus, updateStatus } from "../../store/errorSlice";
 
 export default function Account() {
   const [data, setData] = useState({});
@@ -18,12 +19,12 @@ export default function Account() {
       // console.log('local token',typeof localToken)
       if (localToken) {
         setToken(localToken);
-      }else{
-        console.log('token not found in local storage')
       }
     } catch (error) {
-      console.log('error is ',error);
-      // console.log('error is ',localToken);
+      dispatch(updateStatus({ error: true, text: error.message }));
+      setTimeout(() => {
+        dispatch(clearStatus());
+      }, 3000);
     }
   }, []);
 
@@ -34,20 +35,35 @@ export default function Account() {
 
   const onSubmit = (data) => {
     if (token) {
-      authentication.updateUser(token, data).then((response) => {
-        if (response) {
-          const data = response.data;
-          try {
-            localStorage.setItem('userData',JSON.stringify(data));
-            dispatch(login({userData:data}))
-          } catch (error) {
-            console.log('error is ',error)
+      authentication
+        .updateUser(token, data)
+        .then((response) => {
+          if (response) {
+            const data = response.data;
+            try {
+              localStorage.setItem("userData", JSON.stringify(data));
+              dispatch(login({ userData: data }));
+            } catch (error) {
+              dispatch(updateStatus({ error: true, text: error.message }));
+              setTimeout(() => {
+                dispatch(clearStatus());
+              }, 3000);
+            }
           }
-         
-        }
-      });
+        })
+        .catch((error) => {
+          dispatch(updateStatus({ error: true, text: error.message }));
+          setTimeout(() => {
+            dispatch(clearStatus());
+          }, 3000);
+        });
     } else {
-      console.log("token not found to update user",token);
+      dispatch(
+        updateStatus({ error: true, text: "Invalid User Token Re-Login" })
+      );
+      setTimeout(() => {
+        dispatch(clearStatus());
+      }, 3000);
     }
   };
 

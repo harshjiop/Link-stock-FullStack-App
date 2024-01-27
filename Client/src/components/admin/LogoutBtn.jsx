@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
+import { clearStatus, updateStatus } from "../../store/errorSlice";
 import { useNavigate } from "react-router";
 
 export default function Logout() {
@@ -8,21 +9,26 @@ export default function Logout() {
   const userData = useSelector((state) => state.auth.userData);
   const logoutHandler = () => {
     try {
-      const localUserData = localStorage.getItem('userData')
-      const localToken = localStorage.getItem('token')
+      const localUserData = localStorage.getItem("userData");
+      const localToken = localStorage.getItem("token");
 
-      if(localUserData && localToken){
+      if (localUserData && localToken) {
         dispatch(logout());
-        localStorage.removeItem('userData')
-        localStorage.removeItem('token')
-        localStorage.removeItem('links')
-        console.log("logout successfully");
-        navigate("/");
+        localStorage.removeItem("userData");
+        localStorage.removeItem("token");
+        localStorage.removeItem("links");
+        dispatch(updateStatus({ error: false, text: "Logged Out" }));
+        setTimeout(() => {
+          dispatch(clearStatus());
+          navigate("/login");
+        }, 1000);
       }
     } catch (error) {
-      console.log('error is ',error)
+      dispatch(updateStatus({ error: true, text: error.message }));
+      setTimeout(() => {
+        dispatch(clearStatus());
+      }, 3000);
     }
-    
   };
   return <button onClick={logoutHandler}>Logout</button>;
 }

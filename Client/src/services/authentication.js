@@ -1,7 +1,7 @@
 class Authentication {
     async signUp(data) {
         try {
-            const response = await fetch('http://localhost:8000/api/v1/users/register', {
+            const response = await fetch('/api/v1/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -10,21 +10,18 @@ class Authentication {
             })
 
             if (response.ok) {
-                console.log('success', response)
                 return true
             } else {
-                console.log('some issue', response)
-                return false;
+                throw new Error(`User ${response.statusText}`)
             }
         } catch (error) {
-            console.log('some error in catch', error)
-            return error;
+            throw error;
         }
     }
 
     async login(data) {
         try {
-            const response = await fetch('http://localhost:8000/api/v1/users/login', {
+            const response = await fetch('/api/v1/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -34,24 +31,21 @@ class Authentication {
             if (response.ok) {
                 return await response.json();
             } else {
-                console.log('some issue', response)
+                throw new Error(`User ${response.statusText}`)
             }
         } catch (error) {
-            console.log('some error in catch', error)
-            return error.message;
+            throw error;
         }
     }
 
     async updateUser(token, data) {
-        // console.log('token',typeof token);
-        console.log('token', `${token}`);
 
         try {
             const headers = new Headers({
                 'Content-Type': 'application/json',
                 'Authorization': `${token}`
             })
-            const response = await fetch('http://localhost:8000/api/v1/users/update-account', {
+            const response = await fetch('/api/v1/users/update-account', {
                 method: 'PATCH',
                 headers: headers,
                 body: JSON.stringify({ username: data.username, fullName: data.fullName, email: data.email }),
@@ -60,17 +54,16 @@ class Authentication {
             if (response.ok) {
                 return await response.json()
             } else {
-                console.log('some issue', response)
+                throw new Error(`User ${response.statusText}`)
             }
         } catch (error) {
-            console.log('some error in catch', error)
-            return error.message;
+            throw error;
         }
     }
 
     async getUser(userName) {
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/users/u/${userName}`)
+            const response = await fetch(`/api/v1/users/u/${userName}`)
             if (response.ok) {
                 const contentType = response.headers.get('content-type');
                 if (contentType && contentType.includes('application/json')) {
@@ -79,12 +72,10 @@ class Authentication {
                     return data.data;
                 }
             } else {
-                console.log('some issue', response.status, response.statusText)
-                return false;
+                throw new Error(`User ${response.statusText}`)
             }
         } catch (error) {
-            console.log('some error in catch', error)
-            return error;
+            throw error;
         }
     }
 }

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/authSlice";
+import { updateStatus, clearStatus } from "../store/errorSlice";
 import authentication from "../services/authentication";
+import { Error } from "../components";
 import {
   MdOutlineHub,
   MdOutlineDesignServices,
@@ -16,6 +18,7 @@ import {
   MdFeaturedPlayList,
   TiUserAdd,
   IoLogInSharp,
+  MdOutlineCancel,
 } from "../icons";
 
 // social icons
@@ -36,6 +39,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const [isLogin, setUserLogin] = useState(false);
   const userStatus = useSelector((state) => state.auth.status);
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -45,22 +49,28 @@ export default function Home() {
         if (userData) {
           dispatch(login({ userData }));
           setUserLogin(true);
-        } else {
-          console.log("no user data");
         }
-      } else {
-        console.log("no user Data in local storage");
       }
     } catch (error) {
-      console.log("error", error);
+      dispatch(updateStatus({ error: true, text: error.message }));
+      setTimeout(() => {
+        dispatch(clearStatus());
+      }, 3000);
     }
+  }, []);
+
+  useEffect(() => {
+    console.log(String(import.meta.env.VITE_API_URL));
   }, []);
 
   return (
     <div
-      className="bg-[#F2EDE3] w-full h-screen overflow-y-auto no-scrollbar"
+      className="bg-[#F2EDE3] w-full h-screen overflow-y-auto no-scrollbar "
       style={{ fontFamily: "Poppins,sans-serif" }}
     >
+      {/* error wrapper */}
+      <Error />
+
       {/* navbar wrapper*/}
       <div className="w-full  md:h-14 h-16 md:border-none border-2 border-[#C92138] rounded-md md:rounded-none  fixed md:top-0 bottom-1 backdrop-blur-xl    left-0 z-[100]">
         {/* navbar content */}
@@ -92,11 +102,10 @@ export default function Home() {
                   </div>
                 </li>
                 <li>
-
                   <h1 className="md:inline-block hidden">Features</h1>
 
                   <div className="flex md:hidden  flex-col justify-center items-center">
-                  <MdFeaturedPlayList className="md:hidden inline-block" />
+                    <MdFeaturedPlayList className="md:hidden inline-block" />
                     <h1 className="text-xs font-bold">Features</h1>
                   </div>
                 </li>
@@ -106,8 +115,8 @@ export default function Home() {
                     <h1 className="md:inline-block hidden">Admin</h1>
 
                     <div className="flex md:hidden  flex-col justify-center items-center">
-                    <MdAdminPanelSettings className="" />
-                    <h1 className="text-xs font-bold">Admin</h1>
+                      <MdAdminPanelSettings className="" />
+                      <h1 className="text-xs font-bold">Admin</h1>
                     </div>
                   </NavLink>
                 </li>
@@ -122,8 +131,8 @@ export default function Home() {
                     <h1 className="md:inline-block hidden">Signup</h1>
 
                     <div className="flex md:hidden  flex-col justify-center items-center">
-                    <TiUserAdd className="md:hidden inline-block" />
-                    <h1 className="text-xs font-bold">Signup</h1>
+                      <TiUserAdd className="md:hidden inline-block" />
+                      <h1 className="text-xs font-bold">Signup</h1>
                     </div>
                   </Link>
                 </li>
@@ -132,8 +141,8 @@ export default function Home() {
                     <h1 className="md:inline-block hidden">Login</h1>
 
                     <div className="flex md:hidden  flex-col justify-center items-center">
-                    <IoLogInSharp className="md:hidden inline-block" />
-                    <h1 className="text-xs font-bold">Login</h1>
+                      <IoLogInSharp className="md:hidden inline-block" />
+                      <h1 className="text-xs font-bold">Login</h1>
                     </div>
                   </Link>
                 </li>

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/authSlice";
+import { updateStatus, clearStatus } from "../store/errorSlice";
+import { Loader } from "../pages";
 
 export default function AuthLayout({ children, authentication = true }) {
   const navigate = useNavigate();
@@ -9,22 +11,21 @@ export default function AuthLayout({ children, authentication = true }) {
   const [loader, setLoader] = useState(true);
   const authStatus = useSelector((state) => state.auth.status);
 
-
-
-  useEffect(()=>{
+  useEffect(() => {
     try {
-      const localUserData= localStorage.getItem('userData')
-      const localToken = localStorage.getItem('token');
-      if(localUserData && localToken){
-        const userData = JSON.parse(localUserData)
-        dispatch(login({userData}));
-      }else{
-        console.log('no data is local')
+      const localUserData = localStorage.getItem("userData");
+      const localToken = localStorage.getItem("token");
+      if (localUserData && localToken) {
+        const userData = JSON.parse(localUserData);
+        dispatch(login({ userData }));
       }
     } catch (error) {
-      console.log('some error',error)
+      dispatch(updateStatus({ error: true, text: error.message }));
+      setTimeout(() => {
+        dispatch(clearStatus());
+      }, 3000);
     }
-  },[])
+  }, []);
 
   useEffect(() => {
     if (authentication && authStatus !== authentication) {
@@ -34,5 +35,5 @@ export default function AuthLayout({ children, authentication = true }) {
     }
     setLoader(false);
   }, [authStatus, navigate, authentication]);
-  return loader ? <h1>Loading.....</h1> : <>{children}</>;
+  return loader ? <Loader /> : <>{children}</>;
 }

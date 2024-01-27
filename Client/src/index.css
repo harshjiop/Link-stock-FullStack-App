@@ -62,7 +62,6 @@
 
         .loadingBar {
             animation: loading-bar 3s ease;
-            border: 2px solid red;
         }
 
 

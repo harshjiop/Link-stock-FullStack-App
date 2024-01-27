@@ -5,5 +5,5 @@ import Settings from "./admin/Settings";
 import AdminContainer from "./admin/AdminContainer";
 import Logout from "./admin/LogoutBtn";
 import AuthLayout from "./AuthLayout";
-
-export { Account, Design, Links, Settings,AdminContainer,AuthLayout,Logout }
+import Error from './Error'
+export { Account, Design, Links, Settings,AdminContainer,AuthLayout,Logout,Error }
