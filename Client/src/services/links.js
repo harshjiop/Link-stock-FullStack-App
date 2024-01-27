@@ -1,7 +1,7 @@
 class Links {
     async getLinks(token) {
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/link/all-link`, {
+            const response = await fetch(`/api/v1/link/all-link`, {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
@@ -14,17 +14,18 @@ class Links {
                 if (contentType && contentType.includes('application/json')) {
                     // const data = await response.json()
                     return await response.json();
-                    console.log('data :: ', data)
                 }
+            } else {
+                throw new Error(`Links ${response.statusText}`)
             }
         } catch (error) {
-            console.log('ERROR IN :: GETLINKS :: ', error)
+            throw error;
         }
     }
 
     async addLinks(token, data) {
         try {
-            const response = await fetch('http://localhost:8000/api/v1/link/add-link', {
+            const response = await fetch('/api/v1/link/add-link', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -36,11 +37,13 @@ class Links {
             if (response.ok) {
                 const gotLinks = await this.getLinks(token)
                 return gotLinks;
+            } else {
+                throw new Error(`Links ${response.statusText}`)
             }
 
 
         } catch (error) {
-            console.log('error is ', error);
+            throw error;
         }
     }
 
@@ -51,16 +54,18 @@ class Links {
                 const data = response.url
                 // console.log(data)
                 return data
+            } else {
+                throw new Error(`Links ${response.statusText}`)
             }
         } catch (error) {
-            console.log('GET ICONS :: ', error);
+            throw error;
         }
 
     }
 
     async deleteLinks(token, linkId) {
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/link/delete-link`, {
+            const response = await fetch(`/api/v1/link/delete-link`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -72,11 +77,13 @@ class Links {
             if (response.ok) {
                 const gotLinks = await this.getLinks(token)
                 return gotLinks.data;
+            } else {
+                throw new Error(`Links ${response.statusText}`)
             }
 
 
         } catch (error) {
-            console.log('error is ', error);
+            throw error;
         }
     }
 }

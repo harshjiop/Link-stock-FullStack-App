@@ -3,6 +3,7 @@ import { AdminContainer } from "../index";
 import { Link } from "react-router-dom";
 import links from "../../services/links";
 import { setLinks } from "../../store/linksSlice";
+import { updateStatus, clearStatus } from "../../store/errorSlice";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,7 +23,10 @@ export default function Links() {
         setToken(localToken);
       }
     } catch (error) {
-      console.log("error is ", error);
+      dispatch(updateStatus({ error: true, text: error.message }));
+      setTimeout(() => {
+        dispatch(clearStatus());
+      }, 3000);
     }
   }, []);
   useEffect(() => {
@@ -43,8 +47,8 @@ export default function Links() {
 
   function onSubmit(data) {
     handleAddHeader();
-    console.log(data.title);
     if (token && data.title && data.url) {
+      // const regex = /^(https?:\/\/)?(www\.)?/i;
       links
         .addLinks(token, {
           title: data.title,
@@ -60,16 +64,24 @@ export default function Links() {
               localStorage.setItem("links", JSON.stringify(data.data));
               dispatch(setLinks(data.data));
             } catch (error) {
-              console.log("error is ", error);
+              dispatch(updateStatus({ error: true, text: error.message }));
+              setTimeout(() => {
+                dispatch(clearStatus());
+              }, 3000);
             }
           }
+        })
+        .catch((error) => {
+          dispatch(updateStatus({ error: true, text: error.message }));
+          setTimeout(() => {
+            dispatch(clearStatus());
+          }, 3000);
         });
     }
   }
 
   function handleLinkDelete(id) {
     if (token && id) {
-      console.log(id);
       links
         .deleteLinks(token, id)
         .then((data) => {
@@ -78,11 +90,24 @@ export default function Links() {
               dispatch(setLinks(data));
               localStorage.setItem("links", JSON.stringify(data));
             } catch (error) {
-              console.log("error is ", error);
+              dispatch(updateStatus({ error: true, text: error.message }));
+              setTimeout(() => {
+                dispatch(clearStatus());
+              }, 3000);
             }
           }
         })
-        .catch((error) => console.log("error is ", error));
+        .catch((error) => {
+          dispatch(updateStatus({ error: true, text: error.message }));
+          setTimeout(() => {
+            dispatch(clearStatus());
+          }, 3000);
+        });
+    } else {
+      dispatch(updateStatus({ error: true, text: "Not A Valid User" }));
+      setTimeout(() => {
+        dispatch(clearStatus());
+      }, 3000);
     }
   }
 

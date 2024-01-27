@@ -2,33 +2,57 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import authentication from "../services/authentication";
 import { Link } from "react-router-dom";
+import { updateStatus, clearStatus } from "../store/errorSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { Error } from "../components";
+
 export default function Signup() {
   const navigate = useNavigate();
   const { handleSubmit, register, watch } = useForm();
+  const dispatch = useDispatch();
 
   function onsubmit(data) {
-    if(data.password === data.re_password){
-      authentication.signUp(data).then(response=>{
-        if(response){
-          console.log('account created')
-          navigate('/login')
-        }else{
-          console.log('account not created')
-        }
-      }).catch(error=>{
-        console.log('error is',error)
-      })
-    }else{
-      alert('Password Not Matched')
+    if (data.password === data.re_password) {
+      authentication
+        .signUp(data)
+        .then((response) => {
+          if (response) {
+            dispatch(updateStatus({ error: false, text: "Account Created" }));
+            setTimeout(() => {
+              navigate("/login");
+              dispatch(clearStatus());
+            }, 2000);
+          }
+        })
+        .catch((error) => {
+          dispatch(updateStatus({ error: true, text: error.message }));
+          setTimeout(() => {
+            dispatch(clearStatus());
+          }, 3000);
+        });
+    } else {
+      dispatch(
+        updateStatus({ error: true, text: "Password Does Not Matched" })
+      );
+      setTimeout(() => {
+        dispatch(clearStatus());
+      }, 3000);
     }
   }
 
   return (
     <div className="h-screen w-full bg-[#F2EDE3] ">
+      {/* error wrapper */}
+      <Error
+        className="top-[-10rem]"
+        statusClassName="top-[1rem] md:bottom-4"
+      />
+
       {/* content */}
       <div className="w-full h-full flex justify-between ">
         {/* left section */}
-         <div className="md:w-[40%] w-0 md:inline-block hidden border-r-4 border-[#C92138] bg-center bg-no-repeat bg-cover h-full relative">
+        <div className="md:w-[40%] w-0 md:inline-block hidden border-r-4 border-[#C92138] bg-center bg-no-repeat bg-cover h-full relative">
           <div className="absolute top-0 left-0 w-full h-full bg-slate-900/20 flex justify-center items-center">
             <h2 className="rotate-[-90deg] text-7xl font-bold text-[#F2EDE3]">
               SIGNUP
@@ -46,9 +70,7 @@ export default function Signup() {
         {/* right section */}
         <div className="h-full md:w-[60%] w-full py-5 gap-20  flex flex-col justify-center items-center overflow-y-auto no-scrollbar">
           {/* upper heading */}
-          <h1 className="text-7xl font-bold text-[#C92138]" >
-            SIGNUP
-          </h1>
+          <h1 className="text-7xl font-bold text-[#C92138]">SIGNUP</h1>
 
           {/* form container */}
           <div className="w-full">
@@ -68,8 +90,8 @@ export default function Signup() {
                 />
               </div>
 
-               {/* full name */}
-               <div className="md:w-[40%] w-full flex flex-col">
+              {/* full name */}
+              <div className="md:w-[40%] w-full flex flex-col">
                 <input
                   className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
                   type="text"
@@ -80,8 +102,8 @@ export default function Signup() {
                 />
               </div>
 
-               {/* email */}
-               <div className="md:w-[40%] w-full flex flex-col">
+              {/* email */}
+              <div className="md:w-[40%] w-full flex flex-col">
                 <input
                   className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
                   type="text"
@@ -116,10 +138,12 @@ export default function Signup() {
                 />
               </div>
 
-                {/* remembered section */}
-                <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end ">
-                <h2>Already Registered ?</h2> <h2 className="text-[#C92138] font-bold"><Link to={'/login'}>Login</Link>
-              </h2>
+              {/* remembered section */}
+              <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end ">
+                <h2>Already Registered ?</h2>{" "}
+                <h2 className="text-[#C92138] font-bold">
+                  <Link to={"/login"}>Login</Link>
+                </h2>
               </div>
 
               <input
