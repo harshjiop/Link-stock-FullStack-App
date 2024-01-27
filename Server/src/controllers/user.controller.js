@@ -214,17 +214,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, req.user, "User fetched successfully"));
 });
-const getuser = asyncHandler(async (req, res) => {
-  const { username } = req.params;
-  //   const username = "harsh";
-  if (!username) {
-    throw new ApiError(400, "Username is missing");
-  }
-  const user = await User.findOne({ username });
-  return res
-    .status(200)
-    .json(new ApiResponse(200, user, "User fetched successfully"));
-});
+
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
   const { fullName, email } = req.body;
@@ -361,6 +351,6 @@ export {
   changeCurrentPassword,
   updateAccountDetails,
   updateUserAvatar,
-  getuser,
+
   getCurrentUser,
 };
