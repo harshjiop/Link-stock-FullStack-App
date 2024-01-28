@@ -77,6 +77,7 @@ const getuser = asyncHandler(async (req, res) => {
         fullName: 1,
         email: 1,
         avatar: 1,
+        bio:1,
         UserLink: 1,
       },
     },

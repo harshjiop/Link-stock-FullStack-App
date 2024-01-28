@@ -37,7 +37,6 @@ const registerUser = asyncHandler(async (req, res) => {
   // return res
 
   const { fullName, email, username, password } = req.body;
-  const avatar = "www.xyz.com";
   //   console.log("email: ", email);
 
   if (!fullName || !email || !username || !password) {
@@ -54,7 +53,6 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const user = await User.create({
     fullName,
-    avatar,
     email,
     password,
     username: username.toLowerCase(),
@@ -215,9 +213,8 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, req.user, "User fetched successfully"));
 });
 
-
 const updateAccountDetails = asyncHandler(async (req, res) => {
-  const { fullName, email } = req.body;
+  const { fullName, email, bio } = req.body;
 
   if (!fullName || !email) {
     throw new ApiError(400, "All fields are required");
@@ -229,6 +226,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
       $set: {
         fullName,
         email,
+        bio,
       },
     },
     { new: true }
@@ -245,13 +243,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar file is missing");
   }
-
-  //TODO: delete old image - assignment
-
   const avatar = await uploadOnCloudinary(avatarLocalPath);
-
-  const updateavtarimg = fs.unlinkSync(avatarLocalPath);
-  // console.log("updateavtarimg", updateavtarimg);
 
   if (!avatar.url) {
     throw new ApiError(400, "Error while uploading on avatar");
@@ -261,7 +253,10 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     req.user?._id,
     {
       $set: {
-        avatar: avatar.url,
+        avatar: {
+          public_id: avatar.public_id,
+          url: avatar.url,
+        },
       },
     },
     { new: true }
@@ -272,77 +267,6 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Avatar image updated successfully"));
 });
 
-// const getUserChannelProfile = asyncHandler(async (req, res) => {
-//   const { username } = req.params;
-
-//   if (!username?.trim()) {
-//     throw new ApiError(400, "username is missing");
-//   }
-
-//   const channel = await User.aggregate([
-//     {
-//       $match: {
-//         username: username?.toLowerCase(),
-//       },
-//     },
-//     {
-//       $lookup: {
-//         from: "subscriptions",
-//         localField: "_id",
-//         foreignField: "channel",
-//         as: "subscribers",
-//       },
-//     },
-//     {
-//       $lookup: {
-//         from: "subscriptions",
-//         localField: "_id",
-//         foreignField: "subscriber",
-//         as: "subscribedTo",
-//       },
-//     },
-//     {
-//       $addFields: {
-//         subscribersCount: {
-//           $size: "$subscribers",
-//         },
-//         channelsSubscribedToCount: {
-//           $size: "$subscribedTo",
-//         },
-//         isSubscribed: {
-//           $cond: {
-//             if: { $in: [req.user?._id, "$subscribers.subscriber"] },
-//             then: true,
-//             else: false,
-//           },
-//         },
-//       },
-//     },
-//     {
-//       $project: {
-//         fullName: 1,
-//         username: 1,
-//         subscribersCount: 1,
-//         channelsSubscribedToCount: 1,
-//         isSubscribed: 1,
-//         avatar: 1,
-//         coverImage: 1,
-//         email: 1,
-//       },
-//     },
-//   ]);
-
-//   if (!channel?.length) {
-//     throw new ApiError(404, "channel does not exists");
-//   }
-
-//   return res
-//     .status(200)
-//     .json(
-//       new ApiResponse(200, channel[0], "User channel fetched successfully")
-//     );
-// });
-
 export {
   registerUser,
   loginUser,
@@ -351,6 +275,5 @@ export {
   changeCurrentPassword,
   updateAccountDetails,
   updateUserAvatar,
-
   getCurrentUser,
 };

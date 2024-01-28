@@ -17,6 +17,7 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
       index: true,
+      minlenth: 3,
     },
     email: {
       type: String,
@@ -32,8 +33,17 @@ const userSchema = new Schema(
       index: true,
     },
     avatar: {
-      type: String, // cloudinary url
-      //   required: true,
+      public_id: {
+        type: String, // cloudinary
+      },
+      url: {
+        type: String, // cloudinary
+      },
+    },
+
+    bio: {
+      type: String,
+      maxlenth: 50,
     },
 
     password: {
