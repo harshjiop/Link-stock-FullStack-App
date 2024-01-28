@@ -9,6 +9,7 @@ import {
   UpdateThumbnail,
   Updatelink,
   isAcctiveLink,
+  removeThumbnail,
 } from "../controllers/page.controller.js";
 
 const router = Router();
@@ -23,5 +24,8 @@ router.route("/acctive-link").patch(isAcctiveLink);
 
 router.route("/add-link").post(upload.single("thumbnail"), Addlink);
 
-router.route("/update-thumbnail").patch(UpdateThumbnail);
+router
+  .route("/thumbnail")
+  .patch(upload.single("avatar"), UpdateThumbnail)
+  .post(removeThumbnail);
 export default router;

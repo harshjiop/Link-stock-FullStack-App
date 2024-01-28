@@ -112,7 +112,64 @@ const Updatelink = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, Update, "Link updated successfully"));
 });
 
-const UpdateThumbnail = asyncHandler(async (req, res) => {});
+const UpdateThumbnail = asyncHandler(async (req, res) => {
+  const { linkId } = req.body;
+  const ThumbnailLocalPath = req.file?.path;
+
+  if (!ThumbnailLocalPath) {
+    throw new ApiError(400, "Avatar file is missing");
+  }
+  const ThumbnailCloudinary = await uploadOnCloudinary(ThumbnailLocalPath);
+
+  if (!ThumbnailCloudinary) {
+    throw new ApiError(400, "Error while uploading on avatar");
+  }
+
+  const UserLink = await Page.findByIdAndUpdate(
+    linkId,
+    {
+      $set: {
+        thumbnail: {
+          public_id: ThumbnailCloudinary.public_id,
+          url: ThumbnailCloudinary.url,
+        },
+      },
+    },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, UserLink, "Thumbnail image updated successfully")
+    );
+});
+const removeThumbnail = asyncHandler(async (req, res) => {
+  const { linkId } = req.body;
+  const Link = await Page.findById(linkId);
+  const deleteCloudanariy = await deleteFromCloudinary(
+    Link?.thumbnail?.public_id
+  );
+
+  const updateLink = await Page.findByIdAndUpdate(
+    linkId,
+    {
+      $set: {
+        thumbnail: {
+          url: "https://res.cloudinary.com/ddib2csvf/image/upload/v1706447714/Avtar.png",
+        },
+      },
+    },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updateLink, "Avatar image updated successfully")
+    );
+});
+
 const isAcctiveLink = asyncHandler(async (req, res) => {
   const { isActive, linkId } = req.body;
   if (!isActive || !linkId) {
@@ -141,4 +198,5 @@ export {
   GetAllLink,
   UpdateThumbnail,
   isAcctiveLink,
+  removeThumbnail,
 };
