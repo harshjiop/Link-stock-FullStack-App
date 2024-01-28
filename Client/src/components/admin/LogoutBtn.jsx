@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
 import { clearStatus, updateStatus } from "../../store/errorSlice";
+import { resetLinks } from "../../store/linksSlice";
 import { useNavigate } from "react-router";
 
 export default function Logout() {
@@ -14,6 +15,7 @@ export default function Logout() {
 
       if (localUserData && localToken) {
         dispatch(logout());
+        dispatch(resetLinks());
         localStorage.removeItem("userData");
         localStorage.removeItem("token");
         localStorage.removeItem("links");

@@ -78,6 +78,40 @@ class Authentication {
             throw error;
         }
     }
+
+    // https://cloud.appwrite.io/v1/avatars/initials?name=Lokesh+Ghosh&width=80&height=80&project=console
+    async updateUserAvatar(token, file) {
+        console.log('file',file)
+        try {
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            const headers = new Headers({
+                'Authorization': `${token}`
+            })
+            const response = await fetch('/api/v1/users/avatar', {
+                method: 'PATCH',
+                headers: headers,
+                body: formData,
+            })
+            if (response.ok) {
+                // const data = await response.json()
+                // console.log('avatar uploaded',data)
+                return await response.json()
+            } else {
+                throw new Error(`Failed to update avatar: ${response.statusText}`);
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    getUserAvatar(name) {
+        console.log('name',name)
+        const updatedName = name.replace(/\s/g, '+')
+        const url = `https://cloud.appwrite.io/v1/avatars/initials?name=${updatedName}`
+        return url;
+    }
 }
 
 export default new Authentication;

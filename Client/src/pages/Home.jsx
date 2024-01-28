@@ -59,10 +59,6 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(String(import.meta.env.VITE_API_URL));
-  }, []);
-
   return (
     <div
       className="bg-[#F2EDE3] w-full h-screen overflow-y-auto no-scrollbar "

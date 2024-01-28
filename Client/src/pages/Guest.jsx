@@ -50,8 +50,9 @@ export default function Guest() {
               {/* content container */}
               <div className="absolute bottom-[-100%] left-0 flex flex-col gap-2  w-full justify-center items-center">
                 <img
-                  className="w-[100px] rounded-full"
-                  src="https://xsgames.co/randomusers/assets/avatars/male/77.jpg"
+                  className="w-[100px] h-[100px] rounded-full"
+                  // src="https://xsgames.co/randomusers/assets/avatars/male/77.jpg"
+                  src= {`${userData?.avatar?.url}`}
                   alt=""
                 />
                 {/* name and bio */}

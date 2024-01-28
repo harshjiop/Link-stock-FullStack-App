@@ -9,7 +9,7 @@ export default function Design() {
   return (
     <AdminContainer className="rounded-lg bg-white">
       {/* profile picture */}
-      <div className=" relative my-2">
+      <div className=" relative my-2 hidden">
         <MdEdit className="p-2 text-4xl bg-white rounded-full absolute top-0 right-0  z-10 text-black" />
         <img
           className="w-[100px] rounded-full "
@@ -19,7 +19,7 @@ export default function Design() {
       </div>
 
       {/* content section  */}
-      <div className="flex flex-col gap-5 w-full items-center">
+      <div className="flex flex-col gap-5 w-full items-center py-4">
         <h2 className="w-[40%] selection:bg-transparent border-2 border-[#C92138] rounded text-center px-10 bg-zinc-100 py-3 font-bold">
           {userData?.fullName}
         </h2>

@@ -19,9 +19,9 @@ const errorSlice = createSlice({
         clearStatus: (state) => {
             state.status = false,
                 state.text = '',
-                setTimeout(() => {
+                // setTimeout(() => {
                     state.error = false
-                }, 10)
+                // }, 10)
         }
     }
 })
