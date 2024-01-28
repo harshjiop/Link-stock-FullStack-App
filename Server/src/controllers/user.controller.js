@@ -1,7 +1,10 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/User.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import {
+  deleteFromCloudinary,
+  uploadOnCloudinary,
+} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
@@ -266,6 +269,29 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, user, "Avatar image updated successfully"));
 });
+const removeUserAvatar = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user);
+  const deleteCloudanariy = await deleteFromCloudinary(user?.avatar?.public_id);
+  console.log("delete", deleteCloudanariy);
+
+  const updateuser = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        avatar: {
+          url: "https://res.cloudinary.com/ddib2csvf/image/upload/v1706447714/Avtar.png",
+        },
+      },
+    },
+    { new: true }
+  ).select("-password");
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updateuser, "Avatar image updated successfully")
+    );
+});
 
 export {
   registerUser,
@@ -276,4 +302,5 @@ export {
   updateAccountDetails,
   updateUserAvatar,
   getCurrentUser,
+  removeUserAvatar,
 };
