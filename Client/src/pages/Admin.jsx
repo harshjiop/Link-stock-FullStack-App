@@ -101,8 +101,9 @@ export default function Admin() {
                   {/* content container */}
                   <div className="absolute bottom-[-100%] left-0 flex flex-col gap-2  w-full justify-center items-center">
                     <img
-                      className="w-[100px] rounded-full"
-                      src="https://xsgames.co/randomusers/assets/avatars/male/77.jpg"
+                      className="w-[100px] h-[100px] rounded-full"
+                      // src="https://xsgames.co/randomusers/assets/avatars/male/77.jpg"
+                      src={`${userData?.avatar?.url}`}
                       alt=""
                     />
                     {/* name and bio */}
@@ -174,17 +175,38 @@ export default function Admin() {
               </li>
 
               <li className="flex justify-center items-center">
-                <NavLink to={"/admin/links"}>Links</NavLink>
+                <NavLink
+                  to={"/admin/links"}
+                  className={({ isActive }) =>
+                    isActive ? "bg-red-300 px-2 rounded-xl " : "px-2"
+                  }
+                >
+                  Links
+                </NavLink>
               </li>
               <li className="flex justify-center items-center">
-                <NavLink to={"/admin/design"}>Design</NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "bg-red-300 px-2 rounded-xl " : "px-2"
+                  }
+                  to={"/admin/design"}
+                >
+                  Design
+                </NavLink>
               </li>
 
               <li className="flex justify-center items-center">
-                <NavLink to={"/admin/account"}>My Account</NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "bg-red-300 px-2 rounded-xl " : "px-2"
+                  }
+                  to={"/admin/account"}
+                >
+                  My Account
+                </NavLink>
               </li>
 
-              <li className="flex justify-center items-center">
+              <li className="flex justify-center items-center  px-2  bg-zinc-800 rounded-xl">
                 <NavLink to={"/"}>Home</NavLink>
               </li>
               <li className="flex justify-center items-center  px-2  bg-zinc-800 rounded-xl">

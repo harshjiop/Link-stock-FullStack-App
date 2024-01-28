@@ -15,7 +15,7 @@ export default function Links() {
   const { register, handleSubmit, setValue } = useForm();
   const dispatch = useDispatch();
   const userLinks = useSelector((state) => state.links.links);
-  const userName = useSelector((state) => state.auth.userData.username);
+  const userName = useSelector((state) => state.auth.userData?.username);
 
   useEffect(() => {
     try {

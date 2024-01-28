@@ -10,10 +10,13 @@ const linksSlice = createSlice({
     reducers: {
         setLinks: (state, action) => {
             state.links = action.payload;
+        },
+        resetLinks:(state)=>{
+            state.links = []
         }
     }
 })
 
-export const { setLinks } = linksSlice.actions;
+export const { setLinks,resetLinks } = linksSlice.actions;
 
 export default linksSlice.reducer;
