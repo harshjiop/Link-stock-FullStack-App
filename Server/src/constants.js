@@ -1,9 +1,8 @@
 export const DB_NAME = "NewLinkStock";
-// export const DB_NAME = "LinkStockBackend";
-// export const DB_URL =
-//   "mongodb://127.0.0.1:27017";
 export const DB_URL =
   "mongodb+srv://Harsh:Harsh123@newlinkstock.xe5pugx.mongodb.net";
+// export const DB_NAME = "LinkStockBackend";
+// export const DB_URL = "mongodb://127.0.0.1:27017";
 // export const DB_URL = process.env.DB_URLS;
 // console.log("constend",DB_URL);
 // console.log("constend1",process.env.DB_URLS);

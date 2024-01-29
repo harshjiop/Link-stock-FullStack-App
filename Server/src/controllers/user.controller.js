@@ -45,6 +45,10 @@ const registerUser = asyncHandler(async (req, res) => {
   if (!fullName || !email || !username || !password) {
     throw new ApiError(400, "All fields are required");
   }
+  const FullNameSplite = fullName.split(" ");
+  const FistName = FullNameSplite[0];
+  const LastName = FullNameSplite[1];
+  const avtar = `https://cloud.appwrite.io/v1/avatars/initials?name=${FistName}+${LastName}&width=80&height=80&project=console`;
 
   const existedUser = await User.findOne({
     $or: [{ username }, { email }],
@@ -57,6 +61,10 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     fullName,
     email,
+    avatar: {
+      public_id: "",
+      url: avtar,
+    },
     password,
     username: username.toLowerCase(),
   });

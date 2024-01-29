@@ -38,8 +38,7 @@ const userSchema = new Schema(
       },
       url: {
         type: String, // cloudinary
-        default:
-          "https://res.cloudinary.com/ddib2csvf/image/upload/v1706447714/Avtar.png",
+       
       },
     },
 
