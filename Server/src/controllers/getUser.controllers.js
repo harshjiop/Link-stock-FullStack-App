@@ -73,12 +73,21 @@ const getuser = asyncHandler(async (req, res) => {
       },
     },
     {
+      $lookup: {
+        from: "themes",
+        localField: "theme",
+        foreignField: "_id",
+        as: "UserTheme",
+      },
+    },
+    {
       $project: {
         fullName: 1,
         email: 1,
         avatar: 1,
-        bio:1,
+        bio: 1,
         UserLink: 1,
+        UserTheme: 1,
       },
     },
   ]);

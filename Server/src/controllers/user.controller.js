@@ -301,6 +301,28 @@ const removeUserAvatar = asyncHandler(async (req, res) => {
     );
 });
 
+const UserSetTheme = asyncHandler(async (req, res) => {
+  const { theme } = req.body;
+
+  if (!theme) {
+    throw new ApiError(400, "Theme Id is required");
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        theme,
+      },
+    },
+    { new: true }
+  ).select("-password");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Theme updated successfully"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -311,4 +333,5 @@ export {
   updateUserAvatar,
   getCurrentUser,
   removeUserAvatar,
+  UserSetTheme,
 };

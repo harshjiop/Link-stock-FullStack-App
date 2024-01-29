@@ -38,13 +38,17 @@ const userSchema = new Schema(
       },
       url: {
         type: String, // cloudinary
-       
       },
     },
 
     bio: {
       type: String,
       maxlenth: 50,
+    },
+    theme: {
+      type: Schema.Types.ObjectId,
+      ref: "Theme",
+      default: "65b7b8e5ec28bdcc36c13d4d",
     },
 
     password: {
