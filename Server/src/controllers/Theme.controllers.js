@@ -19,7 +19,7 @@ const NewThemeCreated = asyncHandler(async (req, res) => {
   });
 
   if (!NewThemeCreated) {
-    throw new ApiError(500, "Something went wrong while registering the user");
+    throw new ApiError(500, "Something went wrong while Add new thme ");
   }
 
   return res
@@ -28,15 +28,15 @@ const NewThemeCreated = asyncHandler(async (req, res) => {
 });
 
 const GetAllTheme = asyncHandler(async (req, res) => {
-  const NewThemeCreated = await Theme.find();
+  const AllTheme = await Theme.find();
 
-  if (!NewThemeCreated) {
-    throw new ApiError(500, "Something went wrong while registering the user");
+  if (!AllTheme) {
+    throw new ApiError(500, "Something went wrong while Geting All theme ");
   }
 
   return res
     .status(201)
-    .json(new ApiResponse(200, NewThemeCreated, "New Theme Add Successfully"));
+    .json(new ApiResponse(200, AllTheme, "Getting All theme Successfully"));
 });
 
-export { NewThemeCreated };
+export { NewThemeCreated, GetAllTheme };
