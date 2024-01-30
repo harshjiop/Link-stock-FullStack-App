@@ -4,21 +4,10 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const NewThemeCreated = asyncHandler(async (req, res) => {
-  const {
-    name,
-    containerClass,
-    upperSectionClass,
-    linkContainerClass,
-    keyWord,
-  } = req.body;
+  const { name, containerClass, upperSectionClass, linkContainerClass } =
+    req.body;
 
-  if (
-    !name ||
-    !containerClass ||
-    !upperSectionClass ||
-    !linkContainerClass ||
-    !keyWord
-  ) {
+  if (!name || !containerClass || !upperSectionClass || !linkContainerClass) {
     throw new ApiError(400, "All fields are required");
   }
 
@@ -27,8 +16,19 @@ const NewThemeCreated = asyncHandler(async (req, res) => {
     containerClass,
     upperSectionClass,
     linkContainerClass,
-    keyWord,
   });
+
+  if (!NewThemeCreated) {
+    throw new ApiError(500, "Something went wrong while registering the user");
+  }
+
+  return res
+    .status(201)
+    .json(new ApiResponse(200, NewThemeCreated, "New Theme Add Successfully"));
+});
+
+const GetAllTheme = asyncHandler(async (req, res) => {
+  const NewThemeCreated = await Theme.find();
 
   if (!NewThemeCreated) {
     throw new ApiError(500, "Something went wrong while registering the user");

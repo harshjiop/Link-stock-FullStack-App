@@ -9,5 +9,4 @@ router.use(verifyJWT);
 //SECURED ROUTES
 router.route("/add-theme").post(NewThemeCreated);
 
-
 export default router;
