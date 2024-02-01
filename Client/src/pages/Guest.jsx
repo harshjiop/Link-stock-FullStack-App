@@ -5,12 +5,17 @@ import { NavLink, Link } from "react-router-dom";
 import links from "../services/links";
 import { Error, Loader } from "../pages";
 import { updateStatus, clearStatus } from "../store/errorSlice";
+
+// ! importing theme from local
+import themes from "../../data/themes.json";
+
 export default function Guest() {
   const { userName } = useParams();
   const [userData, setUserData] = useState();
   const [userLinks, setUserLinks] = useState([]);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const [userTheme, setUserTheme] = useState();
 
   useEffect(() => {
     if (userName) {
@@ -39,34 +44,52 @@ export default function Guest() {
     }
   }, []);
 
-  if (userData && userLinks) {
+  // ! setting Theme of the state
+  useEffect(() => {
+    console.log("theme from local", themes.themes[0]);
+    setUserTheme(themes.themes[1]);
+  }, []);
+
+  useEffect(()=>{
+    
+  },[userData])
+
+  if (userData && userLinks && userTheme) {
     return (
-      <div className="w-full h-screen flex justify-center items-center bg-[#F2EDE3]">
-        <div className="w-[279px] h-[573px]  border-black rounded-3xl bg-blue-100 flex flex-col gap-5 border-[10px]  ">
+      <div className="wrapper" style={userTheme.mainStyles.wrapper}>
+        <div
+          className="innerContainer"
+          style={userTheme.mainStyles.innerContainer}
+        >
           {/* upper section */}
-          <div className="h-[50%] rounded-xl bg-white">
-            {/* upper section content section */}
-            <div className="relative bg-no-repeat bg-center bg-cover h-[50%] rounded-xl bg-[url(https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)]">
-              {/* content container */}
-              <div className="absolute bottom-[-100%] left-0 flex flex-col gap-2  w-full justify-center items-center">
-                <img
-                  className="w-[100px] h-[100px] rounded-full"
-                  // src="https://xsgames.co/randomusers/assets/avatars/male/77.jpg"
-                  src= {`${userData?.avatar?.url}`}
-                  alt=""
-                />
-                {/* name and bio */}
-                <div className="flex flex-col gap-2 text-lg font-bold justify-center items-center">
-                  <h1>{userData?.fullName}</h1>
-                  <h2>{userData?.email}</h2>
-                  <h3>{userData?.username}</h3>
-                </div>
-              </div>
+          <div
+            className="upperSection"
+            style={userTheme.mainStyles.upperSection}
+          >
+            {/* avatarContainer */}
+            <img
+              className="avatarContainer"
+              style={userTheme.mainStyles.avatarContainer}
+              src={`${userData?.avatar?.url}`}
+              alt=""
+            />
+
+            {/* content section */}
+            <div
+              className="contentSection"
+              style={userTheme.mainStyles.contentSection}
+            >
+              <h2>{userData?.username}</h2>
+              <h1>{userData?.fullName}</h1>
+              <h2>{userData?.email}</h2>
             </div>
           </div>
 
           {/* lower section */}
-          <div className=" rounded-xl  h-[50%] overflow-y-auto no-scrollbar flex flex-col gap-3 ">
+          <div
+            className="lowerSection "
+            style={userTheme.mainStyles.lowerSection}
+          >
             {userLinks.length > 0 ? (
               userLinks.map((link, index) => (
                 <Link
@@ -76,22 +99,24 @@ export default function Guest() {
                       : `http://${link.url}`
                   }
                   key={index}
-                  className="flex w-[90%] items-center mx-auto justify-start gap-8 bg-white px-2 py-1  rounded-md"
+                  className="linkSection"
+                  style={userTheme.mainStyles.linkSection}
                 >
                   {/* icons */}
                   <img
-                    className="w-[30px] h-[30px] "
+                    className="linkIcon"
+                    style={userTheme.mainStyles.linkIcon}
                     src={`https://logo.clearbit.com/${link.title}.com`}
                     alt=""
                   />
 
-                  {/* right content */}
-                  <div>
-                    {/* title */}
-                    <h1 className="text-lg font-bold capitalize ">
-                      {link.title}
-                    </h1>
-                  </div>
+                  {/* title */}
+                  <h1
+                    className="linkTitle"
+                    style={userTheme.mainStyles.linkTitle}
+                  >
+                    {link.title}
+                  </h1>
                 </Link>
               ))
             ) : (

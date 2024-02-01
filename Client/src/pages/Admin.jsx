@@ -1,12 +1,13 @@
 import { Outlet } from "react-router";
 import { NavLink, Link } from "react-router-dom";
 import { Logout } from "../components";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateStatus, clearStatus } from "../store/errorSlice";
 import { login } from "../store/authSlice";
 import { setLinks } from "../store/linksSlice";
 import links from "../services/links";
+// import
 import { Error } from "../components";
 
 import {
@@ -15,24 +16,42 @@ import {
   MdDelete,
   FaSquareReddit,
 } from "../icons";
+import theme from "../services/theme";
+import { setThemes } from "../store/themeSlice";
 
 export default function Admin() {
   const [token, setToken] = useState();
+  const [userTheme, setUserTheme] = useState();
+  const [selectedTheme, setSelectedTheme] = useState();
 
   const userLinks = useSelector((state) => state.links.links);
   const userData = useSelector((state) => state.auth.userData);
+  const themeList = useSelector((state) => state.themes.themes);
+  const selectedThemeId = useSelector((state) => state.themes.selectedThemeId);
+  // const userTheme
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     try {
       const localLinks = localStorage.getItem("links");
+      const localTheme = localStorage.getItem("themes");
       if (localLinks) {
         dispatch(setLinks(JSON.parse(localLinks)));
       } else {
         const localToken = localStorage.getItem("token");
         if (localToken) {
           setToken(localToken);
+        }
+      }
+
+      if (localTheme == !undefined || null) {
+        dispatch(setThemes(JSON.parse(localTheme)));
+      } else {
+        const localToken = localStorage.getItem("token");
+        if (localToken) {
+          setToken(localToken);
+          getThemes(localToken);
         }
       }
     } catch (error) {
@@ -42,6 +61,21 @@ export default function Admin() {
       }, 3000);
     }
   }, []);
+
+  const getThemes = useCallback(
+    async (token) => {
+      try {
+        if (token) {
+          const data = await theme.getThemeList(token);
+          localStorage.setItem("themes", JSON.stringify(data));
+          dispatch(setThemes(data));
+        }
+      } catch (error) {
+        console.log("error in get theme function ", error);
+      }
+    },
+    [token]
+  );
 
   useEffect(() => {
     if (token) {
@@ -69,6 +103,45 @@ export default function Admin() {
     }
   }, [token]);
 
+  useEffect(() => {
+    try {
+      if (userData && themeList) {
+        const localUserTheme = localStorage.getItem("userTheme");
+        if (localUserTheme) {
+          const parsedLocalUserTheme = JSON.parse(localUserTheme);
+
+          if (parsedLocalUserTheme._id === userData.theme) {
+            setUserTheme(parsedLocalUserTheme);
+          } else {
+            themeList.forEach((themeObj) => {
+              if (themeObj._id === userData.theme) {
+                setUserTheme(themeObj);
+                localStorage.setItem("userTheme", JSON.stringify(themeObj));
+              }
+            });
+          }
+        } else {
+          themeList.forEach((themeObj) => {
+            if (themeObj._id === userData.theme) {
+              setUserTheme(themeObj);
+              localStorage.setItem("userTheme", JSON.stringify(themeObj));
+            }
+          });
+        }
+      }
+    } catch (error) {
+      console.log("got some error", error);
+    }
+  }, [userData, themeList]);
+
+  useEffect(() => {
+    themeList.forEach((themeObj) => {
+      if (themeObj._id === selectedThemeId) {
+        setSelectedTheme(themeObj);
+      }
+    });
+  }, [selectedThemeId, themeList]);
+
   function handleMobile() {
     document.querySelector(".mobile").classList.toggle("hidden");
   }
@@ -85,73 +158,122 @@ export default function Admin() {
       <div className="md:w-[90%] w-full h-[90%] mx-auto flex justify-between">
         {/* left section */}
         <div className="mobile  lg:z-0 z-[200] lg:w-[40%]  hidden lg:flex  w-full h-full   lg:static absolute top-0 left-0 lg:bg-transparent bg-slate-900/60  justify-center items-center">
-          <img
-            className="w-full md:h-full hidden"
-            src="https://ik.imagekit.io/8fgpvoiai/Link%20Stock/mobile%20design_lMKBcoB7s.png?updatedAt=1705758234784"
-            alt=""
-          />
+          <div className="h-full z-0 w-full  bg-no-repeat bg-cover bg-center flex justify-center items-center ">
+            {/* container */}
+            {userTheme || selectedTheme ? (
+              <div
+                className="innerContainer"
+                style={
+                  selectedTheme
+                    ? selectedTheme.mainStyles.innerContainer
+                    : userTheme.mainStyles.innerContainer
+                }
+              >
+                {/* upper section */}
+                <div
+                  className="upperSection"
+                  // style={userTheme.mainStyles.upperSection}
+                  style={
+                    selectedTheme
+                      ? selectedTheme.mainStyles.upperSection
+                      : userTheme.mainStyles.upperSection
+                  }
+                >
+                  {/* avatarContainer */}
+                  <img
+                    className="avatarContainer"
+                    // style={userTheme.mainStyles.avatarContainer}
+                    style={
+                      selectedTheme
+                        ? selectedTheme.mainStyles.avatarContainer
+                        : userTheme.mainStyles.avatarContainer
+                    }
+                    src={`${userData?.avatar?.url}`}
+                    alt=""
+                  />
 
-          <div className="h-full z-0 w-full  bg-no-repeat bg-cover bg-center flex justify-center items-center">
-            {/* mobile container */}
-            <div className="mobileOutline w-[279px] h-[573px]  rounded-3xl border-[10px]  border-black bg-blue-100 flex flex-col gap-5">
-              {/* upper section */}
-              <div className="h-[50%] rounded-xl bg-white">
-                {/* upper section content section */}
-                <div className="relative bg-no-repeat bg-center bg-cover h-[50%] rounded-xl bg-[url(https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)]">
-                  {/* content container */}
-                  <div className="absolute bottom-[-100%] left-0 flex flex-col gap-2  w-full justify-center items-center">
-                    <img
-                      className="w-[100px] h-[100px] rounded-full"
-                      // src="https://xsgames.co/randomusers/assets/avatars/male/77.jpg"
-                      src={`${userData?.avatar?.url}`}
-                      alt=""
-                    />
-                    {/* name and bio */}
-                    <div className="flex flex-col gap-2 text-lg font-bold justify-center items-center">
-                      <h1>{userData?.fullName}</h1>
-                      <h2>{userData?.email}</h2>
-                      <h3>{userData?.username}</h3>
-                    </div>
+                  {/* content section */}
+                  <div
+                    className="contentSection"
+                    // style={userTheme.mainStyles.contentSection}
+                    style={
+                      selectedTheme
+                        ? selectedTheme.mainStyles.contentSection
+                        : userTheme.mainStyles.contentSection
+                    }
+                  >
+                    <h2>{userData?.username}</h2>
+                    <h1>{userData?.fullName}</h1>
+                    <h2>{userData?.email}</h2>
                   </div>
                 </div>
-              </div>
 
-              {/* lower section */}
-              <div className=" rounded-xl  h-[50%] overflow-y-auto no-scrollbar flex flex-col gap-3 ">
-                {userLinks.length > 0 ? (
-                  userLinks.map((link, index) => (
-                    <Link
-                      to={
-                        link.url.startsWith("http")
-                          ? link.url
-                          : `http://${link.url}`
-                      }
-                      key={index}
-                      className="flex w-[90%] items-center mx-auto justify-start gap-8 bg-white px-2 py-1  rounded-md"
-                    >
-                      {/* icons */}
-                      <img
-                        className="w-[30px] h-[30px] "
-                        src={`https://logo.clearbit.com/${link.title}.com`}
-                        alt=""
-                      />
+                {/* lower section */}
+                <div
+                  className="lowerSection "
+                  // style={userTheme.mainStyles.lowerSection}
+                  style={
+                    selectedTheme
+                      ? selectedTheme.mainStyles.lowerSection
+                      : userTheme.mainStyles.lowerSection
+                  }
+                >
+                  {userLinks.length > 0 ? (
+                    userLinks.map((link, index) => (
+                      <Link
+                        to={
+                          link.url.startsWith("http")
+                            ? link.url
+                            : `http://${link.url}`
+                        }
+                        key={index}
+                        className="linkSection"
+                        // style={userTheme.mainStyles.linkSection}
+                        style={
+                          selectedTheme
+                            ? selectedTheme.mainStyles.linkSection
+                            : userTheme.mainStyles.linkSection
+                        }
+                      >
+                        {/* icons */}
+                        <img
+                          className="linkIcon"
+                          // style={userTheme.mainStyles.linkIcon}
+                          style={
+                            selectedTheme
+                              ? selectedTheme.mainStyles.linkIcon
+                              : userTheme.mainStyles.linkIcon
+                          }
+                          src={`https://logo.clearbit.com/${link.title}.com`}
+                          alt=""
+                        />
 
-                      {/* right content */}
-                      <div>
                         {/* title */}
-                        <h1 className="text-lg font-bold capitalize ">
+                        <h1
+                          className="linkTitle"
+                          // style={userTheme.mainStyles.linkTitle}
+                          style={
+                            selectedTheme
+                              ? selectedTheme.mainStyles.linkTitle
+                              : userTheme.mainStyles.linkTitle
+                          }
+                        >
                           {link.title}
                         </h1>
-                      </div>
-                    </Link>
-                  ))
-                ) : (
-                  <div className="w-full text-center text-red-500">
-                    Data Not Found
-                  </div>
-                )}
+                      </Link>
+                    ))
+                  ) : (
+                    <div className="w-full text-center text-red-500">
+                      Data Not Found
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+            ) : (
+              <h1>Loaading....</h1>
+            )}
+
+            <div></div>
           </div>
 
           <button
