@@ -37,5 +37,18 @@ const GetAllTheme = asyncHandler(async (req, res) => {
     .status(201)
     .json(new ApiResponse(200, AllTheme, "Getting All theme Successfully"));
 });
+const DeleteTheme = asyncHandler(async (req, res) => {
+  const { themeId } = req.body;
+  if (!themeId) {
+    throw new ApiError(400, "Theme Id Note avalable");
+  }
+  const DeleteTheme = await Theme.findByIdAndDelete(themeId);
+  if (!DeleteTheme) {
+    throw new ApiError(400, "Something Went Wrong Delete Theme");
+  }
+  return res
+    .status(201)
+    .json(new ApiResponse(200, DeleteTheme, "Theme Delete Successfully"));
+});
 
-export { NewThemeCreated, GetAllTheme };
+export { NewThemeCreated, GetAllTheme, DeleteTheme };
