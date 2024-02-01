@@ -4,18 +4,17 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const NewThemeCreated = asyncHandler(async (req, res) => {
-  const { name, containerClass, upperSectionClass, linkContainerClass } =
-    req.body;
+  const { name, mainStyles, previewStyles } = req.body;
+  console.log(name, mainStyles, previewStyles);
 
-  if (!name || !containerClass || !upperSectionClass || !linkContainerClass) {
-    throw new ApiError(400, "All fields are required");
+  if (!name || !mainStyles || !previewStyles) {
+    throw new ApiError(400, "All Style are required");
   }
 
   const NewThemeCreated = await Theme.create({
     name,
-    containerClass,
-    upperSectionClass,
-    linkContainerClass,
+    mainStyles,
+    previewStyles,
   });
 
   if (!NewThemeCreated) {

@@ -6,14 +6,11 @@ const ThemeSchema = new Schema({
     required: true,
     unique: true,
   },
-  containerClass: {
-    type: String,
+  mainStyles: {
+    type: Object,
   },
-  upperSectionClass: {
-    type: String,
-  },
-  linkContainerClass: {
-    type: String,
+  previewStyles: {
+    type: Object,
   },
 });
 
@@ -30,3 +27,25 @@ export const Theme = mongoose.model("Theme", ThemeSchema);
 // "upperSectionClass": 'text-white',
 // "linkContainerClass": 'bg-zinc-200/40 text-white',
 // "keyWords": 'simple',
+
+// {
+
+//   "name": 'Blush Horizon',
+//   "containerClass": 'bg-[url(https://images.pexels.com/photos/2486168/pexels-photo-2486168.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)] bg-no-repeat bg-center bg-cover',
+//   "upperSectionClass": 'text-white bg-slate-900/20 backdrop-blur-sm',
+//   "linkContainerClass": 'bg-zinc-100/30 backdrop-blur-sm text-white',
+// }
+
+// {
+//   "name": 'Roseate Affection',
+//   "containerClass": 'bg-[url(https://images.pexels.com/photos/4226765/pexels-photo-4226765.jpeg?auto=compress&cs=tinysrgb&w=600)] bg-no-repeat bg-center bg-cover',
+//   "upperSectionClass": 'text-white backdrop-blur-sm',
+//   "linkContainerClass": 'bg-pink-200/30 backdrop-blur-sm text-white',
+// }
+
+// {
+//   "name": 'Adiyogi',
+//   "containerClass": 'bg-[url(https://images.pexels.com/photos/17812112/pexels-photo-17812112/free-photo-of-adiyogi-shiva-statue.jpeg?auto=compress&cs=tinysrgb&w=600)] bg-no-repeat bg-center bg-cover',
+//   "upperSectionClass": 'text-white backdrop-blur-sm bg-slate-900/50',
+//   "linkContainerClass": 'bg-slate-900/50 backdrop-blur-sm text-white',
+// }
