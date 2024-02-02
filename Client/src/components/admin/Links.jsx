@@ -114,19 +114,22 @@ export default function Links() {
 
   function handleShare() {
     if (userName) {
-      const baseUrl =
-        window.location.hostname === "localhost" ? "http://localhost:5173" : "";
-      const dummyInput = document.createElement("input");
-      dummyInput.value = `${baseUrl}/${userName}`;
-      document.body.appendChild(dummyInput);
-      dummyInput.select();
-      document.execCommand("copy");
-      document.body.removeChild(dummyInput);
+        const baseUrl =
+          window.location.hostname === "localhost"
+            ? "http://localhost:5173"
+            : "";
+        const dummyInput = document.createElement("input");
+        dummyInput.value = `${baseUrl}/${userName}`;
+        document.body.appendChild(dummyInput);
+        dummyInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummyInput);
 
-      document.querySelector(".shareButton").innerHTML = "Link Copied";
-      setTimeout(() => {
-        document.querySelector(".shareButton").innerHTML = "Share";
-      }, 500);
+        document.querySelector(".shareButton").innerHTML = "Link Copied";
+        setTimeout(() => {
+          document.querySelector(".shareButton").innerHTML = "Share";
+        }, 500);
+     
     } else {
       console.log("invalid user name");
     }
