@@ -2,40 +2,84 @@ import { AdminContainer } from "../index";
 import { MdEdit } from "../../icons";
 import { useSelector, useDispatch } from "react-redux";
 import { clearStatus, updateStatus } from "../../store/errorSlice";
+import { useCallback, useEffect, useState } from "react";
+import themeService from "../../services/theme";
+import axios from "axios";
+import { ThemePreview } from "../index";
+import { setSelectedThemesId } from "../../store/themeSlice";
+import { login } from "../../store/authSlice";
 export default function Design() {
   const userData = useSelector((state) => state.auth.userData);
+  const themesList = useSelector((state) => state.themes.themes);
+  const selectedThemeId = useSelector((state) => state.themes.selectedThemeId);
   const dispatch = useDispatch();
+  const [isThemeSelected, setIsThemeSelected] = useState(false);
+
+  function handleClick(id) {
+    if (id) {
+      dispatch(setSelectedThemesId(id));
+      setIsThemeSelected(true);
+    }
+  }
+
+  async function handleUpdateTheme() {
+    if (selectedThemeId) {
+      try {
+        const localToken = localStorage.getItem("token");
+        if (localToken) {
+          const response = await themeService.updateUserTheme(
+            localToken,
+            selectedThemeId
+          );
+          if (response) {
+            setIsThemeSelected(false);
+            dispatch(login({ userData: response }));
+            localStorage.setItem("userData", JSON.stringify(response));
+            console.log("theme updated successfully", response);
+          }
+        } else {
+          console.log("token not found");
+        }
+      } catch (error) {
+        console.log("some error", error);
+      }
+    } else {
+      console.log("no theme is is selected ");
+    }
+  }
 
   return (
-    <AdminContainer className="rounded-lg bg-white">
-      {/* profile picture */}
-      <div className=" relative my-2 hidden">
-        <MdEdit className="p-2 text-4xl bg-white rounded-full absolute top-0 right-0  z-10 text-black" />
-        <img
-          className="w-[100px] rounded-full "
-          src="https://cdnstorage.sendbig.com/unreal/female.webp"
-          alt=""
-        />
-      </div>
+    <>
+      {themesList.length > 0 ? (
+        <AdminContainer className="rounded-lg bg-white flex flex-col justify-between">
+          <div className="w-full h-[20%] flex flex-col gap-2 justify-center items-center">
+            <h1 className="text-[#C92138] text-3xl font-bold"> Themes</h1>
 
-      {/* content section  */}
-      <div className="flex flex-col gap-5 w-full items-center py-4">
-        <h2 className="w-[40%] selection:bg-transparent border-2 border-[#C92138] rounded text-center px-10 bg-zinc-100 py-3 font-bold">
-          {userData?.fullName}
-        </h2>
-        <h2 className="w-[60%] selection:bg-transparent border-2 border-[#C92138] rounded text-center px-10 bg-zinc-100 py-3 font-bold">
-          {userData?.email}
-        </h2>
-      </div>
+            <button
+              disabled={!isThemeSelected}
+              onClick={handleUpdateTheme}
+              className="bg-[#C92138] px-6 py-2 rounded-xl text-lg text-white font-bold disabled:bg-[#a34955]"
+            >
+              Save Changes
+            </button>
+          </div>
 
-      {/* theme section */}
-      <div className="bg-[#F2F5FA] w-full rounded-tl-xl rounded-tr-xl rounded-e h-full px-10 py-2">
-        <h1 className="text-xl font-bold w-full text-center">Themes</h1>
-
-        <h2 className="text-red-600 text-xl w-full text-center my-5">
-          Coming Soon...
-        </h2>
-      </div>
-    </AdminContainer>
+          {/* theme preview wrapper */}
+          <div className="h-[80%] w-full bg-slate-500 flex flex-wrap justify-center gap-10 py-4">
+            {themesList.map((theme, index) => (
+              <ThemePreview
+                key={index}
+                previewStyles={theme.previewStyles}
+                name={theme.name}
+                eventHandler={() => handleClick(theme._id)}
+                className="cursor-pointer selection:bg-transparent"
+              />
+            ))}
+          </div>
+        </AdminContainer>
+      ) : (
+        <h1>Loading....</h1>
+      )}
+    </>
   );
 }

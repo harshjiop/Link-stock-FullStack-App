@@ -19,6 +19,8 @@ export default function Logout() {
         localStorage.removeItem("userData");
         localStorage.removeItem("token");
         localStorage.removeItem("links");
+        localStorage.removeItem("userTheme")
+        localStorage.removeItem('themes')
         dispatch(updateStatus({ error: false, text: "Logged Out" }));
         setTimeout(() => {
           dispatch(clearStatus());

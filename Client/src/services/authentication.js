@@ -49,7 +49,6 @@ class Authentication {
                 method: 'PATCH',
                 headers: headers,
                 body: JSON.stringify({ username: data.username, fullName: data.fullName, email: data.email }),
-                // body: JSON.stringify({...data}),
             })
             if (response.ok) {
                 return await response.json()
