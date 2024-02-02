@@ -35,16 +35,25 @@ export default function Design() {
             setIsThemeSelected(false);
             dispatch(login({ userData: response }));
             localStorage.setItem("userData", JSON.stringify(response));
-            console.log("theme updated successfully", response);
+            dispatch(
+              updateStatus({ error: false, text: "Theme Updated Successfully" })
+            );
+            setTimeout(() => {
+              dispatch(clearStatus());
+            }, 3000);
           }
         } else {
-          console.log("token not found");
+          dispatch(updateStatus({ error: true, text: "Token Not Found" }));
+          setTimeout(() => {
+            dispatch(clearStatus());
+          }, 3000);
         }
       } catch (error) {
-        console.log("some error", error);
+        dispatch(updateStatus({ error: true, text: error.message }));
+        setTimeout(() => {
+          dispatch(clearStatus());
+        }, 3000);
       }
-    } else {
-      console.log("no theme is is selected ");
     }
   }
 

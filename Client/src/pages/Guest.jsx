@@ -6,8 +6,6 @@ import links from "../services/links";
 import { Error, Loader } from "../pages";
 import { updateStatus, clearStatus } from "../store/errorSlice";
 
-// ! importing theme from local
-import themes from "../../data/themes.json";
 
 export default function Guest() {
   const { userName } = useParams();
@@ -25,6 +23,7 @@ export default function Guest() {
           if (response) {
             setUserData(response);
             setUserLinks(response.UserLink);
+            setUserTheme(...response.UserTheme)
             setIsLoading(false);
           }
         })
@@ -43,16 +42,6 @@ export default function Guest() {
       }, 3000);
     }
   }, []);
-
-  // ! setting Theme of the state
-  useEffect(() => {
-    console.log("theme from local", themes.themes[0]);
-    setUserTheme(themes.themes[1]);
-  }, []);
-
-  useEffect(()=>{
-    
-  },[userData])
 
   if (userData && userLinks && userTheme) {
     return (

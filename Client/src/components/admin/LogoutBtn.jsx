@@ -36,3 +36,5 @@ export default function Logout() {
   };
   return <button onClick={logoutHandler}>Logout</button>;
 }
+
+

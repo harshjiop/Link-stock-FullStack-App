@@ -71,7 +71,10 @@ export default function Admin() {
           dispatch(setThemes(data));
         }
       } catch (error) {
-        console.log("error in get theme function ", error);
+        dispatch(updateStatus({ error: true, text: error.message }));
+        setTimeout(() => {
+          dispatch(clearStatus());
+        }, 3000);
       }
     },
     [token]
@@ -130,7 +133,10 @@ export default function Admin() {
         }
       }
     } catch (error) {
-      console.log("got some error", error);
+      dispatch(updateStatus({ error: true, text: error.message }));
+      setTimeout(() => {
+        dispatch(clearStatus());
+      }, 3000);
     }
   }, [userData, themeList]);
 
