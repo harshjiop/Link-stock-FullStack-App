@@ -25,9 +25,6 @@ export default function Links() {
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.message }));
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
     }
   }, []);
   useEffect(() => {
@@ -46,90 +43,59 @@ export default function Links() {
     addFormContainer.classList.toggle("opacity-1");
   }
 
-  function onSubmit(data) {
+  async function onSubmit(data) {
     handleAddHeader();
     if (token && data.title && data.url) {
       // const regex = /^(https?:\/\/)?(www\.)?/i;
-      links
-        .addLinks(token, {
+      try {
+        const response = await links.addLinks(token, {
           title: data.title,
           url: data.url,
           isActive: true,
-        })
-        .then((data) => {
-          if (data) {
-            // setLinksArray(data.data);
-            setValue("url", "");
-            setValue("title", "");
-            try {
-              localStorage.setItem("links", JSON.stringify(data.data));
-              dispatch(setLinks(data.data));
-            } catch (error) {
-              dispatch(updateStatus({ error: true, text: error.message }));
-              setTimeout(() => {
-                dispatch(clearStatus());
-              }, 3000);
-            }
-          }
-        })
-        .catch((error) => {
-          dispatch(updateStatus({ error: true, text: error.message }));
-          setTimeout(() => {
-            dispatch(clearStatus());
-          }, 3000);
         });
+        if (response) {
+          setValue("url", "");
+          setValue("title", "");
+          localStorage.setItem("links", JSON.stringify(response.data));
+          dispatch(setLinks(response.data));
+        }
+      } catch (error) {
+        dispatch(updateStatus({ error: true, text: error.message }));
+      }
     }
   }
 
-  function handleLinkDelete(id) {
+  async function handleLinkDelete(id) {
     if (token && id) {
-      links
-        .deleteLinks(token, id)
-        .then((data) => {
-          if (data) {
-            try {
-              dispatch(setLinks(data));
-              localStorage.setItem("links", JSON.stringify(data));
-            } catch (error) {
-              dispatch(updateStatus({ error: true, text: error.message }));
-              setTimeout(() => {
-                dispatch(clearStatus());
-              }, 3000);
-            }
-          }
-        })
-        .catch((error) => {
-          dispatch(updateStatus({ error: true, text: error.message }));
-          setTimeout(() => {
-            dispatch(clearStatus());
-          }, 3000);
-        });
+      try {
+        const response = await links.deleteLinks(token, id);
+        if (response) {
+          dispatch(setLinks(response.data));
+          localStorage.setItem("links", JSON.stringify(response.data));
+        }
+      } catch (error) {
+        dispatch(updateStatus({ error: true, text: error.message }));
+      }
     } else {
       dispatch(updateStatus({ error: true, text: "Not A Valid User" }));
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
     }
   }
 
   function handleShare() {
     if (userName) {
-        const baseUrl =
-          window.location.hostname === "localhost"
-            ? "http://localhost:5173"
-            : "";
-        const dummyInput = document.createElement("input");
-        dummyInput.value = `${baseUrl}/${userName}`;
-        document.body.appendChild(dummyInput);
-        dummyInput.select();
-        document.execCommand("copy");
-        document.body.removeChild(dummyInput);
+      const baseUrl =
+        window.location.hostname === "localhost" ? "http://localhost:5173" : "";
+      const dummyInput = document.createElement("input");
+      dummyInput.value = `${baseUrl}/${userName}`;
+      document.body.appendChild(dummyInput);
+      dummyInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummyInput);
 
-        document.querySelector(".shareButton").innerHTML = "Link Copied";
-        setTimeout(() => {
-          document.querySelector(".shareButton").innerHTML = "Share";
-        }, 500);
-     
+      document.querySelector(".shareButton").innerHTML = "Link Copied";
+      setTimeout(() => {
+        document.querySelector(".shareButton").innerHTML = "Share";
+      }, 500);
     } else {
       console.log("invalid user name");
     }
@@ -215,8 +181,6 @@ export default function Links() {
         )}
       </div>
 
-      {/* w-0 h-0 opacity-0 */}
-      {/* w-full h-[90%] opacity-1 */}
       <div className="w-0 h-0 opacity-0 transition-all duration-500 ease-linear addFormContainer    absolute  rounded-xl top-[10%] left-0 bg-white">
         <form
           onSubmit={handleSubmit(onSubmit)}

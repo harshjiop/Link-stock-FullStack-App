@@ -21,9 +21,6 @@ export default function AuthLayout({ children, authentication = true }) {
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.message }));
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
     }
   }, []);
 

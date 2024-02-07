@@ -1,22 +1,15 @@
+import axios from "axios";
+
 class Links {
     async getLinks(token) {
         try {
-            const response = await fetch(`/api/v1/link/all-link`, {
-                method: 'GET',
+            const response = await axios.get('/api/v1/link/all-link', {
                 headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `${token}`
+                    Authorization: token
                 }
             })
-
-            if (response.ok) {
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    // const data = await response.json()
-                    return await response.json();
-                }
-            } else {
-                throw new Error(`Links ${response.statusText}`)
+            if (response) {
+                return response.data
             }
         } catch (error) {
             throw error;
@@ -25,23 +18,15 @@ class Links {
 
     async addLinks(token, data) {
         try {
-            const response = await fetch('/api/v1/link/add-link', {
-                method: 'POST',
+            const response = await axios.post('/api/v1/link/add-link', data, {
                 headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `${token}`
-                },
-                body: JSON.stringify(data)
+                    Authorization: token
+                }
             })
-
-            if (response.ok) {
+            if (response) {
                 const gotLinks = await this.getLinks(token)
                 return gotLinks;
-            } else {
-                throw new Error(`Links ${response.statusText}`)
             }
-
-
         } catch (error) {
             throw error;
         }
@@ -52,7 +37,6 @@ class Links {
             const response = await fetch(`https://logo.clearbit.com/${name}.com`)
             if (response.ok) {
                 const data = response.url
-                // console.log(data)
                 return data
             } else {
                 throw new Error(`Links ${response.statusText}`)
@@ -65,40 +49,26 @@ class Links {
 
     async deleteLinks(token, linkId) {
         try {
-            const response = await fetch(`/api/v1/link/delete-link`, {
-                method: 'POST',
+            const response = await axios.post('/api/v1/link/delete-link', { linkId }, {
                 headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `${token}`
-                },
-                body: JSON.stringify({ linkId: linkId })
+                    Authorization: token
+                }
             })
 
-            if (response.ok) {
-                const gotLinks = await this.getLinks(token)
-                return gotLinks.data;
-            } else {
-                throw new Error(`Links ${response.statusText}`)
+            if (response) {
+                const gotLinks = await this.getLinks(token);
+                return gotLinks
             }
-
-
         } catch (error) {
-            throw error;
+            throw new Error(`Links ${response.statusText}`)
         }
     }
 
-    async getGuestLinks(userName){
+    async getGuestLinks(userName) {
         try {
-            const response = await fetch(`http://localhost:8000/${userName}`)
-            if(response.ok){
-                const contentType = response.headers.get('content-type');
-                if(contentType && contentType.includes('application/json')){
-                    const data = await response.json();
-                    return data.data[0];
-                }
-            }else{
-                throw new Error(`Links ${response.statusText}`)
-            }
+            const response = await axios.get(`http://localhost:8000/${userName}`)
+            return response.data.data[0];
+
         } catch (error) {
             throw error;
         }

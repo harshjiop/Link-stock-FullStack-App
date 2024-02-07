@@ -38,21 +38,12 @@ export default function Design() {
             dispatch(
               updateStatus({ error: false, text: "Theme Updated Successfully" })
             );
-            setTimeout(() => {
-              dispatch(clearStatus());
-            }, 3000);
           }
         } else {
           dispatch(updateStatus({ error: true, text: "Token Not Found" }));
-          setTimeout(() => {
-            dispatch(clearStatus());
-          }, 3000);
         }
       } catch (error) {
         dispatch(updateStatus({ error: true, text: error.message }));
-        setTimeout(() => {
-          dispatch(clearStatus());
-        }, 3000);
       }
     }
   }

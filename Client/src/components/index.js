@@ -8,4 +8,8 @@ import AuthLayout from "./AuthLayout";
 import Error from './Error'
 // import ThemeTemplate from "./admin/ThemeTemplate";
 import ThemePreview from "./themes/ThemePreview";
-export { Account, Design, Links, Settings,AdminContainer,AuthLayout,Logout,Error,ThemePreview }
+
+
+import ErrorTemplate from "./ErrorTemplate";
+
+export { Account, Design, Links, Settings,AdminContainer,AuthLayout,Logout,Error,ThemePreview,ErrorTemplate }

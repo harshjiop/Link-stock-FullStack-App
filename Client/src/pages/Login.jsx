@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateStatus, clearStatus } from "../store/errorSlice";
 import { Link } from "react-router-dom";
 import { MdOutlineCancel } from "../icons";
-import { Error } from "../components";
+import { ErrorTemplate } from "../components";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,44 +17,28 @@ export default function Login() {
   const { handleSubmit, register } = useForm();
 
   async function onSubmit(data) {
-    authentication
-      .login({ ...data })
-      .then(async (response) => {
-        if (response) {
-          const userData = response.data;
-          if (userData) {
-            try {
-              const localUserData = JSON.stringify(userData.user);
-              localStorage.setItem("userData", localUserData);
-              localStorage.setItem("token", userData.accessToken);
-              dispatch(login({ userData }));
-              navigate("/admin/links");
-            } catch (error) {
-              dispatch(updateStatus({ error: true, text: error.message }));
-              setTimeout(() => {
-                dispatch(clearStatus());
-              }, 3000);
-            }
-          }
-        } else {
-          console.log("some error");
+    try {
+      const response = await authentication.login({ ...data });
+      if (response) {
+        const userData = response.data;
+        if (userData) {
+          const localUserData = JSON.stringify(userData.user);
+          localStorage.setItem("userData", localUserData);
+          localStorage.setItem("token", userData.accessToken);
+          dispatch(login({ userData }));
+          navigate("/admin/links");
         }
-      })
-      .catch((error) => {
-        dispatch(updateStatus({ error: true, text: error.message }));
-        setTimeout(() => {
-          dispatch(clearStatus());
-        }, 3000);
-      });
+      }
+    } catch (error) {
+      dispatch(updateStatus({ error: true, text: error.response.statusText }));
+    }
   }
 
   return (
     <div className="h-screen w-full bg-[#F2EDE3]">
       {/* error wrapper */}
-      <Error
-        className="top-[-10rem]"
-        statusClassName="top-[1rem] md:bottom-4"
-      />
+
+      <ErrorTemplate />
 
       {/* content */}
       <div className="w-full h-full flex justify-between ">
@@ -132,6 +116,7 @@ export default function Login() {
             </form>
           </div>
         </div>
+
       </div>
     </div>
   );
