@@ -7,8 +7,8 @@ import { updateStatus, clearStatus } from "../store/errorSlice";
 import { login } from "../store/authSlice";
 import { setLinks } from "../store/linksSlice";
 import links from "../services/links";
-// import
-import { Error } from "../components";
+
+import { Error, ErrorTemplate } from "../components";
 
 import {
   AiOutlineMobile,
@@ -28,7 +28,6 @@ export default function Admin() {
   const userData = useSelector((state) => state.auth.userData);
   const themeList = useSelector((state) => state.themes.themes);
   const selectedThemeId = useSelector((state) => state.themes.selectedThemeId);
-  // const userTheme
 
   const dispatch = useDispatch();
 
@@ -56,9 +55,6 @@ export default function Admin() {
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.message }));
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
     }
   }, []);
 
@@ -72,9 +68,6 @@ export default function Admin() {
         }
       } catch (error) {
         dispatch(updateStatus({ error: true, text: error.message }));
-        setTimeout(() => {
-          dispatch(clearStatus());
-        }, 3000);
       }
     },
     [token]
@@ -82,27 +75,17 @@ export default function Admin() {
 
   useEffect(() => {
     if (token) {
-      links
-        .getLinks(token)
-        .then((data) => {
-          if (data) {
-            try {
-              dispatch(setLinks(data.data));
-              localStorage.setItem("links", JSON.stringify(data.data));
-            } catch (error) {
-              dispatch(updateStatus({ error: true, text: error.message }));
-              setTimeout(() => {
-                dispatch(clearStatus());
-              }, 3000);
-            }
+      (async () => {
+        try {
+          const response = await links.getLinks(token);
+          if (response) {
+            dispatch(setLinks(response.data));
+            localStorage.setItem("links", JSON.stringify(response.data));
           }
-        })
-        .catch((error) => {
+        } catch (error) {
           dispatch(updateStatus({ error: true, text: error.message }));
-          setTimeout(() => {
-            dispatch(clearStatus());
-          }, 3000);
-        });
+        }
+      })();
     }
   }, [token]);
 
@@ -134,9 +117,6 @@ export default function Admin() {
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.message }));
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
     }
   }, [userData, themeList]);
 
@@ -158,7 +138,7 @@ export default function Admin() {
       style={{ fontFamily: "Poppins,sans-serif" }}
     >
       {/* error wrapper */}
-      <Error />
+      <ErrorTemplate />
 
       {/* admin container */}
       <div className="md:w-[90%] w-full h-[90%] mx-auto flex justify-between">

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/authSlice";
 import { updateStatus, clearStatus } from "../store/errorSlice";
 import authentication from "../services/authentication";
-import { Error } from "../components";
+import { Error, ErrorTemplate } from "../components";
 import {
   MdOutlineHub,
   MdOutlineDesignServices,
@@ -53,9 +53,6 @@ export default function Home() {
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.message }));
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
     }
   }, []);
 
@@ -65,7 +62,7 @@ export default function Home() {
       style={{ fontFamily: "Poppins,sans-serif" }}
     >
       {/* error wrapper */}
-      <Error />
+      <ErrorTemplate />
 
       {/* navbar wrapper*/}
       <div className="w-full  md:h-14 h-16 md:border-none border-2 border-[#C92138] rounded-md md:rounded-none  fixed md:top-0 bottom-1 backdrop-blur-xl    left-0 z-[100]">

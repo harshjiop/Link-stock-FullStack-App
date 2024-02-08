@@ -25,92 +25,47 @@ export default function Account() {
   useEffect(() => {
     try {
       const localToken = localStorage.getItem("token");
-      // console.log('local token',typeof localToken)
       if (localToken) {
         setToken(localToken);
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.message }));
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
     }
   }, []);
 
   useEffect(() => {
-    // console.log("userData", userData);
     setData(userData);
-    // setAvatarUrl(userData.avatar)
   }, [userData]);
 
-  const onSubmit = (data) => {
-    if (token) {
-      authentication
-        .updateUser(token, data)
-        .then((response) => {
+  const onSubmit = async (data) => {
+    try {
+      if (token) {
+        const response = await authentication.updateUser(token, data);
+        if (response) {
+          const data = response.data;
+          localStorage.setItem("userData", JSON.stringify(data));
+          dispatch(login({ userData: data }));
+          dispatch(updateStatus({ error: false, text: "Profile Updated" }));
+        }
+
+        // file update
+        if (data.avatar[0].type) {
+          const response = await authentication.updateUserAvatar(
+            token,
+            data.avatar[0]
+          );
           if (response) {
             const data = response.data;
-            try {
-              localStorage.setItem("userData", JSON.stringify(data));
-              dispatch(login({ userData: data }));
-              dispatch(updateStatus({ error: false, text: "Profile Updated" }));
-              setTimeout(() => {
-                dispatch(clearStatus());
-              }, 3000);
-            } catch (error) {
-              dispatch(updateStatus({ error: true, text: error.message }));
-              setTimeout(() => {
-                dispatch(clearStatus());
-              }, 3000);
-            }
+            dispatch(login({ userData: data }));
+            localStorage.setItem("userData", JSON.stringify(data));
+            dispatch(updateStatus({ error: false, text: "Profile Updated" }));
+           
           }
-        })
-        .catch((error) => {
-          dispatch(updateStatus({ error: true, text: error.message }));
-          setTimeout(() => {
-            dispatch(clearStatus());
-          }, 3000);
-        });
-
-      if (data.avatar[0].type) {
-        // data.avatar[0].type==="image/jpeg"
-        authentication
-          .updateUserAvatar(token, data.avatar[0])
-          .then((response) => {
-            if (response) {
-              try {
-                const data = response.data;
-                dispatch(login({ userData: data }));
-                localStorage.setItem("userData", JSON.stringify(data));
-                dispatch(
-                  updateStatus({ error: false, text: "Profile Updated" })
-                );
-                setTimeout(() => {
-                  dispatch(clearStatus());
-                }, 3000);
-              } catch (error) {
-                dispatch(updateStatus({ error: true, text: error.message }));
-                setTimeout(() => {
-                  dispatch(clearStatus());
-                }, 3000);
-              }
-            }
-          })
-          .catch((error) => {
-            console.log("er", error);
-            dispatch(updateStatus({ error: true, text: error.message }));
-            setTimeout(() => {
-              dispatch(clearStatus());
-            }, 3000);
-          });
+        }
       }
-    } else {
-      dispatch(
-        updateStatus({ error: true, text: "Invalid User Token Re-Login" })
-      );
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
+    } catch (error) {
+      dispatch(updateStatus({ error: true, text: error.message }));
+     
     }
   };
 
@@ -124,7 +79,10 @@ export default function Account() {
     return (
       <AdminContainer className="rounded-lg bg-white">
         {/* form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center gap-7">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col items-center gap-7"
+        >
           {/* avatar */}
 
           {/* profile picture */}
@@ -166,7 +124,6 @@ export default function Account() {
             type="text"
             name="username"
             id="username"
-            // defaultValue={data.username}
             placeholder="User Name"
             {...register("username", { required: true })}
           />
@@ -177,7 +134,6 @@ export default function Account() {
             type="email"
             name="email"
             id="email"
-            // defaultValue={data.email}
             placeholder="Email"
             {...register("email", { required: true })}
           />
@@ -188,7 +144,6 @@ export default function Account() {
             type="text"
             name="fullname"
             id="fullname"
-            // defaultValue={data.fullName}
             placeholder="full name"
             {...register("fullName", { required: true })}
           />

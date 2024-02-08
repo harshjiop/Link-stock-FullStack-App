@@ -4,6 +4,7 @@ import { clearStatus, updateStatus } from "../../store/errorSlice";
 import { resetLinks } from "../../store/linksSlice";
 import { useNavigate } from "react-router";
 
+
 export default function Logout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,16 +23,9 @@ export default function Logout() {
         localStorage.removeItem("userTheme")
         localStorage.removeItem('themes')
         dispatch(updateStatus({ error: false, text: "Logged Out" }));
-        setTimeout(() => {
-          dispatch(clearStatus());
-          navigate("/login");
-        }, 1000);
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.message }));
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
     }
   };
   return <button onClick={logoutHandler}>Logout</button>;

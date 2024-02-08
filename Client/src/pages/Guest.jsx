@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
 import links from "../services/links";
 import { Error, Loader } from "../pages";
+import { ErrorTemplate } from "../components";
 import { updateStatus, clearStatus } from "../store/errorSlice";
-
 
 export default function Guest() {
   const { userName } = useParams();
@@ -17,35 +17,31 @@ export default function Guest() {
 
   useEffect(() => {
     if (userName) {
-      links
-        .getGuestLinks(userName)
-        .then((response) => {
+      ;(async () => {
+        try {
+          const response = await links.getGuestLinks(userName);
           if (response) {
             setUserData(response);
             setUserLinks(response.UserLink);
-            setUserTheme(...response.UserTheme)
+            setUserTheme(...response.UserTheme);
             setIsLoading(false);
           }
-        })
-        .catch((error) => {
+        } catch (error) {
           setIsLoading(false);
           dispatch(updateStatus({ error: true, text: error.message }));
-          setTimeout(() => {
-            dispatch(clearStatus());
-          }, 3000);
-        });
+        }
+      })();
     } else {
       setIsLoading(false);
       dispatch(updateStatus({ error: true, text: "User Name Not Found" }));
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
     }
   }, []);
 
   if (userData && userLinks && userTheme) {
     return (
       <div className="wrapper" style={userTheme.mainStyles.wrapper}>
+        <ErrorTemplate/>
+
         <div
           className="innerContainer"
           style={userTheme.mainStyles.innerContainer}

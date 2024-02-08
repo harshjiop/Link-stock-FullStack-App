@@ -1,48 +1,32 @@
+import axios from "axios";
 class Theme {
     async getThemeList(token) {
         try {
-            const response = await fetch('/api/v1/theme/all-theme', {
-                method: 'GET',
+            const response = await axios.get('/api/v1/theme/all-theme', {
                 headers: {
-                    'Authorization': token
+                    Authorization: token
                 }
-            });
-            if (response.ok) {
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    const data = await response.json()
-                    return data.data;
-                }
-            } else {
-                throw new Error('ERROR IS', response.statusText)
+            })
+            if (response) {
+                return response.data.data;
             }
         } catch (error) {
-            throw error
+            throw error;
         }
     }
 
     async updateUserTheme(token, themeId) {
         try {
-            const headers = new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `${token}`
-            })
-            const response = await fetch('/api/v1/users/update-theme', {
-                method: 'PATCH',
-                headers: headers,
-                body: JSON.stringify({ theme: themeId })
-            });
-            if (response.ok) {
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    const data = await response.json()
-                    return data.data;
+            const response = await axios.patch('/api/v1/users/update-theme', { theme: themeId }, {
+                headers: {
+                    Authorization: token
                 }
-            } else {
-                throw new Error('ERROR IS', response)
+            })
+            if (response) {
+                return response.data.data
             }
         } catch (error) {
-            throw error
+            throw error;
         }
     }
 

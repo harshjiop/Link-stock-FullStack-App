@@ -5,49 +5,38 @@ import { Link } from "react-router-dom";
 import { updateStatus, clearStatus } from "../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Error } from "../components";
+import { Error,ErrorTemplate } from "../components";
 
 export default function Signup() {
   const navigate = useNavigate();
   const { handleSubmit, register, watch } = useForm();
   const dispatch = useDispatch();
 
-  function onsubmit(data) {
+  async function onsubmit(data) {
     if (data.password === data.re_password) {
-      authentication
-        .signUp(data)
-        .then((response) => {
-          if (response) {
-            dispatch(updateStatus({ error: false, text: "Account Created" }));
-            setTimeout(() => {
-              navigate("/login");
-              dispatch(clearStatus());
-            }, 2000);
-          }
-        })
-        .catch((error) => {
-          dispatch(updateStatus({ error: true, text: error.message }));
-          setTimeout(() => {
-            dispatch(clearStatus());
-          }, 3000);
-        });
+      try {
+        const response = await authentication.signUp(data);
+        if (response) {
+          dispatch(updateStatus({ error: false, text: "Account Created" }));
+          navigate("/login");
+         
+        }
+      } catch (error) {
+        dispatch(updateStatus({ error: true, text: error.message }));
+       
+      }
     } else {
       dispatch(
         updateStatus({ error: true, text: "Password Does Not Matched" })
       );
-      setTimeout(() => {
-        dispatch(clearStatus());
-      }, 3000);
+     
     }
   }
 
   return (
     <div className="h-screen w-full bg-[#F2EDE3] ">
       {/* error wrapper */}
-      <Error
-        className="top-[-10rem]"
-        statusClassName="top-[1rem] md:bottom-4"
-      />
+      <ErrorTemplate/>
 
       {/* content */}
       <div className="w-full h-full flex justify-between ">
@@ -147,7 +136,7 @@ export default function Signup() {
               </div>
 
               <input
-                className="md:w-[40%] w-full py-1 font-bold  border-2 text-xl text-[#F2EDE3] h-14 rounded bg-[#C92138]"
+                className="md:w-[40%] cursor-pointer w-full py-1 font-bold  border-2 text-xl text-[#F2EDE3] h-14 rounded bg-[#C92138]"
                 type="submit"
                 value="Create Account"
               />

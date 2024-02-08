@@ -19,6 +19,7 @@ export default function Error({
         status ? `${statusClassName}` : "opacity-0"
       }`}
     >
+      
       <div
         className={`min-w-[30%] h-18 mx-auto  ${
           isError ? "bg-red-400" : "bg-green-400"
@@ -48,7 +49,6 @@ export default function Error({
 
         {/* Close */}
         <h2
-          //   onClick={() => dispatch(clearStatus())}
           onClick={() => {
             dispatch(clearStatus());
           }}
