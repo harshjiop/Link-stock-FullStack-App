@@ -5,11 +5,11 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const GetAllProduct = asyncHandler(async (req, res) => {
-  const owner = req.user._id;
-  const AllLink = await Page.find({ owner });
+  const Product_owner = req.user._id;
+  const Get_All_Product = await Product.find({ Product_owner });
   return res
     .status(200)
-    .json(new ApiResponse(200, AllLink, "All Link Geting sucessful"));
+    .json(new ApiResponse(200, Get_All_Product, "All Link Geting sucessful"));
 });
 const AddProduct = asyncHandler(async (req, res) => {
   const { Product_Name, Product_Desc, Product_Price, Product_Discount_Price } =
@@ -24,7 +24,7 @@ const AddProduct = asyncHandler(async (req, res) => {
   ) {
     throw new ApiError(400, "All fields are required");
   }
-  if (!Product_img) {
+  if (!Product_img_files) {
     throw new ApiError(400, "Product img Requair");
   }
 
