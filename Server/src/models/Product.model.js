@@ -2,6 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const ProductSchema = new Schema(
   {
+    Product_owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     Product_Name: {
       type: String,
       required: true,
@@ -10,16 +14,16 @@ const ProductSchema = new Schema(
       type: String,
       required: true,
     },
-    Product_Img: [
-      {
-        Product_public_id: {
-          type: String, // cloudinary
-        },
-        Product_url: {
-          type: String, // cloudinary
-        },
-      },
-    ],
+    Product_Img: {
+      // type: Array,
+      // Product_public_id: {
+      //   type: String, // cloudinary
+      // },
+      // Product_url: {
+      //   type: String, // cloudinary
+      // },
+    },
+
     Product_Price: {
       type: Number,
       require: true,
