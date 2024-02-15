@@ -1,7 +1,10 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Product } from "../models/Product.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import {
+  uploadOnCloudinary,
+  deleteFromCloudinary,
+} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const GetAllProduct = asyncHandler(async (req, res) => {
@@ -9,7 +12,9 @@ const GetAllProduct = asyncHandler(async (req, res) => {
   const Get_All_Product = await Product.find({ Product_owner });
   return res
     .status(200)
-    .json(new ApiResponse(200, Get_All_Product, "All Link Geting sucessful"));
+    .json(
+      new ApiResponse(200, Get_All_Product, "All Product Geting Sucessful")
+    );
 });
 const AddProduct = asyncHandler(async (req, res) => {
   const { Product_Name, Product_Desc, Product_Price, Product_Discount_Price } =
@@ -47,12 +52,23 @@ const AddProduct = asyncHandler(async (req, res) => {
 
   const ProductUplodeMongoDb = await Product.create({
     Product_owner: req.user?._id,
-    Product_Name,
+    ProductName,
     Product_Desc,
     Product_Img: Product_Photo,
     Product_Price,
     Product_Discount_Price,
   });
+
+  if (!ProductUplodeMongoDb) {
+    const DeleteCloudnaryImg = Product_Photo.map(
+      async function (Product_Photo, index) {
+        const Delete_img = await deleteFromCloudinary(
+          Product_Photo.Product_img_Cloudnary_Public_id
+        );
+      }
+    );
+    throw new ApiError(500, "Something went wrong while add Product");
+  }
 
   if (ProductUplodeMongoDb) {
     return res
@@ -61,11 +77,18 @@ const AddProduct = asyncHandler(async (req, res) => {
         new ApiResponse(200, ProductUplodeMongoDb, "Add Product Successfully")
       );
   }
-  if (!ProductUplodeMongoDb) {
-    throw new ApiError(500, "Something went wrong while add Product");
-  }
 });
 const UpdateProduct = asyncHandler(async (req, res) => {});
-const DeleteProduct = asyncHandler(async (req, res) => {});
+const DeleteProduct = asyncHandler(async (req, res) => {
+  const { productid } = req.params;
+  console.log(productid);
+  // const Get_All_Product = await Product.find({ Product_owner });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, productid, "All Product Geting Sucessful"));
+});
 
 export { AddProduct, DeleteProduct, GetAllProduct, UpdateProduct };
+
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiOTU1YTNjOWI3MzYxZWUzNWUyMGIiLCJlbWFpbCI6ImhrODA1MTg3MTQ5NnBAZ21haWwuY29tIiwidXNlcm5hbWUiOiJoYXJzaCIsImZ1bGxOYW1lIjoiSGFyc2h2YXJkaGFuIGt1bWFyIiwiaWF0IjoxNzA3ODg3MjUzLCJleHAiOjE3MDc5NzM2NTN9.Vv_FngFUkTZZaBbnXRwlsjgUDAh4cZCHb9zPWGeLZLI
