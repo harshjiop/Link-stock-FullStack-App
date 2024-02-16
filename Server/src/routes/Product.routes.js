@@ -15,7 +15,7 @@ router.use(verifyJWT);
 //SECURED ROUTES
 router.route("/all-product").get(GetAllProduct);
 router.route("/update-product").patch(UpdateProduct);
-router.route("/delete-product").post(DeleteProduct);
+router.route("/delete-product").delete(DeleteProduct);
 
 router.route("/add-product").post(
   upload.fields([
