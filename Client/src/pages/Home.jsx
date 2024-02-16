@@ -58,8 +58,8 @@ export default function Home() {
 
   return (
     <div
-      className="bg-[#F2EDE3] w-full h-screen overflow-y-auto no-scrollbar "
-      style={{ fontFamily: "Poppins,sans-serif" }}
+      className="bg-[#171C2F] w-full h-screen overflow-y-auto no-scrollbar "
+      style={{ fontFamily: "Orbitron,sans-serif" }}
     >
       {/* error wrapper */}
       <ErrorTemplate />
@@ -76,7 +76,7 @@ export default function Home() {
           {/* nav content container */}
           <div className="md:px-10 px-2  flex md:gap-24 justify-between md:w-auto w-full h-full">
             {/* nav menu container*/}
-            <div className="px-2 h-full md:w-auto w-[60%]">
+            <div className="px-2 h-full md:w-auto w-[60%] text-[#BEC2D3]">
               <ul className="flex w-full   md:gap-10 gap-3 h-full justify-between md:justify-center text-2xl md:text-lg items-center font-semibold">
                 <li>
                   <h1 className="md:inline-block hidden">Home</h1>
@@ -119,7 +119,7 @@ export default function Home() {
             {/* signup/login  */}
             <div className="px-2 h-full ">
               <ul className="h-full md:text-lg text-2xl flex justify-center items-center md:gap-8 gap-4">
-                <li className="md:px-4 px-2 md:py-2 py-1  rounded-xl cursor-pointer  bg-[#C92138] border-2 border-black  font-bold text-[#F2EDE3]">
+                <li className="md:px-4 px-2 md:py-2 py-1  rounded-xl cursor-pointer  bg-[#28BDD1]  font-bold text-[#F2EDE3]">
                   <Link to={"/signup"}>
                     <h1 className="md:inline-block hidden">Signup</h1>
 
@@ -129,7 +129,7 @@ export default function Home() {
                     </div>
                   </Link>
                 </li>
-                <li className="font-bold text-[#C92138]">
+                <li className="font-bold border-2 md:px-4 px-2 md:py-2 py-1 rounded-xl border-[#28BDD1] text-[#BEC2D3]">
                   <Link to={"/login"}>
                     <h1 className="md:inline-block hidden">Login</h1>
 
@@ -147,6 +147,33 @@ export default function Home() {
 
       {/* hero wrapper */}
       <div className="h-screen   w-full relative">
+        {/* bg-vectors */}
+        <div className="relative top-0 left-0 w-full h-full ">
+          <div
+            className="h-[273px] w-[517px] absolute top-[10%] right-0  bg-center bg-cover bg-no-repeat"
+            style={{
+              backgroundImage:
+                "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2017__szVDEAmM.png?updatedAt=1708003922609)",
+            }}
+          ></div>
+
+          <div
+            className="h-[273px] w-[517px] absolute top-[10%] left-0  bg-center bg-cover bg-no-repeat"
+            style={{
+              backgroundImage:
+                "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2018_8KWnkjGIs.png?updatedAt=1708003922522)",
+            }}
+          ></div>
+
+          <div
+            className="h-[273px] w-[517px] absolute bottom-[0%] left-[40%]  bg-center bg-cover bg-no-repeat"
+            style={{
+              backgroundImage:
+                "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2016_KKAa-hjOk.png?updatedAt=1708003922448)",
+            }}
+          ></div>
+        </div>
+
         {/* hero container */}
         <div className="md:w-[80%] mx-auto absolute md:top-[20%] top-[0%] md:left-[10%] left-0 flex md:flex-row flex-col-reverse ">
           {/* left content wrapper */}
@@ -154,27 +181,25 @@ export default function Home() {
             {/* left content content */}
             <div className="flex flex-col justify-center  md:gap-10  h-full">
               {/* heading container */}
-              <div className="flex  items-center md:items-start flex-col md:text-6xl text-3xl font-extrabold">
+              <div className="flex text-white  items-center md:items-start flex-col md:text-6xl text-3xl font-extrabold">
                 <h1>Lorem Text For</h1>
-                <h2 className="outline-4 outline-red-400 text-[#F2EDE3]  drop-shadow-[0px_0px_2px_#C92138]">
-                  Lorem Text
-                </h2>
+                <h2 className="outline-4  text-[#28BDD1]">Lorem Text</h2>
               </div>
 
               {/* dummy text */}
-              <h2 className=" text-center md:text-start">
+              <h2 className=" text-center md:text-start text-[#BEC2D3]">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Laudantium, pariatur similique alias cumque mollitia in incidunt
                 placeat eveniet repellat molestiae?
               </h2>
 
               {/* buttons container */}
-              <div className="border-2 mx-auto md:mx-0 border-[#C92138] rounded-xl w-[50%] h-14 flex ">
+              <div className=" mx-auto md:mx-0  rounded-xl w-[50%] h-14 flex gap-2">
                 {/* create link */}
-                <button className="h-full bg-[#C92138] text-[#F2EDE3] px-4 rounded-lg w-1/2 flex justify-center items-center">
+                <button className="h-full bg-[#28BDD1] text-[#F2EDE3] px-4 rounded-lg w-1/2 flex justify-center items-center">
                   create link
                 </button>
-                <button className="text-[#C92138] w-1/2 flex justify-center items-center">
+                <button className=" border-2 border-[#28BDD1] text-[#BEC2D3] px-4 rounded-lg w-1/2 flex justify-center items-center">
                   About us
                 </button>
               </div>
@@ -187,7 +212,7 @@ export default function Home() {
             <div className="md:w-[544px] md:h-[536px]">
               <img
                 className=""
-                src="https://ik.imagekit.io/8fgpvoiai/Link%20Stock/hero%20page%20design_HcfB4NTIp.png?updatedAt=1705678389631"
+                src="https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Marketing-cuate_d5PmewCpD.png?updatedAt=1708003539319"
                 alt="mobile design"
               />
             </div>

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, Login, Signup, Admin, Error, Guest } from "./pages";
+import { Home, Login, Signup, Admin, Error, Guest, Store,AddProduct } from "./pages";
 import { Provider } from "react-redux";
 import {
   Account,
@@ -13,7 +13,6 @@ import {
   AuthLayout,
 } from "./components/index.js";
 import store from "./store/store.js";
-
 
 const router = createBrowserRouter([
   {
@@ -100,6 +99,16 @@ const router = createBrowserRouter([
     element: <Guest />,
     errorElement: <Error />,
   },
+  {
+    path: "/store/:userName",
+    element: <Store />,
+    errorElement: <Error />,
+  },
+  {
+    path:'/store/add-product',
+    element:<AddProduct/>,
+    errorElement:<Error/>
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
