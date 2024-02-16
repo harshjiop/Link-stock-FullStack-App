@@ -108,14 +108,16 @@ export default function Links() {
       <div className="h-[10%] mx-auto w-full flex justify-between items-center text-white text-lg  font-bold">
         <button
           onClick={handleAddHeader}
-          className="text w-[40%] bg-[#C92138] py-2 rounded-xl"
+          className="text w-[30%] bg-[#C92138] py-2 rounded-xl"
         >
           Add Heading
         </button>
 
+        <Link to={`../../store/${userName}`} className="text w-[30%] bg-[#C92138] py-2 rounded-xl text-center">Store</Link>
+
         <button
           onClick={handleShare}
-          className="text w-[40%] bg-[#C92138] py-2 rounded-xl shareButton"
+          className="text w-[30%] bg-[#C92138] py-2 rounded-xl shareButton"
         >
           Share
         </button>
