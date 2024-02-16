@@ -52,7 +52,7 @@ const AddProduct = asyncHandler(async (req, res) => {
 
   const ProductUplodeMongoDb = await Product.create({
     Product_owner: req.user?._id,
-    ProductName,
+    Product_Name,
     Product_Desc,
     Product_Img: Product_Photo,
     Product_Price,
@@ -89,6 +89,5 @@ const DeleteProduct = asyncHandler(async (req, res) => {
 });
 
 export { AddProduct, DeleteProduct, GetAllProduct, UpdateProduct };
-
 
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiOTU1YTNjOWI3MzYxZWUzNWUyMGIiLCJlbWFpbCI6ImhrODA1MTg3MTQ5NnBAZ21haWwuY29tIiwidXNlcm5hbWUiOiJoYXJzaCIsImZ1bGxOYW1lIjoiSGFyc2h2YXJkaGFuIGt1bWFyIiwiaWF0IjoxNzA3ODg3MjUzLCJleHAiOjE3MDc5NzM2NTN9.Vv_FngFUkTZZaBbnXRwlsjgUDAh4cZCHb9zPWGeLZLI
