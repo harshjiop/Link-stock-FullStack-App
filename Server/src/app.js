@@ -31,7 +31,7 @@ import ProductRouters from "./routes/Product.routes.js";
 
 //routes declaration
 // app.use("/api/v1/healthcheck", healthcheckRouter);
-app.use("/", getUserRoutes);
+app.use("/api/v1/", getUserRoutes);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/link", PageRouter);
 app.use("/api/v1/theme", ThemeRouters);
