@@ -2,9 +2,17 @@ import { MdKeyboardArrowRight } from "../icons/index";
 import { useForm } from "react-hook-form";
 import product from "../services/product";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function AddProduct() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const [token, setToken] = useState("");
+  const userData = useSelector((state) => state.auth.userData);
+  const navigate = useNavigate();
+  const storeOwner = useSelector((state) => state.store.storeOwner);
 
   useEffect(() => {
     try {
@@ -22,25 +30,36 @@ export default function AddProduct() {
       try {
         const respsonse = await product.addProduct(token, data);
         if (respsonse) {
-          console.log("product added", respsonse);
+          toast.success("Product Added");
+          setValue("Product_Name");
+          setValue("Product_Desc");
+          setValue("Product_Price");
+          setValue("Product_Discount_Price");
+          setValue("Product_img");
+          setTimeout(() => {
+            navigate(`/store/${userData?.username ?? ""}`);
+          }, 500);
         }
       } catch (error) {
         console.log("errros on ad product is", error);
+        toast.error("Error To Add Product");
       }
     }
-    console.log("submitted data is ", data);
+    // console.log("submitted data is ", data);
   }
   return (
     <div
       className="h-screen w-full bg-[#171C2F] relative text-white flex justify-center items-center py-4"
       style={{ fontFamily: "Orbitron,sans-serif" }}
     >
+      <ToastContainer autoClose={1000} theme="dark" />
+
       <div className="w-[80%] h-full flex flex-col gap-10">
         {/*  breadcrumbs section */}
         <div className="flex gap-2 justify-start items-center font-bold selection:bg-transparent">
-          <h2>Home</h2>
+          <Link to='/admin/links'>Home</Link>
           <MdKeyboardArrowRight className="text-2xl" />
-          <h2 className="">Shop</h2>
+          <Link to={`/store/@${storeOwner.username}`} className="">Shop</Link>
           <MdKeyboardArrowRight className="text-2xl" />
           <h2 className="text-[#28BDD1]">Add Product</h2>
         </div>
@@ -83,6 +102,7 @@ export default function AddProduct() {
               placeholder="Enter Product Price"
               {...register("Product_Price")}
             />
+            <a href="/store/">asdf</a>
 
             {/* product discounted price */}
             <input
@@ -105,7 +125,7 @@ export default function AddProduct() {
             />
 
             <input
-              className="bg-[#28BDD1] rounded-lg  text-center h-10 w-full outline-none"
+              className="bg-[#28BDD1] rounded-lg  text-center h-10 w-full outline-none cursor-pointer"
               type="submit"
               value="Submit"
             />
