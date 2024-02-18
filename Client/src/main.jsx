@@ -3,7 +3,16 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, Login, Signup, Admin, Error, Guest, Store,AddProduct } from "./pages";
+import {
+  Home,
+  Login,
+  Signup,
+  Admin,
+  Error,
+  Guest,
+  Store,
+  AddProduct,
+} from "./pages";
 import { Provider } from "react-redux";
 import {
   Account,
@@ -101,14 +110,22 @@ const router = createBrowserRouter([
   },
   {
     path: "/store/:userName",
-    element: <Store />,
+    element: (
+      <AuthLayout authentication>
+        <Store />
+      </AuthLayout>
+    ),
     errorElement: <Error />,
   },
   {
-    path:'/store/add-product',
-    element:<AddProduct/>,
-    errorElement:<Error/>
-  }
+    path: "/store/add-product",
+    element: (
+      <AuthLayout authentication>
+        <AddProduct />
+      </AuthLayout>
+    ),
+    errorElement: <Error />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

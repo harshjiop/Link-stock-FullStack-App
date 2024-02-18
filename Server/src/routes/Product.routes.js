@@ -18,12 +18,7 @@ router.route("/update-product").patch(UpdateProduct);
 router.route("/delete-product").delete(DeleteProduct);
 
 router.route("/add-product").post(
-  upload.fields([
-    {
-      name: "Product_img",
-      maxCount: 5,
-    },
-  ]),
+  upload.array('Product_img',5),
   AddProduct
 );
 

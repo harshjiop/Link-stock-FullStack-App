@@ -113,7 +113,7 @@ export default function Links() {
           Add Heading
         </button>
 
-        <Link to={`../../store/${userName}`} className="text w-[30%] bg-[#C92138] py-2 rounded-xl text-center">Store</Link>
+        <Link to={`../../store/@${userName}`} className="text w-[30%] bg-[#C92138] py-2 rounded-xl text-center">Store</Link>
 
         <button
           onClick={handleShare}

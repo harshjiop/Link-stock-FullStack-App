@@ -1,6 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Product } from "../models/Product.model.js";
+import mongoose from "mongoose";
 import {
   uploadOnCloudinary,
   deleteFromCloudinary,
@@ -9,17 +10,51 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 const GetAllProduct = asyncHandler(async (req, res) => {
   const Product_owner = req.user._id;
-  const Get_All_Product = await Product.find({ Product_owner });
+  // const Get_All_Product = await Product.find({ Product_owner });
+  const Get_All_Product = await Product.aggregate([
+    {
+      $match: {
+        Product_owner: new mongoose.Types.ObjectId(req.user._id)
+      },
+
+    },
+    {
+      $group: {
+        _id: null,
+        products: { $push: '$$ROOT' }
+      }
+    },
+    {
+      $lookup: {
+        from: 'users',
+        foreignField: '_id',
+        localField: 'products.Product_owner',
+        as: 'user',
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        user: {
+          $arrayElemAt: ["$user", 0]
+        },
+        products: 1,
+      }
+    }, {
+      $project: {
+        "user.password": 0
+      }
+    }
+
+  ])
   return res
     .status(200)
-    .json(
-      new ApiResponse(200, Get_All_Product, "All Product Geting Sucessful")
-    );
+    .json(new ApiResponse(200, Get_All_Product[0], "All Link Geting sucessful"));
 });
 const AddProduct = asyncHandler(async (req, res) => {
-  const { Product_Name, Product_Desc, Product_Price, Product_Discount_Price } =
+  const { Product_Name, Product_Desc, Product_Price, Product_Discount_Price,  } =
     req.body;
-  const Product_img_files = req.files?.Product_img;
+  const Product_img_files = req.files;
 
   if (
     !Product_Name ||
@@ -78,7 +113,7 @@ const AddProduct = asyncHandler(async (req, res) => {
       );
   }
 });
-const UpdateProduct = asyncHandler(async (req, res) => {});
+const UpdateProduct = asyncHandler(async (req, res) => { });
 const DeleteProduct = asyncHandler(async (req, res) => {
   const { productid } = req.params;
   console.log(productid);
