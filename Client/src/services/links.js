@@ -66,7 +66,7 @@ class Links {
 
     async getGuestLinks(userName) {
         try {
-            const response = await axios.get(`http://localhost:8000/${userName}`)
+            const response = await axios.get(`/api/v1/${userName}`)
             return response.data.data[0];
 
         } catch (error) {
