@@ -110,10 +110,15 @@ export default function Links() {
           onClick={handleAddHeader}
           className="text w-[30%] bg-[#C92138] py-2 rounded-xl"
         >
-          Add Heading
+          Add Link
         </button>
 
-        <Link to={`../../store/@${userName}`} className="text w-[30%] bg-[#C92138] py-2 rounded-xl text-center">Store</Link>
+        <Link
+          to={`../../store/@${userName}`}
+          className="text w-[30%] bg-[#C92138] py-2 rounded-xl text-center"
+        >
+          Store
+        </Link>
 
         <button
           onClick={handleShare}
@@ -124,15 +129,15 @@ export default function Links() {
       </div>
 
       {/* links container */}
-      <div className="flex h-[90%]  flex-col gap-6 w-full overflow-y-auto no-scrollbar relative">
+      <div className="flex h-[90%]  flex-col gap-6 w-full overflow-y-auto no-scrollbar ">
         {linksArray.length > 0 ? (
           linksArray.map((data, index) => {
             return (
               <div
-                key={index}
-                className="flex justify-between gap-8 bg-white px-5 py-2 rounded-md"
+                key={data._id}
+                className="flex  gap-8 bg-white px-5 py-2 rounded-md w-full "
               >
-                <div className="flex justify-between gap-8 ">
+                <div className="flex justify-start gap-4 w-[90%] ">
                   {/* icons */}
                   {data ? (
                     <>
@@ -149,11 +154,11 @@ export default function Links() {
                   )}
 
                   {/* content */}
-                  <div>
+                  <div className=" flex flex-col w-[80%]">
                     {/* heading */}
                     <h1 className="text-xl font-semibold">{data.title}</h1>
                     <Link
-                      className="font-semibold underline"
+                      className="font-semibold underline overflow-x-auto no-scrollbar w-full"
                       to={
                         data.url.startsWith("http")
                           ? data.url
@@ -165,7 +170,7 @@ export default function Links() {
                   </div>
                 </div>
 
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center w-[10%] ">
                   <button
                     className="text-2xl text-[#C92138]"
                     onClick={(e) => handleLinkDelete(data._id)}

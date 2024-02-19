@@ -111,19 +111,15 @@ const router = createBrowserRouter([
   {
     path: "/store/:userName",
     element: (
-      <AuthLayout authentication>
-        <Store />
-      </AuthLayout>
+      // <AuthLayout authentication>
+      <Store />
+      // </AuthLayout>
     ),
     errorElement: <Error />,
   },
   {
     path: "/store/add-product",
-    element: (
-      <AuthLayout authentication>
-        <AddProduct />
-      </AuthLayout>
-    ),
+    element: <AddProduct/>,
     errorElement: <Error />,
   },
 ]);

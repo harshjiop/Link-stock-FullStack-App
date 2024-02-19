@@ -116,9 +116,8 @@ export default function Store() {
         <div className="flex flex-col items-center gap-5 pb-4">
           <h1 className="text-3xl font-bold">Products</h1>
           {/* products container */}
-          <div className="flex gap-10 flex-wrap justify-center items-center ">
+          <div className="flex gap-10 flex-wrap justify-center items-center w-screen">
             {storeOwner.UserProduct.map((product) => {
-              console.log("product deteles", product);
               // console.log(
               //   "product img",
               //   product.Product_Img[0].Product_img_Cloudnary_Path
@@ -179,7 +178,7 @@ export default function Store() {
                         </h5>
                       </Link>
                       <div className="mt-2 mb-5 flex items-center justify-between">
-                        <p>
+                        <p className="">
                           <span className="text-3xl font-bold text-slate-900">
                             {/* $449 */}₹ {product.Product_Discount_Price}
                           </span>

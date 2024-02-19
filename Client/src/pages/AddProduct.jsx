@@ -2,28 +2,61 @@ import { MdKeyboardArrowRight } from "../icons/index";
 import { useForm } from "react-hook-form";
 import product from "../services/product";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "./loader/Loader";
+import { login } from "../store/authSlice";
+import { updateStatus, clearStatus } from "../store/errorSlice";
+import { addStoreOwner, removeStoreOwner } from "../store/storeSlice";
 export default function AddProduct() {
   const { register, handleSubmit, setValue } = useForm();
   const [token, setToken] = useState("");
-  const userData = useSelector((state) => state.auth.userData);
+  const authStatus = useSelector((state) => state.auth.status);
+
   const navigate = useNavigate();
   const storeOwner = useSelector((state) => state.store.storeOwner);
+  const dispatch = useDispatch();
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     try {
+      const localStoreOwner = localStorage.getItem("storeOwner");
+      const localUserData = localStorage.getItem("userData");
       const localToken = localStorage.getItem("token");
-      if (localToken) {
-        setToken(localToken);
+      if (localUserData && localToken && localStoreOwner) {
+        const parsedStoreOwner = JSON.parse(localStoreOwner);
+        const userData = JSON.parse(localUserData);
+        dispatch(login({ userData }));
+        dispatch(addStoreOwner(parsedStoreOwner));
+        setToken(localToken)
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.message }));
     }
   }, []);
+
+  useEffect(() => {
+    if (!authStatus) {
+      navigate("/login");
+    } else if (authStatus) {
+      navigate("/store/add-product");
+    }
+    setLoader(false);
+  }, [authStatus, navigate, storeOwner]);
+
+  // useEffect(() => {
+  //   try {
+  //     const localToken = localStorage.getItem("token");
+  //     if (localToken) {
+  //       setToken(localToken);
+  //     }
+  //   } catch (error) {
+  //     dispatch(updateStatus({ error: true, text: error.message }));
+  //   }
+  // }, []);
 
   async function onSubmit(data) {
     if (data) {
@@ -47,6 +80,9 @@ export default function AddProduct() {
     }
     // console.log("submitted data is ", data);
   }
+  if (loader) {
+    return <Loader />;
+  }
   return (
     <div
       className="h-screen w-full bg-[#171C2F] relative text-white flex justify-center items-center py-4"
@@ -57,9 +93,11 @@ export default function AddProduct() {
       <div className="w-[80%] h-full flex flex-col gap-10">
         {/*  breadcrumbs section */}
         <div className="flex gap-2 justify-start items-center font-bold selection:bg-transparent">
-          <Link to='/admin/links'>Home</Link>
+          <Link to="/admin/links">Home</Link>
           <MdKeyboardArrowRight className="text-2xl" />
-          <Link to={`/store/@${storeOwner.username}`} className="">Shop</Link>
+          <Link to={`/store/@${storeOwner.username}`} className="">
+            Shop
+          </Link>
           <MdKeyboardArrowRight className="text-2xl" />
           <h2 className="text-[#28BDD1]">Add Product</h2>
         </div>
@@ -102,7 +140,6 @@ export default function AddProduct() {
               placeholder="Enter Product Price"
               {...register("Product_Price")}
             />
-            <a href="/store/">asdf</a>
 
             {/* product discounted price */}
             <input

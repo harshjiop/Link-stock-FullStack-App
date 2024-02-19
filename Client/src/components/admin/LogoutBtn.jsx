@@ -22,6 +22,7 @@ export default function Logout() {
         localStorage.removeItem("links");
         localStorage.removeItem("userTheme")
         localStorage.removeItem('themes')
+        localStorage.removeItem('storeOwner')
         dispatch(updateStatus({ error: false, text: "Logged Out" }));
       }
     } catch (error) {

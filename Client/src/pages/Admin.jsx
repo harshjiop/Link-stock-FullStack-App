@@ -196,7 +196,7 @@ export default function Admin() {
 
                 {/* lower section */}
                 <div
-                  className="lowerSection "
+                  className="lowerSection overflow-y-auto no-scrollbar h-[80%]"
                   // style={userTheme.mainStyles.lowerSection}
                   style={
                     selectedTheme
