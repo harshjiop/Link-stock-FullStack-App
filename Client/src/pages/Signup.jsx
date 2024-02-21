@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { updateStatus, clearStatus } from "../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Error,ErrorTemplate } from "../components";
+import { Error, ErrorTemplate } from "../components";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -19,47 +19,55 @@ export default function Signup() {
         if (response) {
           dispatch(updateStatus({ error: false, text: "Account Created" }));
           navigate("/login");
-         
         }
       } catch (error) {
         dispatch(updateStatus({ error: true, text: error.message }));
-       
       }
     } else {
       dispatch(
         updateStatus({ error: true, text: "Password Does Not Matched" })
       );
-     
     }
   }
 
   return (
-    <div className="h-screen w-full bg-[#F2EDE3] ">
+    <div
+      className="h-screen w-full bg-[#171C2F] relative overflow-y-hidden"
+      style={{ fontFamily: "Orbitron,sans-serif" }}
+    >
       {/* error wrapper */}
-      <ErrorTemplate/>
+      <ErrorTemplate />
+
+      {/* bg vectors*/}
+      <div>
+        <div
+          className="h-[273px] w-[517px] absolute top-[0%]  left-[10%]  bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2016_KKAa-hjOk.png?updatedAt=1708003922448)",
+          }}
+        ></div>
+
+        <div
+          className="h-[273px] w-[517px] absolute bottom-[0%]  left-[0%]  bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2018_8KWnkjGIs.png?updatedAt=1708003922522)",
+          }}
+        ></div>
+      </div>
 
       {/* content */}
       <div className="w-full h-full flex justify-between ">
         {/* left section */}
-        <div className="md:w-[40%] w-0 md:inline-block hidden border-r-4 border-[#C92138] bg-center bg-no-repeat bg-cover h-full relative">
-          <div className="absolute top-0 left-0 w-full h-full bg-slate-900/20 flex justify-center items-center">
-            <h2 className="rotate-[-90deg] text-7xl font-bold text-[#F2EDE3]">
-              SIGNUP
-            </h2>
-          </div>
-          <video
-            className="w-full object-cover  h-full"
-            src="https://ik.imagekit.io/8fgpvoiai/Link%20Stock/pexels-pachon-in-motion-15283218%20(Original)%20(online-video-cutter.com)_l_sXOcPt1R.mp4?updatedAt=1705951634647"
-            autoPlay
-            loop
-            muted
-          ></video>
+        <div className="lg:w-[50%] w-0 lg:flex justify-center items-center hidden  bg-center bg-no-repeat bg-cover h-full relative">
+          <div className="w-[80%] h-[80%] bg-[url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Computer%20login-amico_Iill5Scxt.png?updatedAt=1708518046998)] bg-center bg-cover bg-no-repeat"></div>
         </div>
 
         {/* right section */}
-        <div className="h-full md:w-[60%] w-full py-5 gap-20  flex flex-col justify-center items-center overflow-y-auto no-scrollbar">
+        <div className="h-full lg:w-[60%] w-full gap-20  flex flex-col justify-center items-center bg-[#28BDD1]  lg:rounded-l-2xl overflow-y-auto no-scrollbar">
           {/* upper heading */}
-          <h1 className="text-7xl font-bold text-[#C92138]">SIGNUP</h1>
+          <h1 className="text-7xl font-light text-white">SIGNUP</h1>
 
           {/* form container */}
           <div className="w-full">
@@ -70,7 +78,7 @@ export default function Signup() {
               {/* username */}
               <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
+                  className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
                   type="text"
                   name="userName"
                   id="userName"
@@ -82,7 +90,7 @@ export default function Signup() {
               {/* full name */}
               <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
+                  className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
                   type="text"
                   name="fullName"
                   id="fullName"
@@ -94,7 +102,7 @@ export default function Signup() {
               {/* email */}
               <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
+                  className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
                   type="text"
                   name="email"
                   id="email"
@@ -106,7 +114,7 @@ export default function Signup() {
               {/* password */}
               <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
+                  className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
                   type="password"
                   name="password"
                   id="password"
@@ -118,7 +126,7 @@ export default function Signup() {
               {/* retype password */}
               <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
+                  className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
                   type="password"
                   name="re-password"
                   id="re-password"
@@ -130,13 +138,13 @@ export default function Signup() {
               {/* remembered section */}
               <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end ">
                 <h2>Already Registered ?</h2>{" "}
-                <h2 className="text-[#C92138] font-bold">
+                <h2 className="text-white font-bold">
                   <Link to={"/login"}>Login</Link>
                 </h2>
               </div>
 
               <input
-                className="md:w-[40%] cursor-pointer w-full py-1 font-bold  border-2 text-xl text-[#F2EDE3] h-14 rounded bg-[#C92138]"
+                className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black"
                 type="submit"
                 value="Create Account"
               />

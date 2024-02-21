@@ -59,13 +59,11 @@ export default function Account() {
             dispatch(login({ userData: data }));
             localStorage.setItem("userData", JSON.stringify(data));
             dispatch(updateStatus({ error: false, text: "Profile Updated" }));
-           
           }
         }
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.message }));
-     
     }
   };
 
@@ -77,7 +75,7 @@ export default function Account() {
 
   if (data) {
     return (
-      <AdminContainer className="rounded-lg bg-white">
+      <AdminContainer className="rounded-lg bg-black">
         {/* form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -120,7 +118,7 @@ export default function Account() {
 
           {/* user name */}
           <input
-            className="text-center border-2 border-[#C92138] bg-zinc-100 text-black outline-none text-xl py-2 font-bold"
+            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold"
             type="text"
             name="username"
             id="username"
@@ -130,7 +128,7 @@ export default function Account() {
 
           {/* email */}
           <input
-            className="border-2 border-[#C92138] bg-zinc-100 text-center text-black outline-none text-xl py-2 font-bold"
+            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold"
             type="email"
             name="email"
             id="email"
@@ -140,7 +138,7 @@ export default function Account() {
 
           {/* full name */}
           <input
-            className="border-2 border-[#C92138] bg-zinc-100 text-center text-black outline-none text-xl py-2 font-bold"
+            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold"
             type="text"
             name="fullname"
             id="fullname"
@@ -149,7 +147,7 @@ export default function Account() {
           />
 
           <input
-            className="text-center cursor-pointer px-2 bg-[#C92138] py-2 rounded-lg text-xl font-bold text-white"
+            className="text-center cursor-pointer px-2 bg-[#28BDD1] py-2 rounded-lg text-xl font-bold text-white"
             type="submit"
             value="Update Details"
           />

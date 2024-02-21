@@ -5,7 +5,7 @@ import { resetLinks } from "../../store/linksSlice";
 import { useNavigate } from "react-router";
 
 
-export default function Logout() {
+export default function Logout({children}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
@@ -29,7 +29,7 @@ export default function Logout() {
       dispatch(updateStatus({ error: true, text: error.message }));
     }
   };
-  return <button onClick={logoutHandler}>Logout</button>;
+  return <button onClick={logoutHandler}>{children ? children : 'Logout'}</button>;
 }
 
 

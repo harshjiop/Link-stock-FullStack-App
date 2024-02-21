@@ -51,21 +51,21 @@ export default function Design() {
   return (
     <>
       {themesList.length > 0 ? (
-        <AdminContainer className="rounded-lg bg-white flex flex-col justify-between">
+        <AdminContainer className="rounded-lg bg-black flex flex-col justify-between">
           <div className="w-full h-[20%] flex flex-col gap-2 justify-center items-center">
-            <h1 className="text-[#C92138] text-3xl font-bold"> Themes</h1>
+            <h1 className="text-white text-3xl font-bold"> Themes</h1>
 
             <button
               disabled={!isThemeSelected}
               onClick={handleUpdateTheme}
-              className="bg-[#C92138] px-6 py-2 rounded-xl text-lg text-white font-bold disabled:bg-[#a34955]"
+              className="bg-[#28BDD1] px-6 py-2 rounded-xl text-lg text-white font-bold disabled:bg-[#4e9faa]"
             >
               Save Changes
             </button>
           </div>
 
           {/* theme preview wrapper */}
-          <div className="h-[80%] w-full bg-slate-500 flex flex-wrap justify-center gap-10 py-4">
+          <div className="h-[80%] w-full  flex flex-wrap justify-center gap-10 py-4 border overflow-y-auto no-scrollbar">
             {themesList.map((theme, index) => (
               <ThemePreview
                 key={index}
