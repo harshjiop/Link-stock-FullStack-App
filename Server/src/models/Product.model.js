@@ -36,6 +36,14 @@ const ProductSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Product_category",
     },
+    Product_status: {
+      type: Boolean,
+      default: true
+    },
+    Product_Retailer: {
+      type: String,
+
+    }
   },
   {
     timestamps: true,
