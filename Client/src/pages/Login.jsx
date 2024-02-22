@@ -35,33 +35,43 @@ export default function Login() {
   }
 
   return (
-    <div className="h-screen w-full bg-[#F2EDE3]">
+    <div
+      className="h-screen w-full bg-[#171C2F] relative overflow-y-hidden"
+      style={{ fontFamily: "Orbitron,sans-serif" }}
+    >
       {/* error wrapper */}
-
       <ErrorTemplate />
+
+      {/* bg vectors */}
+      <div>
+        <div
+          className="h-[273px]  w-[517px] absolute top-[0%]  left-[10%]  bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2016_KKAa-hjOk.png?updatedAt=1708003922448)",
+          }}
+        ></div>
+
+        <div
+          className="h-[273px] hidden md:inline-block  w-[517px] absolute bottom-[0%]  left-[0%]  bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2018_8KWnkjGIs.png?updatedAt=1708003922522)",
+          }}
+        ></div>
+      </div>
 
       {/* content */}
       <div className="w-full h-full flex justify-between ">
         {/* left section */}
-        <div className="md:w-[40%] w-0 md:inline-block hidden  border-r-4 border-[#C92138] bg-center bg-no-repeat bg-cover h-full relative">
-          <div className="absolute top-0 left-0 w-full h-full bg-slate-900/20 flex justify-center items-center">
-            <h2 className="rotate-[-90deg] text-7xl font-bold text-[#F2EDE3]">
-              LOGIN
-            </h2>
-          </div>
-          <video
-            className="w-full object-cover  h-full"
-            src="https://ik.imagekit.io/8fgpvoiai/Link%20Stock/pexels-pachon-in-motion-15283218%20(Original)%20(online-video-cutter.com)_l_sXOcPt1R.mp4?updatedAt=1705951634647"
-            autoPlay
-            loop
-            muted
-          ></video>
+        <div className="lg:w-[50%] w-0 lg:flex justify-center items-center hidden  bg-center bg-no-repeat bg-cover h-full relative">
+          <div className="w-[80%] h-[80%] bg-[url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Computer%20login-amico_Iill5Scxt.png?updatedAt=1708518046998)] bg-center bg-cover bg-no-repeat"></div>
         </div>
 
         {/* right section */}
-        <div className="h-full md:w-[60%] w-full gap-20  flex flex-col justify-center items-center">
+        <div className="h-full lg:w-[60%] w-full gap-20  flex flex-col justify-center items-center bg-[#28BDD1] lg:rounded-l-2xl">
           {/* upper heading */}
-          <h1 className="text-7xl font-bold text-[#C92138]">LOGIN</h1>
+          <h1 className="text-7xl font-light text-white">LOGIN</h1>
 
           {/* form container */}
           <div className="w-full">
@@ -72,7 +82,7 @@ export default function Login() {
               {/* username */}
               <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
+                  className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
                   type="text"
                   name="userName"
                   id="userName"
@@ -84,7 +94,7 @@ export default function Login() {
               {/* password */}
               <div className="md:w-[40%] w-full flex flex-col">
                 <input
-                  className="text-xl text-black font-semibold border-2 outline-none px-2 h-14 bg-zinc-100 rounded  border-[#C92138]"
+                  className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
                   type="password"
                   name="password"
                   id="password"
@@ -94,29 +104,28 @@ export default function Login() {
               </div>
 
               {/* remembered section */}
-              <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end ">
+              <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end text-xs">
                 <h2>Forgot Password ? </h2>{" "}
-                <h2 className="text-[#C92138] font-bold">
-                  <Link to={"/"}> Reset Password</Link>
+                <h2 className="text-white font-bold">
+                  <Link to={"/"}> Reset Now</Link>
                 </h2>
               </div>
 
               {/* remembered section */}
               <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end ">
-                <h2 className="text-[#C92138] font-bold">
+                <h2 className="text-white font-bold">
                   <Link to={"/signup"}> Register Now</Link>
                 </h2>
               </div>
 
               <input
-                className="md:w-[40%] w-full cursor-pointer rounded py-1 font-bold  border-2 text-xl text-[#F2EDE3] h-14 bg-[#C92138]"
+                className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black"
                 type="submit"
                 value="Login"
               />
             </form>
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -65,11 +65,11 @@ export default function Home() {
       <ErrorTemplate />
 
       {/* navbar wrapper*/}
-      <div className="w-full  md:h-14 h-16 md:border-none border-2 border-[#C92138] rounded-md md:rounded-none  fixed md:top-0 bottom-1 backdrop-blur-xl    left-0 z-[100]">
+      <div className="w-full  md:h-14 h-16 md:border-none border-2 border-[#28BDD1] rounded-md md:rounded-none  fixed md:top-0 bottom-1 backdrop-blur-xl    left-0 z-[100]">
         {/* navbar content */}
         <div className="md:w-[90%] w-full  h-full mx-auto flex justify-between items-center">
           {/* logo container */}
-          <div className="border md:flex hidden border-red-500 font-bold text-center  justify-center items-center w-20 h-full text-red-500">
+          <div className="border md:flex hidden border-[#28BDD1] font-bold text-center  justify-center items-center w-20 h-full text-red-500">
             Logo
           </div>
 
@@ -222,16 +222,43 @@ export default function Home() {
 
       {/* feature wrapper */}
       <div className="md:h-screen h-full py-[43rem] md:py-[0rem]  xl:py-0  w-full relative ">
+        {/* bg-vectors */}
+        <div className="relative top-0 left-0 w-full h-full ">
+          <div
+            className="h-[273px] w-[517px] absolute top-[10%] right-0  bg-center bg-cover bg-no-repeat"
+            style={{
+              backgroundImage:
+                "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2017__szVDEAmM.png?updatedAt=1708003922609)",
+            }}
+          ></div>
+
+          <div
+            className="h-[273px] w-[517px] absolute top-[10%] left-0  bg-center bg-cover bg-no-repeat"
+            style={{
+              backgroundImage:
+                "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2018_8KWnkjGIs.png?updatedAt=1708003922522)",
+            }}
+          ></div>
+
+          <div
+            className="h-[273px] w-[517px] absolute bottom-[0%] left-[40%]  bg-center bg-cover bg-no-repeat"
+            style={{
+              backgroundImage:
+                "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2016_KKAa-hjOk.png?updatedAt=1708003922448)",
+            }}
+          ></div>
+        </div>
+
         {/* feature container */}
         <div className="md:w-[80%] w-full absolute md:top-[16%] top-[0%] md:left-[10%] left-0 flex flex-col gap-5">
           {/* upper heading container*/}
           <div className="flex flex-col w-full items-center md:gap-2 gap-0">
             {/* heading */}
-            <h1 className="text-2xl font-extralight text-[#C92138]">
+            <h1 className="text-2xl font-extralight text-[#28BDD1]">
               Features
             </h1>
             {/* subheading */}
-            <h2 className="md:text-4xl text-2xl font-extrabold">
+            <h2 className="md:text-4xl text-2xl font-extrabold text-[#BEC2D3]">
               Here is What you get
             </h2>
           </div>
@@ -239,57 +266,61 @@ export default function Home() {
           {/* lower content container */}
           <div className="md:w-full w-[80%] mx-auto md:mx-0   justify-center  flex flex-wrap gap-4 ">
             {/* feature container 1 */}
-            <div className="flex flex-col bg-white md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
-              <MdOutlineHub className="text-4xl text-[#C92138]" />
-              <h2 className="text-xl font-bold">Link Hub</h2>
-              <h4 className="text-semibold">
+            <div className="flex flex-col border border-[#BEC2D3] md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
+              <MdOutlineHub className="text-4xl text-white" />
+              <h2 className="text-xl font-bold text-[#28BDD1]">Link Hub</h2>
+              <h4 className="text-semibold text-[#BEC2D3] tracking-wide">
                 Unified, dynamic bio links for a seamless online hub."Logo
                 Design: Interconnected links forming a cohesive hub
               </h4>
             </div>
 
             {/* feature container 2 */}
-            <div className="flex flex-col bg-white md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
-              <MdOutlineDesignServices className="text-4xl text-[#C92138]" />
-              <h2 className="text-xl font-bold">Design Ease</h2>
-              <h4 className="text-semibold">
+            <div className="flex flex-col border border-[#BEC2D3] md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
+              <MdOutlineDesignServices className="text-4xl text-white" />
+              <h2 className="text-xl font-bold text-[#28BDD1]">Design Ease</h2>
+              <h4 className="text-semibold text-[#BEC2D3] tracking-wide">
                 Effortless design integration with Figma for stunning bio links.
               </h4>
             </div>
 
             {/* feature container 3 */}
-            <div className="flex flex-col bg-white md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
-              <BsPuzzle className="text-4xl text-[#C92138]" />
-              <h2 className="text-xl font-bold">Collab Boost</h2>
-              <h4 className="text-semibold">
+            <div className="flex flex-col border border-[#BEC2D3] md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
+              <BsPuzzle className="text-4xl text-white" />
+              <h2 className="text-xl font-bold text-[#28BDD1]">Collab Boost</h2>
+              <h4 className="text-semibold text-[#BEC2D3] tracking-wide">
                 Amplify reach through collaborative bio links with Link Stock
               </h4>
             </div>
 
             {/* feature container 4 */}
-            <div className="flex flex-col bg-white md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
-              <SlGraph className="text-4xl text-[#C92138]" />
-              <h2 className="text-xl font-bold">Smart Analytics</h2>
-              <h4 className="text-semibold">
+            <div className="flex flex-col border border-[#BEC2D3] md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
+              <SlGraph className="text-4xl text-white" />
+              <h2 className="text-xl font-bold text-[#28BDD1]">
+                Smart Analytics
+              </h2>
+              <h4 className="text-semibold text-[#BEC2D3] tracking-wide">
                 Instant insights with Link Stock's intelligent link analytics
                 dashboard
               </h4>
             </div>
 
             {/* feature container 5 */}
-            <div className="flex flex-col bg-white md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
-              <RiShareLine className="text-4xl text-[#C92138]" />
-              <h2 className="text-xl font-bold">Instant Share</h2>
-              <h4 className="text-semibold">
+            <div className="flex flex-col border border-[#BEC2D3] md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
+              <RiShareLine className="text-4xl text-white" />
+              <h2 className="text-xl font-bold text-[#28BDD1]">
+                Instant Share
+              </h2>
+              <h4 className="text-semibold text-[#BEC2D3] tracking-wide">
                 Seamless sharing across platforms for instant online visibility
               </h4>
             </div>
 
             {/* feature container 6 */}
-            <div className="flex flex-col bg-white md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
-              <AiOutlineMobile className="text-4xl text-[#C92138]" />
-              <h2 className="text-xl font-bold">Mobile Hub</h2>
-              <h4 className="text-semibold">
+            <div className="flex flex-col border border-[#BEC2D3] md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
+              <AiOutlineMobile className="text-4xl text-white" />
+              <h2 className="text-xl font-bold text-[#28BDD1]">Mobile Hub</h2>
+              <h4 className="text-semibold text-[#BEC2D3] tracking-wide">
                 Optimized, mobile-friendly bio links for on-the-go
                 accessibility.
               </h4>
@@ -300,18 +331,45 @@ export default function Home() {
 
       {/* platform wrapper */}
       <div className="h-screen w-full relative flex justify-center items-center">
+        {/* bg-vectors */}
+        <div className="relative top-0 left-0 w-full h-full ">
+          <div
+            className="h-[273px] w-[517px] absolute top-[10%] right-0  bg-center bg-cover bg-no-repeat"
+            style={{
+              backgroundImage:
+                "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2017__szVDEAmM.png?updatedAt=1708003922609)",
+            }}
+          ></div>
+
+          <div
+            className="h-[273px] w-[517px] absolute top-[10%] left-0  bg-center bg-cover bg-no-repeat"
+            style={{
+              backgroundImage:
+                "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2018_8KWnkjGIs.png?updatedAt=1708003922522)",
+            }}
+          ></div>
+
+          <div
+            className="h-[273px] w-[517px] absolute bottom-[0%] left-[40%]  bg-center bg-cover bg-no-repeat"
+            style={{
+              backgroundImage:
+                "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2016_KKAa-hjOk.png?updatedAt=1708003922448)",
+            }}
+          ></div>
+        </div>
+
         {/* platform container */}
         <div className="h-full md:w-[80%] mx-auto  items-center  w-full absolute md:top-[16%] top-[0%]   flex flex-col gap-5 ">
-          <h3 className="text-2xl text-[#C92138] text-center">
+          <h3 className="text-2xl text-[#28BDD1] text-center">
             Link Stock works on any social media platform
           </h3>
 
           {/* platform strip wrapper */}
-          <div className="border rounded-lg border-red-600 w-full h-[65%] z-10"></div>
+          <div className="border rounded-lg border-[#BEC2D3] w-full h-[65%] z-10"></div>
 
           {/* below link */}
           <Link
-            className="bg-[#C92138] rounded-full py-4 px-6 md:w-[20%] w-full text-center text-xl font-bold text-white"
+            className="bg-[#28BDD1] rounded-full py-4 px-6 md:w-[20%] w-full text-center text-xl font-bold text-white"
             to={"/admin/links"}
           >
             Create Now

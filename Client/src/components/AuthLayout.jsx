@@ -27,7 +27,7 @@ export default function AuthLayout({ children, authentication = true }) {
   useEffect(() => {
     if (authentication && authStatus !== authentication) {
       navigate("/login");
-    } else if (!authentication && authStatus !== authentication) {
+    }else if (!authentication && authStatus !== authentication) {
       navigate("/admin/links");
     }
     setLoader(false);

@@ -105,34 +105,40 @@ export default function Links() {
     <AdminContainer className="gap-1 justify-start relative">
       {/* add buttons */}
 
-      <div className="h-[10%] mx-auto w-full flex justify-between items-center text-white text-lg  font-bold">
+      <div className="h-[10%] mx-auto w-full flex justify-between items-center text-black text-lg  font-bold">
         <button
           onClick={handleAddHeader}
-          className="text w-[30%] bg-[#C92138] py-2 rounded-xl"
+          className="text w-[30%] bg-[#28BDD1] py-2 rounded-xl"
         >
-          Add Heading
+          Add Link
         </button>
 
-        <Link to={`../../store/@${userName}`} className="text w-[30%] bg-[#C92138] py-2 rounded-xl text-center">Store</Link>
+        <Link
+          to={`../../store/@${userName}`}
+          className="text w-[30%] bg-[#28BDD1] py-2 rounded-xl text-center"
+        >
+          Store
+        </Link>
 
         <button
           onClick={handleShare}
-          className="text w-[30%] bg-[#C92138] py-2 rounded-xl shareButton"
+          className="text w-[30%] bg-[#28BDD1] py-2 rounded-xl shareButton"
         >
           Share
         </button>
       </div>
 
       {/* links container */}
-      <div className="flex h-[90%]  flex-col gap-6 w-full overflow-y-auto no-scrollbar relative">
+      <div className="flex h-[90%]  flex-col gap-6 w-full overflow-y-auto no-scrollbar ">
         {linksArray.length > 0 ? (
           linksArray.map((data, index) => {
             return (
               <div
-                key={index}
-                className="flex justify-between gap-8 bg-white px-5 py-2 rounded-md"
+                key={data._id}
+                className="flex  gap-8 bg-black px-5 py-2 rounded-md w-full text-white shadow-"
+                style={{ boxShadow: "2px 5px #28BDD1" }}
               >
-                <div className="flex justify-between gap-8 ">
+                <div className="flex justify-start gap-4 w-[90%] ">
                   {/* icons */}
                   {data ? (
                     <>
@@ -149,11 +155,11 @@ export default function Links() {
                   )}
 
                   {/* content */}
-                  <div>
+                  <div className=" flex flex-col w-[80%]">
                     {/* heading */}
                     <h1 className="text-xl font-semibold">{data.title}</h1>
                     <Link
-                      className="font-semibold underline"
+                      className="font-semibold underline overflow-x-auto no-scrollbar w-full"
                       to={
                         data.url.startsWith("http")
                           ? data.url
@@ -165,7 +171,7 @@ export default function Links() {
                   </div>
                 </div>
 
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center w-[10%] ">
                   <button
                     className="text-2xl text-[#C92138]"
                     onClick={(e) => handleLinkDelete(data._id)}
@@ -183,7 +189,7 @@ export default function Links() {
         )}
       </div>
 
-      <div className="w-0 h-0 opacity-0 transition-all duration-500 ease-linear addFormContainer    absolute  rounded-xl top-[10%] left-0 bg-white">
+      <div className="w-0 h-0 opacity-0 transition-all duration-500 ease-linear addFormContainer    absolute  rounded-xl top-[10%] left-0 bg-black text-white">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="px-4 py-4 flex flex-col gap-4"
@@ -194,7 +200,7 @@ export default function Links() {
               Header
             </label>
             <input
-              className="border-[#C92138] text-xl font-semibold outline-none bg-zinc-100 border-2 h-10"
+              className=" rounded text-black text-xl font-semibold outline-none bg-zinc-100 border-2 h-10"
               type="text"
               name="title"
               id="title"
@@ -208,7 +214,7 @@ export default function Links() {
               Enter URL
             </label>
             <input
-              className="border-[#C92138] text-xl font-semibold outline-none bg-zinc-100 border-2 h-10"
+              className="text-black text-xl rounded font-semibold outline-none bg-zinc-100 border-2 h-10"
               type="text"
               name="url"
               id="url"
@@ -217,7 +223,7 @@ export default function Links() {
           </div>
 
           <input
-            className="py-2 cursor-pointer text-xl text-white font-bold px-4 bg-[#C92138] rounded"
+            className="py-2 cursor-pointer text-xl text-white font-bold px-4 bg-[#28BDD1] rounded"
             type="submit"
             value="Add Link"
           />

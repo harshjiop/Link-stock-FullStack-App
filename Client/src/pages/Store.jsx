@@ -62,14 +62,40 @@ export default function Store() {
     );
   }
 
-  console.log("storeOwner", storeOwner);
   return (
     <div
       className="h-screen overflow-y-auto no-scrollbar bg-[#171C2F] text-white py-4 w-full relative flex flex-col justify-center items-center"
       style={{ fontFamily: "Orbitron,sans-serif" }}
     >
+      {/* bg-vectors */}
+      <div className="top-0 left-0 w-full h-full  fixed">
+        <div
+          className="h-[273px] w-[517px] absolute top-[10%] right-0  bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2017__szVDEAmM.png?updatedAt=1708003922609)",
+          }}
+        ></div>
+
+        <div
+          className="h-[273px] w-[517px] absolute top-[10%] left-0  bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2018_8KWnkjGIs.png?updatedAt=1708003922522)",
+          }}
+        ></div>
+
+        <div
+          className="h-[273px] w-[517px] absolute bottom-[0%] left-[40%]  bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2016_KKAa-hjOk.png?updatedAt=1708003922448)",
+          }}
+        ></div>
+      </div>
+
       {/* container */}
-      <div className="w-[80%] h-full flex flex-col gap-10">
+      <div className="md:w-[80%] w-full px-2 md:px-0 h-full flex flex-col gap-10 absolute top-5 mx-auto">
         {/*  breadcrumbs section */}
         <div className="flex gap-2 justify-start items-center font-bold selection:bg-transparent">
           <Link className="cursor-pointer" to={"../"}>
@@ -80,9 +106,9 @@ export default function Store() {
         </div>
 
         {/* upper / profile  section*/}
-        <div className="flex justify-between items-center">
+        <div className="flex md:flex-row flex-col justify-between items-center gap-5 md:gap-0">
           {/* left section / profile section */}
-          <div className="flex items-center gap-12">
+          <div className="flex md:flex-row flex-col items-center gap-12">
             <img
               className="w-[200px] h-[200px] rounded-full border-4 border-[#28BDD1]"
               src={`${storeOwner.avatar.url}`}
@@ -116,9 +142,8 @@ export default function Store() {
         <div className="flex flex-col items-center gap-5 pb-4">
           <h1 className="text-3xl font-bold">Products</h1>
           {/* products container */}
-          <div className="flex gap-10 flex-wrap justify-center items-center ">
+          <div className="flex gap-10 flex-wrap justify-center items-center w-screen ">
             {storeOwner.UserProduct.map((product) => {
-              console.log("product deteles", product);
               // console.log(
               //   "product img",
               //   product.Product_Img[0].Product_img_Cloudnary_Path
@@ -145,7 +170,7 @@ export default function Store() {
                     </div>
                   </div> */}
 
-                  <div className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+                  <div className="relative  md:m-10 m-0  flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
                     <Link
                       className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
                       to="/"
@@ -179,7 +204,7 @@ export default function Store() {
                         </h5>
                       </Link>
                       <div className="mt-2 mb-5 flex items-center justify-between">
-                        <p>
+                        <p className="">
                           <span className="text-3xl font-bold text-slate-900">
                             {/* $449 */}₹ {product.Product_Discount_Price}
                           </span>

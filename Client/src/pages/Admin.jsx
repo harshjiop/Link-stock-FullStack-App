@@ -15,6 +15,11 @@ import {
   MdOutlineCancel,
   MdDelete,
   FaSquareReddit,
+  PiLinkSimpleBold,
+  MdOutlineDesignServices,
+  RiAccountCircleLine,
+  MdOutlineHome,
+  MdLogout  
 } from "../icons";
 import theme from "../services/theme";
 import { setThemes } from "../store/themeSlice";
@@ -134,11 +139,38 @@ export default function Admin() {
 
   return (
     <div
-      className="h-screen w-full flex justify-center items-center bg-[#F2EDE3] relative"
-      style={{ fontFamily: "Poppins,sans-serif" }}
+      className="h-screen w-full flex justify-center items-center bg-[#171C2F] relative overflow-y-hidden overflow-x-hidden"
+      style={{ fontFamily: "Orbitron,sans-serif" }}
     >
       {/* error wrapper */}
       <ErrorTemplate />
+
+      {/* bg vectors */}
+      <div className="">
+        <div
+          className="h-[273px] w-[517px] absolute top-[10%] right-0  bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2017__szVDEAmM.png?updatedAt=1708003922609)",
+          }}
+        ></div>
+
+        <div
+          className="h-[273px] w-[517px] absolute top-[10%] left-0  bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2018_8KWnkjGIs.png?updatedAt=1708003922522)",
+          }}
+        ></div>
+
+        <div
+          className="h-[273px] w-[517px] absolute bottom-[0%] left-[40%]  bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2016_KKAa-hjOk.png?updatedAt=1708003922448)",
+          }}
+        ></div>
+      </div>
 
       {/* admin container */}
       <div className="md:w-[90%] w-full h-[90%] mx-auto flex justify-between">
@@ -196,7 +228,7 @@ export default function Admin() {
 
                 {/* lower section */}
                 <div
-                  className="lowerSection "
+                  className="lowerSection overflow-y-auto no-scrollbar h-[80%]"
                   // style={userTheme.mainStyles.lowerSection}
                   style={
                     selectedTheme
@@ -273,8 +305,8 @@ export default function Admin() {
         {/* right section */}
         <div className="lg:w-[60%] w-full flex flex-col gap-10">
           {/* navbar */}
-          <div className="border lg:w-[80%] w-full mx-auto bg-[#C92138] rounded-3xl  text-white lg:px-10 px-5 py-4">
-            <ul className="flex justify-between lg:text-xl text-xs font-bold">
+          <div className=" lg:w-[80%] w-full mx-auto bg-black rounded-3xl  text-white lg:px-10 px-5 h-12">
+            <ul className="flex justify-between h-full lg:text-base text-xs font-bold">
               <li
                 onClick={handleMobile}
                 className=" lg:hidden flex justify-center items-center"
@@ -282,46 +314,61 @@ export default function Admin() {
                 <AiOutlineMobile className="md:text-3xl text-xl" />
               </li>
 
-              <li className="flex justify-center items-center">
+              <li className="flex justify-center items-center  h-full w-[16%]">
                 <NavLink
                   to={"/admin/links"}
                   className={({ isActive }) =>
-                    isActive ? "bg-red-300 px-2 rounded-xl " : "px-2"
+                    isActive
+                      ? "bg-[#28BDD1] w-full px-2 flex justify-center items-center rounded-3xl h-full  text-black"
+                      : "px-2"
                   }
                 >
-                  Links
+                  
+                  <h1 className="md:inline-block hidden">Links</h1><PiLinkSimpleBold className="md:hidden text-lg"/>
                 </NavLink>
               </li>
-              <li className="flex justify-center items-center">
+
+              <li className="flex justify-center items-center  h-full w-[16%]">
                 <NavLink
                   className={({ isActive }) =>
-                    isActive ? "bg-red-300 px-2 rounded-xl " : "px-2"
+                    isActive
+                      ? "bg-[#28BDD1] w-full px-2 flex justify-center items-center rounded-3xl h-full  text-black"
+                      : "px-2"
                   }
                   to={"/admin/design"}
                 >
-                  Design
+                  
+                  <h1 className="md:inline-block hidden">Design</h1><MdOutlineDesignServices className="md:hidden text-lg"/>
                 </NavLink>
               </li>
 
-              <li className="flex justify-center items-center">
+              <li className="flex justify-center items-center  h-full w-[16%]">
                 <NavLink
                   className={({ isActive }) =>
-                    isActive ? "bg-red-300 px-2 rounded-xl " : "px-2"
+                    isActive
+                      ? "bg-[#28BDD1] w-full px-2 flex justify-center items-center rounded-3xl h-full  text-black"
+                      : "px-2"
                   }
                   to={"/admin/account"}
                 >
-                  My Account
+                  
+                  <h1 className="md:inline-block hidden">Account</h1><RiAccountCircleLine className="md:hidden text-lg"/>
                 </NavLink>
               </li>
 
-              <li className="flex justify-center items-center  px-2  bg-zinc-800 rounded-xl">
-                <NavLink to={"/"}>Home</NavLink>
+              <li className="flex justify-center rounded-3xl bg-[#28BDD1] text-black items-center  h-full w-[16%]">
+                <NavLink to={"/"}>
+                  
+                  <h1 className="md:inline-block hidden">Home</h1><MdOutlineHome className="md:hidden text-lg"/>
+                  </NavLink>
               </li>
-              <li className="flex justify-center items-center  px-2  bg-zinc-800 rounded-xl">
+              <li className="flex justify-center rounded-3xl bg-[#28BDD1] text-black items-center  h-full w-[16%]">
                 <NavLink className={"hidden"} to={"/admin/settings"}>
                   Settings
                 </NavLink>
-                <Logout>Logout </Logout>
+                <Logout>
+                  <h1 className="md:inline-block hidden">Logout</h1><MdLogout className="md:hidden text-lg"/>
+                </Logout>
               </li>
             </ul>
           </div>

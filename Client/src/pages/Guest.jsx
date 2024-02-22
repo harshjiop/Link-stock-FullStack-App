@@ -17,7 +17,7 @@ export default function Guest() {
 
   useEffect(() => {
     if (userName) {
-      ;(async () => {
+      (async () => {
         try {
           const response = await links.getGuestLinks(userName);
           if (response) {
@@ -40,7 +40,7 @@ export default function Guest() {
   if (userData && userLinks && userTheme) {
     return (
       <div className="wrapper" style={userTheme.mainStyles.wrapper}>
-        <ErrorTemplate/>
+        <ErrorTemplate />
 
         <div
           className="innerContainer"
@@ -72,7 +72,7 @@ export default function Guest() {
 
           {/* lower section */}
           <div
-            className="lowerSection "
+            className="lowerSection overflow-y-auto no-scrollbar"
             style={userTheme.mainStyles.lowerSection}
           >
             {userLinks.length > 0 ? (
