@@ -78,6 +78,7 @@ export default function AddProduct() {
         ) {
           throw new Error("All Fields Except Product_Retailer Are Required");
         }
+        console.log(data);
         const respsonse = await product.addProduct(token, data);
         if (respsonse) {
           toast.success("Product Added");
@@ -87,6 +88,7 @@ export default function AddProduct() {
           setValue("Product_Discount_Price");
           setValue("Product_img");
           setValue("Product_Retailer");
+          setValue("Product_Url");
           setOptionalFieldsVisibility(false);
           setAddAnother(false);
           setSelectedImage();
@@ -97,6 +99,7 @@ export default function AddProduct() {
           }
         }
       } catch (error) {
+        console.log("ada", error);
         toast.error(error.message ?? "Error To Add Product");
       }
     }
@@ -238,15 +241,17 @@ export default function AddProduct() {
                     {...register("Product_Name")}
                   />
 
-                  {/* product description */}
+                  {/* product url */}
                   <input
                     className="border-2 border-[#BEC2D3] rounded-lg bg-transparent px-4 h-10 w-full outline-none"
                     type="text"
-                    name="productDesc"
-                    id="productDesc"
-                    placeholder="Enter Product description"
-                    {...register("Product_Desc")}
+                    name="Product_Url"
+                    id="Product_Url"
+                    placeholder="Enter Product Url"
+                    {...register("Product_Url")}
                   />
+
+                 
 
                   {/* product price */}
                   <input
@@ -267,6 +272,18 @@ export default function AddProduct() {
                     placeholder="Enter Product Discounted Price"
                     {...register("Product_Discount_Price")}
                   />
+
+                   {/* product description */}
+                   <textarea
+                    className="border-2 border-[#BEC2D3] rounded-lg bg-transparent px-4  w-full outline-none"
+                    type="text"
+                    name="productDesc"
+                    id="productDesc"
+                    placeholder="Enter Product description"
+                    {...register("Product_Desc")}
+                    cols="30"
+                    rows="5"
+                  ></textarea>
 
                   {/* product status switch */}
                   <div className="flex items-center gap-2">
@@ -333,12 +350,24 @@ export default function AddProduct() {
                   setAddAnother(true);
                 }}
               >
-                Save & Add 
+                Save & Add
               </button>
 
               <button
+                type="reset"
                 className="bg-yellow-400 text-xs md:text-base  rounded-lg  text-center h-10 w-1/3 outline-none cursor-pointer"
-                onClick={handleSubmit}
+                onClick={() => {
+                  setValue("Product_Name");
+                  setValue("Product_Desc");
+                  setValue("Product_Price");
+                  setValue("Product_Discount_Price");
+                  setValue("Product_img");
+                  setValue("Product_Url");
+                  setValue("Product_Retailer");
+                  setOptionalFieldsVisibility(false);
+                  setAddAnother(true);
+                  setSelectedImage();
+                }}
               >
                 Cancel
               </button>
