@@ -6,6 +6,8 @@ import {
   ACCESS_TOKEN_SECRET,
   REFRESH_TOKEN_EXPIRY,
   REFRESH_TOKEN_SECRET,
+  RESET_EXPIRY_TOKEN,
+  RESET_SECRET_TOKEN,
 } from "../constants.js";
 
 const userSchema = new Schema(
@@ -48,7 +50,7 @@ const userSchema = new Schema(
     theme: {
       type: Schema.Types.ObjectId,
       ref: "Theme",
-      default: "65bb8dfa6bb3cda7acc662f8",
+      default: "65d7509a76325fad6a78c49f",
     },
 
     password: {
@@ -95,6 +97,17 @@ userSchema.methods.generateRefreshToken = async function () {
     REFRESH_TOKEN_SECRET,
     {
       expiresIn: REFRESH_TOKEN_EXPIRY,
+    }
+  );
+};
+userSchema.methods.GENERATE_RESET_PASSWORD_TOKEN = async function () {
+  return await jwt.sign(
+    {
+      email: this.email,
+    },
+    RESET_SECRET_TOKEN,
+    {
+      expiresIn: RESET_EXPIRY_TOKEN,
     }
   );
 };
