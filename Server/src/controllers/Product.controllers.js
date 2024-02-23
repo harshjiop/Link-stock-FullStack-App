@@ -52,15 +52,17 @@ const GetAllProduct = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, Get_All_Product[0], "All Link Geting sucessful"));
 });
 const AddProduct = asyncHandler(async (req, res) => {
-  const { Product_Name, Product_Desc, Product_Price, Product_Discount_Price, Product_status, Product_Retailer } =
+  const { Product_Name, Product_Desc, Product_Price, Product_Discount_Price, Product_status, Product_Retailer, Product_Url } =
     req.body;
   const Product_img_files = req.files;
 
+  console.log('data at cont',{ Product_Name, Product_Desc, Product_Price, Product_Discount_Price, Product_status, Product_Retailer, Product_Url })
   if (
     !Product_Name ||
     !Product_Desc ||
     !Product_Price ||
-    !Product_Discount_Price
+    !Product_Discount_Price ||
+    !Product_Url
   ) {
     throw new ApiError(400, "All fields are required");
   }
@@ -91,6 +93,7 @@ const AddProduct = asyncHandler(async (req, res) => {
     Product_Desc,
     Product_Img: Product_Photo,
     Product_Price,
+    Product_Url,
     Product_Discount_Price,
     Product_status: Product_status ?? true,
     Product_Retailer: Product_Retailer ?? ''

@@ -19,7 +19,7 @@ import {
   MdOutlineDesignServices,
   RiAccountCircleLine,
   MdOutlineHome,
-  MdLogout  
+  MdLogout,
 } from "../icons";
 import theme from "../services/theme";
 import { setThemes } from "../store/themeSlice";
@@ -212,7 +212,7 @@ export default function Admin() {
 
                   {/* content section */}
                   <div
-                    className="contentSection"
+                    className="contentSection "
                     // style={userTheme.mainStyles.contentSection}
                     style={
                       selectedTheme
@@ -220,9 +220,9 @@ export default function Admin() {
                         : userTheme.mainStyles.contentSection
                     }
                   >
-                    <h2>{userData?.username}</h2>
-                    <h1>{userData?.fullName}</h1>
-                    <h2>{userData?.email}</h2>
+                    <h2 className="text-xs">{userData?.username}</h2>
+                    <h1 className="text-xs">{userData?.fullName}</h1>
+                    <h2 className="text-xs">{userData?.email}</h2>
                   </div>
                 </div>
 
@@ -288,7 +288,9 @@ export default function Admin() {
                 </div>
               </div>
             ) : (
-              <h1>Loaading....</h1>
+              <div className="border-4 rounded-3xl h-[550px] w-[360px]">
+                Loaading....
+              </div>
             )}
 
             <div></div>
@@ -323,8 +325,8 @@ export default function Admin() {
                       : "px-2"
                   }
                 >
-                  
-                  <h1 className="md:inline-block hidden">Links</h1><PiLinkSimpleBold className="md:hidden text-lg"/>
+                  <h1 className="md:inline-block hidden">Links</h1>
+                  <PiLinkSimpleBold className="md:hidden text-lg" />
                 </NavLink>
               </li>
 
@@ -337,8 +339,8 @@ export default function Admin() {
                   }
                   to={"/admin/design"}
                 >
-                  
-                  <h1 className="md:inline-block hidden">Design</h1><MdOutlineDesignServices className="md:hidden text-lg"/>
+                  <h1 className="md:inline-block hidden">Design</h1>
+                  <MdOutlineDesignServices className="md:hidden text-lg" />
                 </NavLink>
               </li>
 
@@ -351,23 +353,24 @@ export default function Admin() {
                   }
                   to={"/admin/account"}
                 >
-                  
-                  <h1 className="md:inline-block hidden">Account</h1><RiAccountCircleLine className="md:hidden text-lg"/>
+                  <h1 className="md:inline-block hidden">Account</h1>
+                  <RiAccountCircleLine className="md:hidden text-lg" />
                 </NavLink>
               </li>
 
               <li className="flex justify-center rounded-3xl bg-[#28BDD1] text-black items-center  h-full w-[16%]">
                 <NavLink to={"/"}>
-                  
-                  <h1 className="md:inline-block hidden">Home</h1><MdOutlineHome className="md:hidden text-lg"/>
-                  </NavLink>
+                  <h1 className="md:inline-block hidden">Home</h1>
+                  <MdOutlineHome className="md:hidden text-lg" />
+                </NavLink>
               </li>
               <li className="flex justify-center rounded-3xl bg-[#28BDD1] text-black items-center  h-full w-[16%]">
                 <NavLink className={"hidden"} to={"/admin/settings"}>
                   Settings
                 </NavLink>
                 <Logout>
-                  <h1 className="md:inline-block hidden">Logout</h1><MdLogout className="md:hidden text-lg"/>
+                  <h1 className="md:inline-block hidden">Logout</h1>
+                  <MdLogout className="md:hidden text-lg" />
                 </Logout>
               </li>
             </ul>

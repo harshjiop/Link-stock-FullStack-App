@@ -43,6 +43,10 @@ const ProductSchema = new Schema(
     Product_Retailer: {
       type: String,
 
+    },
+    Product_Url: {
+      type: String,
+      required: [true, 'Product Link is Required']
     }
   },
   {

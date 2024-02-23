@@ -39,9 +39,9 @@ export default function Signup() {
       <ErrorTemplate />
 
       {/* bg vectors*/}
-      <div>
+      <div className="z-0">
         <div
-          className="h-[273px] w-[517px] absolute top-[0%]  left-[10%]  bg-center bg-cover bg-no-repeat"
+          className="h-[273px] z-[-1] w-[517px] absolute top-[0%]  left-[10%]  bg-center bg-cover bg-no-repeat"
           style={{
             backgroundImage:
               "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2016_KKAa-hjOk.png?updatedAt=1708003922448)",
@@ -49,7 +49,7 @@ export default function Signup() {
         ></div>
 
         <div
-          className="h-[273px] w-[517px] absolute bottom-[0%]  left-[0%]  bg-center bg-cover bg-no-repeat"
+          className="h-[273px] z-[-1] w-[517px] absolute bottom-[0%]  left-[0%]  bg-center bg-cover bg-no-repeat"
           style={{
             backgroundImage:
               "url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Vector%2018_8KWnkjGIs.png?updatedAt=1708003922522)",
