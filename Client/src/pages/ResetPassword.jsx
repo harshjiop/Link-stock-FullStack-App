@@ -8,26 +8,22 @@ import { updateStatus, clearStatus } from "../store/errorSlice";
 import { Link } from "react-router-dom";
 import { MdOutlineCancel } from "../icons";
 import { ErrorTemplate } from "../components";
+import { toast } from "react-toastify";
+import { setVerifyEmail } from "../store/authSlice";
 
-export default function Login() {
+function ResetPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const authStatus = useSelector((state) => state.auth.status);
 
   const { handleSubmit, register } = useForm();
 
   async function onSubmit(data) {
     try {
-      const response = await authentication.login({ ...data });
+      const response = await authentication.sendResetPasswordMail(data.email);
       if (response) {
-        const userData = response.data;
-        if (userData) {
-          const localUserData = JSON.stringify(userData.user);
-          localStorage.setItem("userData", localUserData);
-          localStorage.setItem("token", userData.accessToken);
-          dispatch(login({ userData }));
-          navigate("/admin/links");
-        }
+        toast.success("Email Send");
+        dispatch(setVerifyEmail(data.email));
+        navigate("/resendEmail");
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.response.statusText }));
@@ -65,13 +61,15 @@ export default function Login() {
       <div className="w-full h-full flex justify-between ">
         {/* left section */}
         <div className="lg:w-[50%] w-0 lg:flex justify-center items-center hidden  bg-center bg-no-repeat bg-cover h-full relative">
-          <div className="w-[80%] h-[80%] bg-[url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Computer%20login-amico_Iill5Scxt.png?updatedAt=1708518046998)] bg-center bg-cover bg-no-repeat"></div>
+          <div className="w-[80%] h-[80%] bg-[url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Forgot%20password-pana_S6NS8o55q.png?updatedAt=1708763644919)] bg-center bg-cover bg-no-repeat"></div>
         </div>
 
         {/* right section */}
         <div className="h-full lg:w-[60%] w-full gap-20  flex flex-col justify-center items-center bg-[#28BDD1] lg:rounded-l-2xl">
           {/* upper heading */}
-          <h1 className="text-7xl font-light text-white">LOGIN</h1>
+          <h1 className="text-7xl font-light text-white text-center">
+            FORGOT PASSWORD ?
+          </h1>
 
           {/* form container */}
           <div className="w-full">
@@ -80,48 +78,28 @@ export default function Login() {
               className="w-full px-5 flex flex-col items-center gap-5"
             >
               {/* username */}
-              <div className="md:w-[40%] w-full flex flex-col">
+              <div className="md:w-[60%] w-full flex flex-col">
                 <input
                   className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
                   type="text"
                   name="userName"
                   id="userName"
-                  placeholder="Enter Username"
-                  {...register("userName", { required: true })}
-                />
-              </div>
-
-              {/* password */}
-              <div className="md:w-[40%] w-full flex flex-col">
-                <input
-                  className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Enter Password"
-                  {...register("password", { required: true })}
+                  placeholder="Registered Email"
+                  {...register("email", { required: true })}
                 />
               </div>
 
               {/* remembered section */}
               <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end text-xs">
-                <h2>Forgot Password ? </h2>{" "}
+                <h2>Remembered Password ? </h2>{" "}
                 <h2 className="text-white font-bold">
-                  <Link to={"/reset-password"}> Reset Now</Link>
+                  <Link to={"/login"}>Login</Link>
                 </h2>
               </div>
-
-              {/* remembered section */}
-              <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end ">
-                <h2 className="text-white font-bold">
-                  <Link to={"/signup"}> Register Now</Link>
-                </h2>
-              </div>
-
               <input
                 className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black"
                 type="submit"
-                value="Login"
+                value="Send Mail"
               />
             </form>
           </div>
@@ -130,3 +108,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default ResetPassword;

@@ -1,39 +1,64 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import authentication from "../services/authentication";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { login } from "../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { updateStatus, clearStatus } from "../store/errorSlice";
 import { Link } from "react-router-dom";
 import { MdOutlineCancel } from "../icons";
 import { ErrorTemplate } from "../components";
+import { useLocation } from "react-router-dom";
+import { resetVerifyEmail } from "../store/authSlice";
+import Loader from "./loader/Loader";
 
-export default function Login() {
+function VerifyPasswordReset() {
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const authStatus = useSelector((state) => state.auth.status);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const token = searchParams.get("token");
 
   const { handleSubmit, register } = useForm();
 
+  useEffect(() => {
+    if (token) {
+      setLoading(false);
+    } else {
+      navigate("/login");
+      setLoading(false);
+    }
+  }, [token]);
+
   async function onSubmit(data) {
     try {
-      const response = await authentication.login({ ...data });
-      if (response) {
-        const userData = response.data;
-        if (userData) {
-          const localUserData = JSON.stringify(userData.user);
-          localStorage.setItem("userData", localUserData);
-          localStorage.setItem("token", userData.accessToken);
-          dispatch(login({ userData }));
-          navigate("/admin/links");
+      if (data.password === data.re_password) {
+        const response = await authentication.verifyResetPassword(
+          token,
+          data.password
+        );
+        if (response) {
+          dispatch(updateStatus({ error: false, text: "Password Updated" }));
+          dispatch(resetVerifyEmail());
+          setInterval(() => {
+            navigate("/login");
+          }, 100);
         }
+      } else {
+        dispatch(updateStatus({ error: true, text: "Password Mismatched" }));
       }
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.response.statusText }));
     }
   }
 
+  if (loading) {
+    return <Loader />;
+  }
+  if (!loading && !token) {
+    return <Error />;
+  }
   return (
     <div
       className="h-screen w-full bg-[#171C2F] relative overflow-y-hidden"
@@ -65,13 +90,13 @@ export default function Login() {
       <div className="w-full h-full flex justify-between ">
         {/* left section */}
         <div className="lg:w-[50%] w-0 lg:flex justify-center items-center hidden  bg-center bg-no-repeat bg-cover h-full relative">
-          <div className="w-[80%] h-[80%] bg-[url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Computer%20login-amico_Iill5Scxt.png?updatedAt=1708518046998)] bg-center bg-cover bg-no-repeat"></div>
+          <div className="w-[80%] h-[80%] bg-[url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/Forgot%20password-pana_S6NS8o55q.png?updatedAt=1708763644919)] bg-center bg-cover bg-no-repeat"></div>
         </div>
 
         {/* right section */}
         <div className="h-full lg:w-[60%] w-full gap-20  flex flex-col justify-center items-center bg-[#28BDD1] lg:rounded-l-2xl">
           {/* upper heading */}
-          <h1 className="text-7xl font-light text-white">LOGIN</h1>
+          <h1 className="text-7xl font-light text-white">RESET PASSWORD</h1>
 
           {/* form container */}
           <div className="w-full">
@@ -83,11 +108,11 @@ export default function Login() {
               <div className="md:w-[40%] w-full flex flex-col">
                 <input
                   className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
-                  type="text"
-                  name="userName"
-                  id="userName"
-                  placeholder="Enter Username"
-                  {...register("userName", { required: true })}
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Enter New Password"
+                  {...register("password", { required: true })}
                 />
               </div>
 
@@ -96,32 +121,17 @@ export default function Login() {
                 <input
                   className="text-xl text-white font-semibold text-center outline-none px-2 h-14 bg-[#171C2F] rounded-xl"
                   type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Enter Password"
-                  {...register("password", { required: true })}
+                  name="re-password"
+                  id="re-password"
+                  placeholder="Renter New Password"
+                  {...register("re_password", { required: true })}
                 />
-              </div>
-
-              {/* remembered section */}
-              <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end text-xs">
-                <h2>Forgot Password ? </h2>{" "}
-                <h2 className="text-white font-bold">
-                  <Link to={"/reset-password"}> Reset Now</Link>
-                </h2>
-              </div>
-
-              {/* remembered section */}
-              <div className="md:w-[40%] w-full flex gap-2 font-semibold justify-end ">
-                <h2 className="text-white font-bold">
-                  <Link to={"/signup"}> Register Now</Link>
-                </h2>
               </div>
 
               <input
                 className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black"
                 type="submit"
-                value="Login"
+                value="Save Password"
               />
             </form>
           </div>
@@ -130,3 +140,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default VerifyPasswordReset;

@@ -12,6 +12,9 @@ import {
   Guest,
   Store,
   AddProduct,
+  ResetPassword,
+  ResendEmail,
+  VerifyPasswordReset,
 } from "./pages";
 import { Provider } from "react-redux";
 import {
@@ -46,6 +49,23 @@ const router = createBrowserRouter([
       </AuthLayout>
     ),
     errorElement: <Error />,
+  },
+  {
+    path: "/reset-password",
+    element: (
+      <AuthLayout authentication={false}>
+        <ResetPassword />
+      </AuthLayout>
+    ),
+  },
+  {
+    path: "/resendEmail",
+    element: <ResendEmail />,
+    // errorElement: <Error />,
+  },
+  {
+    path:'/password-reset-confirm',
+    element:<VerifyPasswordReset/>
   },
   {
     path: "/admin",
@@ -119,7 +139,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/store/add-product",
-    element: <AddProduct/>,
+    element: <AddProduct />,
     errorElement: <Error />,
   },
 ]);

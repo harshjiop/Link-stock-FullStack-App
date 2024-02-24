@@ -1,6 +1,6 @@
 import { FaSquareReddit } from "react-icons/fa6";
 import { MdEdit, MdOutlineDesignServices, MdOutlineHub, MdOutlineCancel, MdFeaturedPlayList, MdAdminPanelSettings, MdDelete, MdKeyboardArrowRight, MdModeEditOutline,MdOutlineHome,MdLogout   } from "react-icons/md";
-import { BsPuzzle } from "react-icons/bs";
+import { BsPuzzle,BsPatchCheckFill  } from "react-icons/bs";
 import { SlGraph } from "react-icons/sl";
 import { RiShareLine,RiAccountCircleLine } from "react-icons/ri";
 import { AiOutlineMobile, AiFillHome } from "react-icons/ai";
@@ -17,4 +17,4 @@ import { AiFillInstagram } from "react-icons/ai";
 import { FaLinkedin, FaSquareXTwitter } from "react-icons/fa6";
 import { PiMetaLogoFill } from "react-icons/pi";
 
-export { FaSquareReddit, MdEdit, MdOutlineHub, MdOutlineDesignServices, BsPuzzle, SlGraph, RiShareLine, AiOutlineMobile, FaFacebook, AiFillInstagram, FaLinkedin, FaSquareXTwitter, FaFlickr, FaDigg, FaYelp, FaScribd, FaReddit, PiMetaLogoFill, MdOutlineCancel, MdFeaturedPlayList, MdAdminPanelSettings, AiFillHome, IoIosInformationCircle, IoLogInSharp, TiUserAdd, MdDelete, MdKeyboardArrowRight, SiAddthis, IoChatbubble, IoShare, MdModeEditOutline, LuImagePlus, PiLinkSimpleBold,RiAccountCircleLine,MdOutlineHome,MdLogout  }
+export { FaSquareReddit, MdEdit, MdOutlineHub, MdOutlineDesignServices, BsPuzzle, SlGraph, RiShareLine, AiOutlineMobile, FaFacebook, AiFillInstagram, FaLinkedin, FaSquareXTwitter, FaFlickr, FaDigg, FaYelp, FaScribd, FaReddit, PiMetaLogoFill, MdOutlineCancel, MdFeaturedPlayList, MdAdminPanelSettings, AiFillHome, IoIosInformationCircle, IoLogInSharp, TiUserAdd, MdDelete, MdKeyboardArrowRight, SiAddthis, IoChatbubble, IoShare, MdModeEditOutline, LuImagePlus, PiLinkSimpleBold,RiAccountCircleLine,MdOutlineHome,MdLogout,BsPatchCheckFill  }

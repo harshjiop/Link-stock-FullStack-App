@@ -345,13 +345,13 @@ const UserSetTheme = asyncHandler(async (req, res) => {
 });
 
 const ForgetPasswordUpdate = asyncHandler(async (req, res) => {
-  const { token } = req.parems;
-  const { password } = req.parems;
+  // const { token } = req.params;
+  const { password, token } = req.body;
   // const password = "s123";
   // const token =
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Ikt1bWFyaGFyc2h2YXJkaGFuNDI2QGdtYWlsLmNvbSIsImlhdCI6MTcwODY3MTUxNSwiZXhwIjoxNzA4NjcxODE1fQ.qajC4qz2jvkuTdxVbsULOtT7DGEbRl7jgdRfyyeulZc";
-  if (!token) {
-    throw new ApiError(401, "Invalid User")();
+  if (!token || !password) {
+    throw new ApiError(401, "All Field Are Required");
   }
   const { email } = jwt.verify(token, RESET_SECRET_TOKEN);
   const hasPassword = await bcrypt.hash(password, 10);
@@ -434,7 +434,7 @@ const ForgetPassword = asyncHandler(async (req, res) => {
                                                 password has been generated for you. To reset your password, click the
                                                 following link and follow the instructions.
                                             </p>
-                                            <a href="${Cors_Origin}/passwordReset?token=${Forget_Token}"
+                                            <a href="${Cors_Origin}/password-reset-confirm?token=${Forget_Token}"
                                                 style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
                                                 Password</a>
                                         </td>
