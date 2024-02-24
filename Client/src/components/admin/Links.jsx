@@ -102,7 +102,7 @@ export default function Links() {
   }
 
   return (
-    <AdminContainer className="gap-1 justify-start relative">
+    <AdminContainer className="gap-1 justify-start relative z-[100]">
       {/* add buttons */}
 
       <div className="h-[10%] mx-auto w-full flex justify-between items-center text-black text-lg  font-bold">
@@ -163,6 +163,11 @@ export default function Links() {
                       to={
                         data.url.startsWith("http")
                           ? data.url
+                          : data.url.startsWith("/")
+                          ? `${window.location.protocol}` +
+                            "//" +
+                            window.location.host +
+                            data.url
                           : `http://${data.url}`
                       }
                     >

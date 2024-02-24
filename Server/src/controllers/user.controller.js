@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import bcrypt from "bcrypt";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/User.model.js";
+import { Page } from '../models/Page.model.js'
 import {
   deleteFromCloudinary,
   uploadOnCloudinary,
@@ -82,6 +83,19 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (!createdUser) {
     throw new ApiError(500, "Something went wrong while registering the user");
+  }
+
+  const createStoreLink = await Page.create({
+    owner: user._id,
+    title: 'Store',
+    url: `/store/@${username.toLowerCase()}`,
+    thumbnail: {
+      url: 'https://ik.imagekit.io/8fgpvoiai/Link%20Stock/icons8-store-50_V9zSkurcu.png?updatedAt=1708748358266'
+    }
+  })
+
+  if (!createStoreLink) {
+    throw new ApiError(500, "Something went wrong while registering the user")
   }
 
   return res
@@ -331,13 +345,13 @@ const UserSetTheme = asyncHandler(async (req, res) => {
 });
 
 const ForgetPasswordUpdate = asyncHandler(async (req, res) => {
-  const { token } = req.parems;
-  const { password } = req.parems;
+  // const { token } = req.params;
+  const { password, token } = req.body;
   // const password = "s123";
   // const token =
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Ikt1bWFyaGFyc2h2YXJkaGFuNDI2QGdtYWlsLmNvbSIsImlhdCI6MTcwODY3MTUxNSwiZXhwIjoxNzA4NjcxODE1fQ.qajC4qz2jvkuTdxVbsULOtT7DGEbRl7jgdRfyyeulZc";
-  if (!token) {
-    throw new ApiError(401, "Invalid User")();
+  if (!token || !password) {
+    throw new ApiError(401, "All Field Are Required");
   }
   const { email } = jwt.verify(token, RESET_SECRET_TOKEN);
   const hasPassword = await bcrypt.hash(password, 10);
@@ -420,7 +434,7 @@ const ForgetPassword = asyncHandler(async (req, res) => {
                                                 password has been generated for you. To reset your password, click the
                                                 following link and follow the instructions.
                                             </p>
-                                            <a href="${Cors_Origin}/passwordReset?token=${Forget_Token}"
+                                            <a href="${Cors_Origin}/password-reset-confirm?token=${Forget_Token}"
                                                 style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
                                                 Password</a>
                                         </td>
