@@ -15,8 +15,9 @@ import {
   RESET_SECRET_TOKEN,
 } from "../constants.js";
 import fs from "fs";
-import { TransPorter } from "../utils/Transpoter.js";
-// import { ResetPasswordTemplate } from "../utils/EmailTemplate/ResetPasswordTemplate.js";
+import path from "path";
+import { TransPorter, SendEmail } from "../utils/Transpoter.js";
+import { ResetPasswordTemplate } from "../utils/EmailTemplate/ResetPasswordTemplate.js";
 
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
@@ -372,14 +373,11 @@ const ForgetPassword = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Somthing Went Worng For Genrating Forget Token");
   }
 
-  const SendEmail = await TransPorter.sendMail({
-    from: {
-      name: "Harshvardhan kumar",
-      address: "hk8051871496@gmail.com",
-    },
-    to: email,
-    subject: 'reset password',
-    html: `
+  const test = SendEmail(
+    email,
+    "Reset Pasword",
+
+    `
 
     <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
         <!--100% body table-->
@@ -447,13 +445,11 @@ const ForgetPassword = asyncHandler(async (req, res) => {
         </table>
         <!--/100% body table-->
     </body>
-    
-    </html>`,
-  });
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, SendEmail, "Email Send successfully"));
+    </html>`
+  );
+
+  return res.status(200).json(new ApiResponse(200, "Email Send successfully"));
 });
 
 export {
