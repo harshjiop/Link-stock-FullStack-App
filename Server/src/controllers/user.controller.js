@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import bcrypt from "bcrypt";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/User.model.js";
+import { Page } from '../models/Page.model.js'
 import {
   deleteFromCloudinary,
   uploadOnCloudinary,
@@ -82,6 +83,19 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (!createdUser) {
     throw new ApiError(500, "Something went wrong while registering the user");
+  }
+
+  const createStoreLink = await Page.create({
+    owner: user._id,
+    title: 'Store',
+    url: `/store/@${username.toLowerCase()}`,
+    thumbnail: {
+      url: 'https://ik.imagekit.io/8fgpvoiai/Link%20Stock/icons8-store-50_V9zSkurcu.png?updatedAt=1708748358266'
+    }
+  })
+
+  if (!createStoreLink) {
+    throw new ApiError(500, "Something went wrong while registering the user")
   }
 
   return res

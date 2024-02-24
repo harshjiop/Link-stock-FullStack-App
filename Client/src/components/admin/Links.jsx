@@ -163,6 +163,11 @@ export default function Links() {
                       to={
                         data.url.startsWith("http")
                           ? data.url
+                          : data.url.startsWith("/")
+                          ? `${window.location.protocol}` +
+                            "//" +
+                            window.location.host +
+                            data.url
                           : `http://${data.url}`
                       }
                     >

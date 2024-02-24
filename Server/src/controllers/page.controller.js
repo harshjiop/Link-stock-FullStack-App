@@ -17,6 +17,11 @@ const Addlink = asyncHandler(async (req, res) => {
   if (!title || !url || !isActive) {
     throw new ApiError(400, "All fields are required");
   }
+
+  if (url.startsWith('/') && title.toLowerCase() !== 'store') {
+    throw new ApiError(400, `Url Can't Start With '/'`)
+  }
+
   const thumbnailLocalPath = req.file?.path;
   const ThumbnailCloudinary = await uploadOnCloudinary(thumbnailLocalPath);
   // console.log("thubnail",ThumbnailCloudinary);
