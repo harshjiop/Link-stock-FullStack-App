@@ -46,7 +46,7 @@ class Authentication {
         try {
             const response = await axios.get(`/api/v1/users/u/${userName}`)
 
-            if(response){
+            if (response) {
                 return response.data
             }
         } catch (error) {
@@ -77,6 +77,37 @@ class Authentication {
         const updatedName = name.replace(/\s/g, '+')
         const url = `https://cloud.appwrite.io/v1/avatars/initials?name=${updatedName}`
         return url;
+    }
+
+    async sendResetPasswordMail(email) {
+        try {
+            const response = await axios.post('/api/v1/users/forget-password', {
+                email
+            })
+            if (response) {
+                return response.data
+            } else {
+                console.log(response)
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async verifyResetPassword(token,password){
+        try {
+            const response = await axios.patch('/api/v1/users/forget-password', {
+                token,
+                password
+            })
+            if (response) {
+                return response.data
+            } else {
+                console.log(response)
+            }
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

@@ -81,6 +81,11 @@ export default function Guest() {
                   to={
                     link.url.startsWith("http")
                       ? link.url
+                      : link.url.startsWith("/")
+                      ? `${window.location.protocol}` +
+                        "//" +
+                        window.location.host +
+                        link.url
                       : `http://${link.url}`
                   }
                   key={index}

@@ -75,7 +75,7 @@ export default function Account() {
 
   if (data) {
     return (
-      <AdminContainer className="rounded-lg bg-black">
+      <AdminContainer className="rounded-lg bg-black z-[100]">
         {/* form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
