@@ -65,7 +65,7 @@ function ResetPassword() {
         </div>
 
         {/* right section */}
-        <div className="h-full lg:w-[60%] w-full gap-20  flex flex-col justify-center items-center bg-[#28BDD1] lg:rounded-l-2xl">
+        <div className="h-full lg:w-[60%] w-full gap-20  flex flex-col justify-center items-center bg-[#28BDD1] lg:rounded-l-2xl z-[100]">
           {/* upper heading */}
           <h1 className="text-7xl font-light text-white text-center">
             FORGOT PASSWORD ?

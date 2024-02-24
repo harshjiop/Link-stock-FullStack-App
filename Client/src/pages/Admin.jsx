@@ -293,8 +293,8 @@ export default function Admin() {
                 </div>
               </div>
             ) : (
-              <div className="border-4 rounded-3xl h-[550px] w-[360px]">
-                Loaading....
+              <div className="border-4 rounded-3xl h-[550px] w-[360px] flex justify-center  items-center">
+                <h1 className="text-red-400">Theme Not Found</h1>
               </div>
             )}
 
