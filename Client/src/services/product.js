@@ -32,13 +32,10 @@ class Product {
         }
     }
 
-    async getStoreDetails(token, userName) {
+    async getStoreDetails(userName) {
         try {
-            const response = await axios.get(`/api/v1/${userName}/Store`, {
-                headers: {
-                    'Authorization': token
-                }
-            });
+            const response = await axios.get(`/api/v1/${userName}/Store`
+            );
 
             if (response) {
                 return response.data.data

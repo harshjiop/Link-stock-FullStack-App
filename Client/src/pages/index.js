@@ -10,4 +10,5 @@ import AddProduct from './AddProduct'
 import ResetPassword from './ResetPassword';
 import ResendEmail from "./ResendEmail";
 import VerifyPasswordReset from "./VerifyPasswordReset";
-export { Home, Login, Signup, Admin, Loader, Error, Guest, Store, AddProduct, ResetPassword,ResendEmail,VerifyPasswordReset };
+import MiniLoader from './loader/MiniLoader';
+export { Home, Login, Signup, Admin, Loader, Error, Guest, Store, AddProduct, ResetPassword, ResendEmail, VerifyPasswordReset, MiniLoader };

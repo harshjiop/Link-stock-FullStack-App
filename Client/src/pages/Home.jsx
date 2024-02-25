@@ -69,8 +69,11 @@ export default function Home() {
         {/* navbar content */}
         <div className="md:w-[90%] w-full  h-full mx-auto flex justify-between items-center">
           {/* logo container */}
-          <div className="border md:flex hidden border-[#28BDD1] font-bold text-center  justify-center items-center w-20 h-full text-red-500">
-            Logo
+          <div className=" md:flex hidden  font-bold text-center  justify-center items-center w-32 h-full text-red-500">
+            <img
+              src="https://ik.imagekit.io/8fgpvoiai/Link%20Stock/800w-mNb5D51JPec_Wut2QXm78.jpg?updatedAt=1708786481427"
+              alt=""
+            />
           </div>
 
           {/* nav content container */}
@@ -181,16 +184,16 @@ export default function Home() {
             {/* left content content */}
             <div className="flex flex-col justify-center  md:gap-10  h-full">
               {/* heading container */}
-              <div className="flex text-white  items-center md:items-start flex-col md:text-6xl text-3xl font-extrabold">
-                <h1>Lorem Text For</h1>
-                <h2 className="outline-4  text-[#28BDD1]">Lorem Text</h2>
+              <div className="flex text-white w-full md:justify-start justify-center  items-center md:items-start gap-3 md:text-6xl text-3xl font-extrabold">
+                <h1>Link</h1>
+                <h2 className="outline-4  text-[#28BDD1]">Store</h2>
               </div>
 
               {/* dummy text */}
               <h2 className=" text-center md:text-start text-[#BEC2D3]">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Laudantium, pariatur similique alias cumque mollitia in incidunt
-                placeat eveniet repellat molestiae?
+                Your digital playground where the web of links intertwines with
+                boundless choices, guiding you through a realm of endless
+                exploration and excitement, one click at a time!
               </h2>
 
               {/* buttons container */}

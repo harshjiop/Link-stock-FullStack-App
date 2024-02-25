@@ -6,11 +6,14 @@ import authentication from "../../services/authentication";
 import { login } from "../../store/authSlice";
 import { clearStatus, updateStatus } from "../../store/errorSlice";
 import { MdEdit } from "../../icons";
+import { MiniLoader } from "../../pages";
 
 export default function Account() {
   const [data, setData] = useState({});
   const [token, setToken] = useState("");
   const userData = useSelector((state) => state.auth.userData);
+  const [miniLoader, setMiniLoader] = useState(false);
+
   const { handleSubmit, register, watch, getValues } = useForm({
     defaultValues: {
       username: userData?.username || "",
@@ -37,7 +40,10 @@ export default function Account() {
     setData(userData);
   }, [userData]);
 
+ 
+
   const onSubmit = async (data) => {
+    setMiniLoader(true);
     try {
       if (token) {
         const response = await authentication.updateUser(token, data);
@@ -46,6 +52,7 @@ export default function Account() {
           localStorage.setItem("userData", JSON.stringify(data));
           dispatch(login({ userData: data }));
           dispatch(updateStatus({ error: false, text: "Profile Updated" }));
+          setMiniLoader(false);
         }
 
         // file update
@@ -59,10 +66,12 @@ export default function Account() {
             dispatch(login({ userData: data }));
             localStorage.setItem("userData", JSON.stringify(data));
             dispatch(updateStatus({ error: false, text: "Profile Updated" }));
+            setMiniLoader(false);
           }
         }
       }
     } catch (error) {
+      setMiniLoader(false);
       dispatch(updateStatus({ error: true, text: error.message }));
     }
   };
@@ -79,21 +88,21 @@ export default function Account() {
         {/* form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center gap-7"
+          className="flex flex-col items-center gap-7 w-full"
         >
           {/* avatar */}
 
           {/* profile picture */}
-          <div className="relative my-2 w-full px-10 mx-auto ">
+          <div className="relative my-2  px-10 mx-auto flex justify-center items-center">
             <label
-              className="p-2 text-xl bg-white rounded-full absolute top-0 right-[45%]  z-10 text-black"
+              className="p-2 text-xl bg-white rounded-full absolute top-0 right-[20%] cursor-pointer  z-10 text-black border-2 border-[#28BDD1]"
               htmlFor="avatar"
             >
               <MdEdit />
             </label>
 
             <img
-              className="w-[100px] h-[100px] rounded-full "
+              className="w-[100px] h-[100px] rounded-full border-4 border-[#28BDD1]"
               // src={`https://cdnstorage.sendbig.com/unreal/female.webp`}
               src={
                 selectedImage
@@ -118,7 +127,7 @@ export default function Account() {
 
           {/* user name */}
           <input
-            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold"
+            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold border w-[60%]"
             type="text"
             name="username"
             id="username"
@@ -128,7 +137,7 @@ export default function Account() {
 
           {/* email */}
           <input
-            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold"
+            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold w-[60%]"
             type="email"
             name="email"
             id="email"
@@ -138,7 +147,7 @@ export default function Account() {
 
           {/* full name */}
           <input
-            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold"
+            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold w-[60%]"
             type="text"
             name="fullname"
             id="fullname"
@@ -146,11 +155,16 @@ export default function Account() {
             {...register("fullName", { required: true })}
           />
 
-          <input
+          {/* <input
             className="text-center cursor-pointer px-2 bg-[#28BDD1] py-2 rounded-lg text-xl font-bold text-white"
             type="submit"
             value="Update Details"
-          />
+          /> */}
+
+          <button className="text-center cursor-pointer px-3 bg-[#28BDD1] py-2 rounded-lg text-xl font-bold text-white flex items-center justify-center gap-3 w-[60%]">
+            Update Details
+            {miniLoader && <MiniLoader />}
+          </button>
         </form>
       </AdminContainer>
     );

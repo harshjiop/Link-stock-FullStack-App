@@ -96,7 +96,7 @@ export default function Guest() {
                   <img
                     className="linkIcon"
                     style={userTheme.mainStyles.linkIcon}
-                    src={`https://logo.clearbit.com/${link.title}.com`}
+                    src={`${link.thumbnail?.url}`}
                     alt=""
                   />
 
