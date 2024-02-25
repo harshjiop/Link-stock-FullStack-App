@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import authentication from "../services/authentication";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -10,14 +10,16 @@ import { MdOutlineCancel } from "../icons";
 import { ErrorTemplate } from "../components";
 import { toast } from "react-toastify";
 import { setVerifyEmail } from "../store/authSlice";
+import { MiniLoader } from "./";
 
 function ResetPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { handleSubmit, register } = useForm();
+  const [miniLoader, setMiniLoader] = useState(false);
 
   async function onSubmit(data) {
+    setMiniLoader(true);
     try {
       const response = await authentication.sendResetPasswordMail(data.email);
       if (response) {
@@ -26,6 +28,7 @@ function ResetPassword() {
         navigate("/resendEmail");
       }
     } catch (error) {
+      setMiniLoader(false);
       dispatch(updateStatus({ error: true, text: error.response.statusText }));
     }
   }
@@ -96,11 +99,20 @@ function ResetPassword() {
                   <Link to={"/login"}>Login</Link>
                 </h2>
               </div>
-              <input
+
+              {/* <input
                 className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black"
                 type="submit"
                 value="Send Mail"
-              />
+              /> */}
+
+              <button
+                className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black flex justify-center items-center gap-3"
+                type="submit"
+              >
+                Send Mail
+                {miniLoader && <MiniLoader />}
+              </button>
             </form>
           </div>
         </div>

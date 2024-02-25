@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import authentication from "../services/authentication";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -8,16 +8,19 @@ import { updateStatus, clearStatus } from "../store/errorSlice";
 import { Link } from "react-router-dom";
 import { MdOutlineCancel } from "../icons";
 import { ErrorTemplate } from "../components";
+import { MiniLoader } from "./";
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const authStatus = useSelector((state) => state.auth.status);
+  const [miniLoader, setMiniLoader] = useState(false);
 
   const { handleSubmit, register } = useForm();
 
   async function onSubmit(data) {
     try {
+      setMiniLoader(true);
       const response = await authentication.login({ ...data });
       if (response) {
         const userData = response.data;
@@ -30,6 +33,7 @@ export default function Login() {
         }
       }
     } catch (error) {
+      setMiniLoader(false);
       dispatch(updateStatus({ error: true, text: error.response.statusText }));
     }
   }
@@ -118,11 +122,18 @@ export default function Login() {
                 </h2>
               </div>
 
-              <input
+              {/* <input
                 className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black"
                 type="submit"
                 value="Login"
-              />
+              /> */}
+              <button
+                className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black flex justify-center items-center gap-3"
+                type="submit"
+              >
+                Login
+                {miniLoader && <MiniLoader />}
+              </button>
             </form>
           </div>
         </div>
