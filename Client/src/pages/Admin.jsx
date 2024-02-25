@@ -267,8 +267,8 @@ export default function Admin() {
                               ? selectedTheme.mainStyles.linkIcon
                               : userTheme.mainStyles.linkIcon
                           }
-                          src={`https://logo.clearbit.com/${link.title}.com`}
-                          alt=""
+                          src={`${link.thumbnail?.url}`}
+                          alt="sample"
                         />
 
                         {/* title */}

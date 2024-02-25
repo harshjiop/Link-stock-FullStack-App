@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import authentication from "../services/authentication";
@@ -6,13 +7,16 @@ import { updateStatus, clearStatus } from "../store/errorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Error, ErrorTemplate } from "../components";
+import { MiniLoader } from "./";
 
 export default function Signup() {
   const navigate = useNavigate();
   const { handleSubmit, register, watch } = useForm();
   const dispatch = useDispatch();
+  const [miniLoader, setMiniLoader] = useState(false);
 
   async function onsubmit(data) {
+    setMiniLoader(true);
     if (data.password === data.re_password) {
       try {
         const response = await authentication.signUp(data);
@@ -21,9 +25,11 @@ export default function Signup() {
           navigate("/login");
         }
       } catch (error) {
+        setMiniLoader(false);
         dispatch(updateStatus({ error: true, text: error.message }));
       }
     } else {
+      setMiniLoader(false);
       dispatch(
         updateStatus({ error: true, text: "Password Does Not Matched" })
       );
@@ -143,11 +149,19 @@ export default function Signup() {
                 </h2>
               </div>
 
-              <input
+              {/* <input
                 className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black"
                 type="submit"
                 value="Create Account"
-              />
+              /> */}
+
+              <button
+                className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black flex justify-center items-center gap-3"
+                type="submit"
+              >
+                Create Account
+                {miniLoader && <MiniLoader />}
+              </button>
             </form>
           </div>
         </div>

@@ -8,58 +8,75 @@ import {
   IoChatbubble,
   MdModeEditOutline,
   IoShare,
+  BsPatchCheckFill,
 } from "../icons/index.js";
 import { Link } from "react-router-dom";
 import product from "../services/product.js";
 import { addStoreOwner } from "../store/storeSlice.js";
+import { Error } from "../pages";
 export default function Store() {
   const { userName } = useParams();
   const [token, setToken] = useState();
   const dispatch = useDispatch();
+  const [isCopied, setIsCopied] = useState(false);
   const storeOwner = useSelector((state) => state.store.storeOwner);
-
-  useEffect(() => {
-    try {
-      const localToken = localStorage.getItem("token");
-      if (localToken) {
-        setToken(localToken);
-      }
-    } catch (error) {
-      console.log(error.message ?? "Failed To Fetch Token");
-    }
-  }, []);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     (async () => {
       try {
-        if (userName && token) {
+        if (userName) {
           const response = await product.getStoreDetails(
-            token,
             userName.split("@")[1]
           );
           if (response) {
             const data = response[0];
             dispatch(addStoreOwner(data));
             localStorage.setItem("storeOwner", JSON.stringify(response[0]));
+            setLoader(false);
           }
         }
       } catch (error) {
         console.log("errir is ", error);
+        setLoader(false);
       }
     })();
-  }, [userName, token]);
+  }, [userName]);
+
+  function handleShare() {
+    if (userName) {
+      const baseUrl = window.location.protocol + "//" + window.location.host;
+      const dummyInput = document.createElement("input");
+      dummyInput.value = `${baseUrl}/store/${userName}`;
+      document.body.appendChild(dummyInput);
+      dummyInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummyInput);
+
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 500);
+    } else {
+      console.log("invalid user name");
+    }
+  }
 
   function handleHover(e) {
     e.currentTarget.querySelector(".content").classNameList.toggle("opacity-0");
     e.currentTarget.querySelector(".content").classNameList.toggle("opacity-1");
   }
 
-  if (!storeOwner) {
+  if (loader) {
     return (
       <>
         <Loader />
       </>
     );
+  }
+
+  if (!loader && !storeOwner) {
+    return <Error />;
   }
 
   return (
@@ -132,14 +149,16 @@ export default function Store() {
             <Link to={"../store/add-product"}>
               <SiAddthis />
             </Link>
-            <IoChatbubble />
-            <IoShare />
-            <MdModeEditOutline />
+            {isCopied ? (
+              <BsPatchCheckFill className="text-green-400" />
+            ) : (
+              <IoShare className="cursor-pointer" onClick={handleShare} />
+            )}
           </div>
         </div>
 
         {/* lower/  products section*/}
-        <div className="flex flex-col items-center gap-5 pb-4">
+        <div className="flex flex-col items-center gap-5 pb-4  h-full">
           <h1 className="text-3xl font-bold">Products</h1>
           {/* products container */}
           <div className="flex gap-10 flex-wrap justify-center items-center w-screen ">

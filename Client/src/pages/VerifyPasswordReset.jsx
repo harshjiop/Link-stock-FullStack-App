@@ -11,6 +11,7 @@ import { ErrorTemplate } from "../components";
 import { useLocation } from "react-router-dom";
 import { resetVerifyEmail } from "../store/authSlice";
 import Loader from "./loader/Loader";
+import { MiniLoader } from "./";
 
 function VerifyPasswordReset() {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ function VerifyPasswordReset() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
+  const [miniLoader, setMiniLoader] = useState(false);
 
   const { handleSubmit, register } = useForm();
 
@@ -27,11 +29,11 @@ function VerifyPasswordReset() {
       setLoading(false);
     } else {
       navigate("/login");
-      setLoading(false);
     }
   }, [token]);
 
   async function onSubmit(data) {
+    setMiniLoader(true);
     try {
       if (data.password === data.re_password) {
         const response = await authentication.verifyResetPassword(
@@ -41,14 +43,16 @@ function VerifyPasswordReset() {
         if (response) {
           dispatch(updateStatus({ error: false, text: "Password Updated" }));
           dispatch(resetVerifyEmail());
-          setInterval(() => {
+          setTimeout(() => {
             navigate("/login");
           }, 100);
         }
       } else {
+        setMiniLoader(false);
         dispatch(updateStatus({ error: true, text: "Password Mismatched" }));
       }
     } catch (error) {
+      setMiniLoader(false);
       dispatch(updateStatus({ error: true, text: error.response.statusText }));
     }
   }
@@ -128,11 +132,16 @@ function VerifyPasswordReset() {
                 />
               </div>
 
-              <input
+              {/* <input
                 className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black"
                 type="submit"
                 value="Save Password"
-              />
+              /> */}
+
+              <button className="md:w-[40%] w-full cursor-pointer rounded-xl py-1 font-bold text-xl h-14 bg-white text-black flex items-center justify-center gap-3">
+                Save Password
+                {miniLoader && <MiniLoader />}
+              </button>
             </form>
           </div>
         </div>

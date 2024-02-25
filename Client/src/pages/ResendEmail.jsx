@@ -8,6 +8,7 @@ import authentication from "../services/authentication";
 import { ToastContainer, toast } from "react-toastify";
 import { ErrorTemplate } from "../components";
 import { updateStatus, clearStatus } from "../store/errorSlice";
+import { MiniLoader } from "./";
 
 function ResendEmail() {
   const [loading, setLoading] = useState(true);
@@ -16,8 +17,10 @@ function ResendEmail() {
   const navigate = useNavigate();
   const verifyEmail = useSelector((state) => state.auth.verifyEmail);
   const dispatch = useDispatch();
+  const [miniLoader, setMiniLoader] = useState(false);
 
   const handleClick = async () => {
+    setMiniLoader(true);
     if (verifyEmail) {
       try {
         const response = await authentication.sendResetPasswordMail(
@@ -26,8 +29,10 @@ function ResendEmail() {
         if (response) {
           setIsButtonAvailable(false);
           setTimer(20);
+          setMiniLoader(false);
         }
       } catch (error) {
+        setMiniLoader(false);
         dispatch(
           updateStatus({
             error: true,
@@ -36,6 +41,7 @@ function ResendEmail() {
         );
       }
     } else {
+      setMiniLoader(false);
       dispatch(updateStatus({ error: true, text: "Email Not Found" }));
       setTimer(20);
     }
@@ -57,7 +63,7 @@ function ResendEmail() {
     if (verifyEmail) {
       setLoading(false);
     } else {
-      navigate('/login')
+      navigate("/login");
       setLoading(false);
     }
   }, [verifyEmail]);
@@ -65,9 +71,9 @@ function ResendEmail() {
   if (loading) {
     return <Loader />;
   }
-    if (!loading && !verifyEmail) {
-      return <Error />;
-    }
+  if (!loading && !verifyEmail) {
+    return <Error />;
+  }
   return (
     <div
       className="w-full h-screen bg-[#171C2F] selection:bg-transparent relative flex justify-center items-center"
@@ -103,9 +109,10 @@ function ResendEmail() {
         <button
           onClick={handleClick}
           disabled={!isButtonAvailable}
-          className="bg-[#28BDD1] disabled:bg-[#89bac0] py-2 px-4 rounded-xl font-bold"
+          className="bg-[#28BDD1] disabled:bg-[#89bac0] py-2 px-4 rounded-xl font-bold flex items-center gap-3"
         >
           Resend Email
+          {miniLoader && <MiniLoader />}
         </button>
       </div>
     </div>

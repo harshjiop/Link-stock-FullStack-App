@@ -18,7 +18,15 @@ class Links {
 
     async addLinks(token, data) {
         try {
-            const response = await axios.post('/api/v1/link/add-link', data, {
+            const form = new FormData();
+            form.append('title', data.title);
+            form.append('url', data.url);
+            form.append('isActive', true);
+            form.append('thumbnail', data.thumbnail[0]);
+
+            
+
+            const response = await axios.post('/api/v1/link/add-link', form, {
                 headers: {
                     Authorization: token
                 }

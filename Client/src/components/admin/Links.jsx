@@ -45,14 +45,10 @@ export default function Links() {
 
   async function onSubmit(data) {
     handleAddHeader();
-    if (token && data.title && data.url) {
+    if (token && data.title && data.url && data.thumbnail) {
       // const regex = /^(https?:\/\/)?(www\.)?/i;
       try {
-        const response = await links.addLinks(token, {
-          title: data.title,
-          url: data.url,
-          isActive: true,
-        });
+        const response = await links.addLinks(token, data);
         if (response) {
           setValue("url", "");
           setValue("title", "");
@@ -143,9 +139,9 @@ export default function Links() {
                   {data ? (
                     <>
                       <img
-                        className="w-[50px]"
-                        src={`https://logo.clearbit.com/${data.title}.com`}
-                        alt=""
+                        className="w-[50px] rounded-[50%] border-2 border-[#28BDD1]"
+                        src={`${data.thumbnail?.url}`}
+                        alt="icons"
                       />
                     </>
                   ) : (
@@ -224,6 +220,20 @@ export default function Links() {
               name="url"
               id="url"
               {...register("url", { required: true })}
+            />
+          </div>
+
+           {/* avatar input */}
+           <div className="flex flex-col">
+            <label className="text-2xl font-bold" htmlFor="url">
+              Enter Thumbnail
+            </label>
+            <input
+              className="text-black text-xl rounded font-semibold outline-none bg-zinc-100 border-2 h-10"
+              type="file"
+              name="thumbnail"
+              id="thumbnail"
+              {...register("thumbnail", { required: true })}
             />
           </div>
 

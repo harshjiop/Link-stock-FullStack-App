@@ -251,8 +251,6 @@ export default function AddProduct() {
                     {...register("Product_Url")}
                   />
 
-                 
-
                   {/* product price */}
                   <input
                     className="border-2 border-[#BEC2D3] rounded-lg bg-transparent px-4  h-10 w-full outline-none"
@@ -273,8 +271,8 @@ export default function AddProduct() {
                     {...register("Product_Discount_Price")}
                   />
 
-                   {/* product description */}
-                   <textarea
+                  {/* product description */}
+                  <textarea
                     className="border-2 border-[#BEC2D3] rounded-lg bg-transparent px-4  w-full outline-none"
                     type="text"
                     name="productDesc"
