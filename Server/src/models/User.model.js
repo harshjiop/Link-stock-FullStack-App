@@ -1,14 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import {
-  ACCESS_TOKEN_EXPIRY,
-  ACCESS_TOKEN_SECRET,
-  REFRESH_TOKEN_EXPIRY,
-  REFRESH_TOKEN_SECRET,
-  RESET_EXPIRY_TOKEN,
-  RESET_SECRET_TOKEN,
-} from "../constants.js";
+import { ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY, RESET_EXPIRY_TOKEN } from "../constants.js";
 
 const userSchema = new Schema(
   {
@@ -83,9 +76,10 @@ userSchema.methods.generateAccessToken = async function () {
       username: this.username,
       fullName: this.fullName,
     },
-    ACCESS_TOKEN_SECRET,
+    process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: ACCESS_TOKEN_EXPIRY,
+      // expiresIn: "24h",
     }
   );
 };
@@ -94,9 +88,10 @@ userSchema.methods.generateRefreshToken = async function () {
     {
       _id: this._id,
     },
-    REFRESH_TOKEN_SECRET,
+    process.env.REFRESH_TOKEN_SECRET,
     {
       expiresIn: REFRESH_TOKEN_EXPIRY,
+      // expiresIn: "100h",
     }
   );
 };
@@ -105,7 +100,7 @@ userSchema.methods.GENERATE_RESET_PASSWORD_TOKEN = async function () {
     {
       email: this.email,
     },
-    RESET_SECRET_TOKEN,
+    process.env.RESET_SECRET_TOKEN,
     {
       expiresIn: RESET_EXPIRY_TOKEN,
     }

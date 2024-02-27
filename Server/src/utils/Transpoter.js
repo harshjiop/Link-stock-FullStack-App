@@ -11,14 +11,7 @@ const TransPorter = nodemailer.createTransport({
   },
 });
 
-// const SendEmail = await TransPorter.sendMail({
-//   from: {
-//     name: "Harshvardhan kumar",
-//     address: "hk8051871496@gmail.com",
-//   },
-//   to: email,
-//   subject: "reset password",
-// });
+
 
 const SendEmail = async (email, Subject, html) => {
   await TransPorter.sendMail({
