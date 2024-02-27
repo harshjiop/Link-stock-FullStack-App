@@ -39,7 +39,7 @@ export default function Signup() {
   return (
     <div
       className="h-screen w-full bg-[#171C2F] relative overflow-y-hidden"
-      style={{ fontFamily: "Orbitron,sans-serif" }}
+      style={{ fontFamily: "Roboto,sans-serif" }}
     >
       {/* error wrapper */}
       <ErrorTemplate />

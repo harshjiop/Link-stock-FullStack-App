@@ -14,6 +14,9 @@ import { Link } from "react-router-dom";
 import product from "../services/product.js";
 import { addStoreOwner } from "../store/storeSlice.js";
 import { Error } from "../pages";
+import { login } from "../store/authSlice.js";
+import ErrorTemplate from "../components/ErrorTemplate.jsx";
+import { toast } from "react-toastify";
 export default function Store() {
   const { userName } = useParams();
   const [token, setToken] = useState();
@@ -21,6 +24,33 @@ export default function Store() {
   const [isCopied, setIsCopied] = useState(false);
   const storeOwner = useSelector((state) => state.store.storeOwner);
   const [loader, setLoader] = useState(true);
+  const userData = useSelector((state) => state.auth.userData);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (userData) {
+      if ([userData.username, userName].some((each) => each.trim() !== "")) {
+        if (userData.username === userName.split("@")[1]) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      }
+    }
+  }, [userData, userName]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const localUserData = localStorage.getItem("userData");
+        if (localUserData) {
+          dispatch(login({ userData: JSON.parse(localUserData) }));
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -37,7 +67,7 @@ export default function Store() {
           }
         }
       } catch (error) {
-        console.log("errir is ", error);
+        toast.error(error.message);
         setLoader(false);
       }
     })();
@@ -82,7 +112,7 @@ export default function Store() {
   return (
     <div
       className="h-screen overflow-y-auto no-scrollbar bg-[#171C2F] text-white py-4 w-full relative flex flex-col justify-center items-center"
-      style={{ fontFamily: "Orbitron,sans-serif" }}
+      style={{ fontFamily: "Roboto,sans-serif" }}
     >
       {/* bg-vectors */}
       <div className="top-0 left-0 w-full h-full  fixed">
@@ -110,6 +140,8 @@ export default function Store() {
           }}
         ></div>
       </div>
+
+      <ErrorTemplate />
 
       {/* container */}
       <div className="md:w-[80%] w-full px-2 md:px-0 h-full flex flex-col gap-10 absolute top-5 mx-auto">
@@ -146,9 +178,12 @@ export default function Store() {
 
           {/* right section / buttons section */}
           <div className="flex  text-3xl items-center gap-6">
-            <Link to={"../store/add-product"}>
-              <SiAddthis />
-            </Link>
+            {isAdmin ? (
+              <Link to={"../store/add-product"}>
+                <SiAddthis />
+              </Link>
+            ) : null}
+
             {isCopied ? (
               <BsPatchCheckFill className="text-green-400" />
             ) : (
