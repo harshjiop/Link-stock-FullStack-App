@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import bcrypt from "bcrypt";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/User.model.js";
-import { Page } from '../models/Page.model.js'
+import { Page } from "../models/Page.model.js";
 import {
   deleteFromCloudinary,
   uploadOnCloudinary,
@@ -10,11 +10,7 @@ import {
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import {
-  Cors_Origin,
-  REFRESH_TOKEN_SECRET,
-  RESET_SECRET_TOKEN,
-} from "../constants.js";
+
 import fs from "fs";
 import path from "path";
 import { TransPorter, SendEmail } from "../utils/Transpoter.js";
@@ -88,15 +84,15 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const createStoreLink = await Page.create({
     owner: user._id,
-    title: 'Store',
+    title: "Store",
     url: `/store/@${username.toLowerCase()}`,
     thumbnail: {
-      url: 'https://ik.imagekit.io/8fgpvoiai/Link%20Stock/icons8-store-50_V9zSkurcu.png?updatedAt=1708748358266'
-    }
-  })
+      url: "https://ik.imagekit.io/8fgpvoiai/Link%20Stock/icons8-store-50_V9zSkurcu.png?updatedAt=1708748358266",
+    },
+  });
 
   if (!createStoreLink) {
-    throw new ApiError(500, "Something went wrong while registering the user")
+    throw new ApiError(500, "Something went wrong while registering the user");
   }
 
   return res
@@ -191,7 +187,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   try {
     const decodedToken = await jwt.verify(
       incomingrefreshAccessToken,
-      REFRESH_TOKEN_SECRET
+      process.env.REFRESH_TOKEN_SECRET
     );
     const user = await User.findById(decodedToken?._id);
     if (!user) {
@@ -354,7 +350,7 @@ const ForgetPasswordUpdate = asyncHandler(async (req, res) => {
   if (!token || !password) {
     throw new ApiError(401, "All Field Are Required");
   }
-  const { email } = jwt.verify(token, RESET_SECRET_TOKEN);
+  const { email } = jwt.verify(token, process.env.RESET_SECRET_TOKEN);
   const hasPassword = await bcrypt.hash(password, 10);
   const user = await User.findOneAndUpdate(
     { email },
@@ -432,7 +428,7 @@ const ForgetPassword = asyncHandler(async (req, res) => {
                                                 password has been generated for you. To reset your password, click the
                                                 following link and follow the instructions.
                                             </p>
-                                            <a href="${Cors_Origin}/password-reset-confirm?token=${Forget_Token}"
+                                            <a href="${process.env.Cors_Origin}/password-reset-confirm?token=${Forget_Token}"
                                                 style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
                                                 Password</a>
                                         </td>

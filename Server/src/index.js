@@ -10,7 +10,7 @@ dotenv.config();
 
 connectDB()
   .then(() => {
-    // console.log("RUN index.js than part");
+    // console.log("RUN index.js than part", process.env.PORT);
     app.listen(PORT, () => {
       console.log("Server is running at PORT", PORT);
     });
