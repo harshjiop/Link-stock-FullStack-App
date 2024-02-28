@@ -1,13 +1,14 @@
 import axios from "axios";
 
 const apiInstance = axios.create({
-    baseURL:import.meta.env.VITE_API_URL
+    baseURL: import.meta.env.VITE_API_URL
 })
 
 class Authentication {
     async signUp(data) {
         try {
             const response = await apiInstance.post('/api/v1/users/register', data)
+
             if (response.data) {
                 return response.data
             }
@@ -21,11 +22,9 @@ class Authentication {
             const response = await apiInstance.post('/api/v1/users/login', {
                 username: data.userName, password: data.password
             })
-            if (response.statusText === 'OK') {
-                return response.data
-            } else {
-                console.log(response)
-            }
+
+            return response.data
+
         } catch (error) {
             throw error;
         }
@@ -38,9 +37,9 @@ class Authentication {
                     'Authorization': token
                 },
             })
-            if (response.statusText = 'OK') {
-                return response.data
-            }
+
+            return response.data
+
         } catch (error) {
             throw error;
         }
@@ -68,9 +67,9 @@ class Authentication {
                     'Authorization': token
                 }
             })
-            if (response.statusText === 'OK') {
-                return response.data;
-            }
+
+            return response.data;
+
         } catch (error) {
             throw error;
         }
@@ -90,8 +89,6 @@ class Authentication {
             })
             if (response) {
                 return response.data
-            } else {
-                console.log(response)
             }
         } catch (error) {
             throw error;
@@ -106,8 +103,6 @@ class Authentication {
             })
             if (response) {
                 return response.data
-            } else {
-                console.log(response)
             }
         } catch (error) {
             throw error;

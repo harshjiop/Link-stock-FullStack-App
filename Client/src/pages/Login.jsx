@@ -29,6 +29,7 @@ export default function Login() {
           localStorage.setItem("userData", localUserData);
           localStorage.setItem("token", userData.accessToken);
           dispatch(login({ userData }));
+          setMiniLoader(false);
           navigate("/admin/links");
         }
       }
