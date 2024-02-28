@@ -23,19 +23,7 @@ import {
   IoColorPaletteOutline,
 } from "../icons";
 
-// social icons
-import {
-  FaFacebook,
-  AiFillInstagram,
-  FaLinkedin,
-  FaSquareXTwitter,
-  FaFlickr,
-  FaDigg,
-  FaYelp,
-  FaScribd,
-  FaReddit,
-  PiMetaLogoFill,
-} from "../icons";
+import { NavHashLink } from "react-router-hash-link";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -83,30 +71,37 @@ export default function Home() {
             {/* nav menu container*/}
             <div className="px-2 h-full md:w-auto w-[60%] text-[#BEC2D3]">
               <ul className="flex w-full   md:gap-10 gap-3 h-full justify-between md:justify-center text-2xl md:text-lg items-center font-semibold">
-                <li>
-                  <h1 className="md:inline-block hidden">Home</h1>
+                <NavHashLink smooth to={"/#home"}>
+                  <li>
+                    <h1 className="md:inline-block hidden">Home</h1>
 
-                  <div className="flex md:hidden  flex-col justify-center items-center">
-                    <AiFillHome className="md:hidden inline-block" />{" "}
-                    <h1 className="text-xs font-bold">Home</h1>{" "}
-                  </div>
-                </li>
+                    <div className="flex md:hidden  flex-col justify-center items-center">
+                      <AiFillHome className="md:hidden inline-block" />{" "}
+                      <h1 className="text-xs font-bold">Home</h1>{" "}
+                    </div>
+                  </li>
+                </NavHashLink>
 
-                <li>
-                  <h1 className="md:inline-block hidden">About</h1>{" "}
-                  <div className="flex md:hidden  flex-col justify-center items-center">
-                    <IoIosInformationCircle className="md:hidden inline-block" />
-                    <h1 className="text-xs font-bold">About</h1>
-                  </div>
-                </li>
-                <li>
-                  <h1 className="md:inline-block hidden">Features</h1>
+                <NavHashLink smooth to={"/#features"}>
+                  <li>
+                    <h1 className="md:inline-block hidden">Features</h1>{" "}
+                    <div className="flex md:hidden  flex-col justify-center items-center">
+                      <IoIosInformationCircle className="md:hidden inline-block" />
+                      <h1 className="text-xs font-bold">Features</h1>
+                    </div>
+                  </li>
+                </NavHashLink>
 
-                  <div className="flex md:hidden  flex-col justify-center items-center">
-                    <MdFeaturedPlayList className="md:hidden inline-block" />
-                    <h1 className="text-xs font-bold">Features</h1>
-                  </div>
-                </li>
+                <NavHashLink smooth to={"/#templates"}>
+                  <li>
+                    <h1 className="md:inline-block hidden">Templates</h1>
+
+                    <div className="flex md:hidden  flex-col justify-center items-center">
+                      <MdFeaturedPlayList className="md:hidden inline-block" />
+                      <h1 className="text-xs font-bold">Templates</h1>
+                    </div>
+                  </li>
+                </NavHashLink>
 
                 <li className={`${userStatus ? "" : "hidden"}`}>
                   <NavLink to={"/admin/links"}>
@@ -151,7 +146,7 @@ export default function Home() {
       </div>
 
       {/* hero wrapper */}
-      <div className="h-screen   w-full relative">
+      <div id="home" className="h-screen   w-full relative">
         {/* bg-vectors */}
         <div className="relative top-0 left-0 w-full h-full ">
           <div
@@ -201,12 +196,16 @@ export default function Home() {
               {/* buttons container */}
               <div className=" mx-auto md:mx-0  rounded-xl w-[50%] h-14 flex gap-2">
                 {/* create link */}
-                <button className="h-full bg-[#28BDD1] text-[#F2EDE3] px-4 rounded-lg w-1/2 flex justify-center items-center">
+                <Link to='./login' className="h-full bg-[#28BDD1] text-[#F2EDE3] px-4 rounded-lg w-1/2 flex justify-center items-center">
                   create link
-                </button>
-                <button className=" border-2 border-[#28BDD1] text-[#BEC2D3] px-4 rounded-lg w-1/2 flex justify-center items-center">
-                  About us
-                </button>
+                </Link>
+                <NavHashLink
+                smooth to={'./#templates'}
+                className=" border-2 border-[#28BDD1] text-[#BEC2D3] px-4 rounded-lg w-1/2 flex justify-center items-center"
+                >
+                Templates
+                </NavHashLink>
+                
               </div>
             </div>
           </div>
@@ -226,7 +225,10 @@ export default function Home() {
       </div>
 
       {/* feature wrapper */}
-      <div className="md:h-screen h-full py-[43rem] md:py-[0rem]  xl:py-0  w-full relative ">
+      <div
+        id="features"
+        className="md:h-screen h-full py-[43rem] md:py-[0rem]  xl:py-0  w-full relative "
+      >
         {/* bg-vectors */}
         <div className="relative top-0 left-0 w-full h-full ">
           <div
@@ -341,7 +343,10 @@ export default function Home() {
       </div>
 
       {/* Templates wrapper */}
-      <div className="h-screen w-full relative flex justify-center items-center">
+      <div
+        id="templates"
+        className="h-screen w-full relative flex justify-center items-center my-12 md:my-0"
+      >
         {/* bg-vectors */}
         <div className="relative top-0 left-0 w-full h-full ">
           <div
