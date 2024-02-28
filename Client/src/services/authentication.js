@@ -1,9 +1,13 @@
 import axios from "axios";
 
+const apiInstance = axios.create({
+    baseURL:import.meta.env.VITE_API_URL
+})
+
 class Authentication {
     async signUp(data) {
         try {
-            const response = await axios.post('/api/v1/users/register', data)
+            const response = await apiInstance.post('/api/v1/users/register', data)
             if (response.data) {
                 return response.data
             }
@@ -14,7 +18,7 @@ class Authentication {
 
     async login(data) {
         try {
-            const response = await axios.post('/api/v1/users/login', {
+            const response = await apiInstance.post('/api/v1/users/login', {
                 username: data.userName, password: data.password
             })
             if (response.statusText === 'OK') {
@@ -29,7 +33,7 @@ class Authentication {
 
     async updateUser(token, data) {
         try {
-            const response = await axios.patch('/api/v1/users/update-account', { ...data }, {
+            const response = await apiInstance.patch('/api/v1/users/update-account', { ...data }, {
                 headers: {
                     'Authorization': token
                 },
@@ -44,7 +48,7 @@ class Authentication {
 
     async getUser(userName) {
         try {
-            const response = await axios.get(`/api/v1/users/u/${userName}`)
+            const response = await apiInstance.get(`/api/v1/users/u/${userName}`)
 
             if (response) {
                 return response.data
@@ -59,7 +63,7 @@ class Authentication {
         try {
             const formData = new FormData();
             formData.append('avatar', file);
-            const response = await axios.patch('/api/v1/users/avatar', formData, {
+            const response = await apiInstance.patch('/api/v1/users/avatar', formData, {
                 headers: {
                     'Authorization': token
                 }
@@ -81,7 +85,7 @@ class Authentication {
 
     async sendResetPasswordMail(email) {
         try {
-            const response = await axios.post('/api/v1/users/forget-password', {
+            const response = await apiInstance.post('/api/v1/users/forget-password', {
                 email
             })
             if (response) {
@@ -94,9 +98,9 @@ class Authentication {
         }
     }
 
-    async verifyResetPassword(token,password){
+    async verifyResetPassword(token, password) {
         try {
-            const response = await axios.patch('/api/v1/users/forget-password', {
+            const response = await apiInstance.patch('/api/v1/users/forget-password', {
                 token,
                 password
             })

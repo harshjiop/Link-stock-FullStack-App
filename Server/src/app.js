@@ -3,13 +3,23 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 const app = express();
+let allowOrigins = [process.env.Cors_Origin, 'http://localhost:5173'];
+
+
 
 app.use(
   cors({
-    origin: process.env.Cors_Origin,
-    credentials: true,
+    origin: function (origin, callback) {
+      if (!origin || allowOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not Allowed By CORS'));
+      }
+    }
   })
 );
+
+
 app.use(
   express.json({
     limit: "20kb",
