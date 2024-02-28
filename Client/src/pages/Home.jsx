@@ -19,6 +19,8 @@ import {
   TiUserAdd,
   IoLogInSharp,
   MdOutlineCancel,
+  MdProductionQuantityLimits,
+  IoColorPaletteOutline,
 } from "../icons";
 
 // social icons
@@ -59,7 +61,7 @@ export default function Home() {
   return (
     <div
       className="bg-[#171C2F] w-full h-screen overflow-y-auto no-scrollbar "
-      style={{ fontFamily: "Orbitron,sans-serif" }}
+      style={{ fontFamily: "Roboto,sans-serif" }}
     >
       {/* error wrapper */}
       <ErrorTemplate />
@@ -290,21 +292,25 @@ export default function Home() {
             {/* feature container 3 */}
             <div className="flex flex-col border border-[#BEC2D3] md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
               <BsPuzzle className="text-4xl text-white" />
-              <h2 className="text-xl font-bold text-[#28BDD1]">Collab Boost</h2>
+              <h2 className="text-xl font-bold text-[#28BDD1]">
+                Affiliate Program Integration
+              </h2>
               <h4 className="text-semibold text-[#BEC2D3] tracking-wide">
-                Amplify reach through collaborative bio links with Link Stock
+                Monetize your links by integrating with affiliate programs,
+                allowing you to earn commissions on sales generated through your
+                Link Store profile.
               </h4>
             </div>
 
             {/* feature container 4 */}
             <div className="flex flex-col border border-[#BEC2D3] md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
-              <SlGraph className="text-4xl text-white" />
+              <MdProductionQuantityLimits className="text-4xl text-white" />
               <h2 className="text-xl font-bold text-[#28BDD1]">
-                Smart Analytics
+                Product Showcase
               </h2>
               <h4 className="text-semibold text-[#BEC2D3] tracking-wide">
-                Instant insights with Link Stock's intelligent link analytics
-                dashboard
+                Showcase your products in an attractive layout, enabling your
+                audience to browse and purchase seamlessly within Link Store.
               </h4>
             </div>
 
@@ -321,18 +327,20 @@ export default function Home() {
 
             {/* feature container 6 */}
             <div className="flex flex-col border border-[#BEC2D3] md:w-1/4 w-full px-3 py-4 gap-3 rounded-lg">
-              <AiOutlineMobile className="text-4xl text-white" />
-              <h2 className="text-xl font-bold text-[#28BDD1]">Mobile Hub</h2>
+              <IoColorPaletteOutline className="text-4xl text-white" />
+              <h2 className="text-xl font-bold text-[#28BDD1]">
+                Custom Themes
+              </h2>
               <h4 className="text-semibold text-[#BEC2D3] tracking-wide">
-                Optimized, mobile-friendly bio links for on-the-go
-                accessibility.
+                Personalize your profile with custom themes and colors to match
+                your brand identity and captivate your audience
               </h4>
             </div>
           </div>
         </div>
       </div>
 
-      {/* platform wrapper */}
+      {/* Templates wrapper */}
       <div className="h-screen w-full relative flex justify-center items-center">
         {/* bg-vectors */}
         <div className="relative top-0 left-0 w-full h-full ">
@@ -363,9 +371,7 @@ export default function Home() {
 
         {/* platform container */}
         <div className="h-full md:w-[80%] mx-auto  items-center  w-full absolute md:top-[16%] top-[0%]   flex flex-col gap-5 ">
-          <h3 className="text-2xl text-[#28BDD1] text-center">
-            Link Stock works on any social media platform
-          </h3>
+          <h3 className="text-2xl text-[#28BDD1] text-center">Templates</h3>
 
           {/* platform strip wrapper */}
           <div className="border rounded-lg border-[#BEC2D3] w-full h-[65%] z-10"></div>
