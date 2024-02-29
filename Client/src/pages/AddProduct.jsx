@@ -78,7 +78,6 @@ export default function AddProduct() {
         ) {
           throw new Error("All Fields Except Product_Retailer Are Required");
         }
-        console.log(data);
         const respsonse = await product.addProduct(token, data);
         if (respsonse) {
           toast.success("Product Added");
@@ -128,6 +127,7 @@ export default function AddProduct() {
 
   const handleOptionalFieldsVisibility = (event) => {
     // console.log(event.target.checked);
+    setValue("Product_Retailer");
     setOptionalFieldsVisibility(event.target.checked);
   };
 
@@ -193,9 +193,9 @@ export default function AddProduct() {
               {/* upper section / visible form section  */}
               <div className="flex flex-col md:flex-row gap-4 ">
                 {/* left section / image input */}
-                <div className="md:w-1/2 w-full h-full border-2 py-4 border-dashed border-[#28BDD1] flex justify-center items-center relative">
+                <div className="md:w-1/2 w-full h-full border-2 py-4 border-dashed border-[#28BDD1]  flex justify-center items-center relative">
                   <input
-                    className="border rounded-lg bg-transparent text-center h-full w-full opacity-0 outline-none flex justify-center items-center absolute top-0 left-0"
+                    className="border rounded-lg bg-transparent text-center h-full w-full opacity-0 outline-none flex justify-center items-center absolute top-0 left-0 cursor-pointer"
                     type="file"
                     name="Product_img"
                     id="Product_img"

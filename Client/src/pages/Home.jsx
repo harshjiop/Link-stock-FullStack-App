@@ -48,7 +48,7 @@ export default function Home() {
 
   return (
     <div
-      className="bg-[#171C2F] w-full h-screen overflow-y-auto no-scrollbar "
+      className="bg-[#171C2F] w-full h-screen overflow-y-auto overflow-x-hidden no-scrollbar "
       style={{ fontFamily: "Roboto,sans-serif" }}
     >
       {/* error wrapper */}
@@ -71,7 +71,7 @@ export default function Home() {
             {/* nav menu container*/}
             <div className="px-2 h-full md:w-auto w-[60%] text-[#BEC2D3]">
               <ul className="flex w-full   md:gap-10 gap-3 h-full justify-between md:justify-center text-2xl md:text-lg items-center font-semibold">
-                <NavHashLink smooth to={"/#home"}>
+                <NavHashLink  smooth to={"/#home"}>
                   <li>
                     <h1 className="md:inline-block hidden">Home</h1>
 

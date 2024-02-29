@@ -35,7 +35,7 @@ function ResetPassword() {
 
   return (
     <div
-      className="h-screen w-full bg-[#171C2F] relative overflow-y-hidden"
+      className="h-screen w-full bg-[#171C2F] relative overflow-y-hidden overflow-x-hidden"
       style={{ fontFamily: "Roboto,sans-serif" }}
     >
       {/* error wrapper */}

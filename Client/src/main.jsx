@@ -65,11 +65,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/password-reset-confirm",
-    element: (
-      <AuthLayout authentication={false}>
-        <VerifyPasswordReset />
-      </AuthLayout>
-    ),
+    element: (<VerifyPasswordReset />),
   },
   {
     path: "/admin",

@@ -70,7 +70,7 @@ class Links {
                 return gotLinks
             }
         } catch (error) {
-            throw new Error(`Links ${response.statusText}`)
+            throw new Error(`Links ${error.message}`)
         }
     }
 
