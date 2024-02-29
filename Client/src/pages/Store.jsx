@@ -196,17 +196,15 @@ export default function Store() {
         <div className="flex flex-col items-center gap-5 pb-4  h-full">
           <h1 className="text-3xl font-bold">Products</h1>
           {/* products container */}
-          <div className="flex gap-10 flex-wrap justify-center items-center w-screen ">
+          <div className="flex gap-10 flex-wrap justify-center items-center w-screen pb-4">
             {storeOwner.UserProduct.map((product) => {
-              // console.log(
-              //   "product img",
-              //   product.Product_Img[0].Product_img_Cloudnary_Path
-              {
-                product.Product_Price - product.Product_Discount_Price;
-              }
-              // );
               return (
-                <div key={product._id}>
+                <Link
+                  target="_blank"
+                  to={`${product.Product_Url}`}
+                  key={product._id}
+                  className="h-[420px] w-[320px]"
+                >
                   {/* <div
                     onMouseEnter={handleHover}
                     onMouseLeave={handleHover}
@@ -224,18 +222,17 @@ export default function Store() {
                     </div>
                   </div> */}
 
-                  <div className="relative  md:m-10 m-0  flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-                    <Link
-                      className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
-                      target="_blank"
-                      to={`${product.Product_Url}`}
+                  <div className="relative h-full   flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+                    <div
+                      className={`relative  flex h-[50%] overflow-hidden rounded-lg  bg-center bg-no-repeat bg-cover 
+                    `}
                     >
                       <img
-                        className="object-cover"
+                        className="object-cover w-full h-full"
                         src={product.Product_Img[0].Product_img_Cloudnary_Path}
-                        // src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
                         alt="product image"
                       />
+                      {/* <span className="absolute top-0 right-0 text-black">asasdfasfddf</span> */}
                       <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
                         {/* {((product.Product_Price -
                           product.Product_Discount_Price) /
@@ -250,16 +247,16 @@ export default function Store() {
                         % OFF
                         {/* 39% OFF */}
                       </span>
-                    </Link>
-                    <div className="mt-4 px-5 pb-5">
-                      <Link to="/">
-                        <h5 className="text-xl tracking-tight text-slate-900">
-                          {product.Product_Name}
-                          {/* Nike Air MX Super 2500 - Red */}
-                        </h5>
-                      </Link>
-                      <div className="mt-2 mb-5 flex items-center justify-between">
-                        <p className="">
+                    </div>
+
+                    <div className="mt-4 px-5 pb-5 h-[40%]">
+                      <h5 className="text-xl tracking-tight max-h-[40%] font-bold text-slate-900 overflow-y-hidden">
+                        {product.Product_Name}
+                        {/* Nike Air MX Super 2500 - Red */}
+                      </h5>
+
+                      <div className="mt-2 mb-5 flex items-center max-h-[60%] justify-between">
+                        <p className="flex items-center gap-2">
                           <span className="text-3xl font-bold text-slate-900">
                             {/* $449 */}₹ {product.Product_Discount_Price}
                           </span>
@@ -348,7 +345,7 @@ export default function Store() {
                       </div> */}
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

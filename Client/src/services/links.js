@@ -1,6 +1,6 @@
 import axios from "axios";
 const apiInstance = axios.create({
-    baseURL:import.meta.env.VITE_API_URL
+    baseURL: import.meta.env.VITE_API_URL
 })
 class Links {
     async getLinks(token) {
@@ -70,7 +70,7 @@ class Links {
                 return gotLinks
             }
         } catch (error) {
-            throw new Error(`Links ${response.statusText}`)
+            throw new Error(`Links ${error.message}`)
         }
     }
 

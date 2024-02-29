@@ -79,8 +79,7 @@ export default function Links() {
 
   function handleShare() {
     if (userName) {
-      const baseUrl =
-        window.location.hostname === "localhost" ? "http://localhost:5173" : "";
+      const baseUrl = window.location.protocol + "//" + window.location.host;
       const dummyInput = document.createElement("input");
       dummyInput.value = `${baseUrl}/${userName}`;
       document.body.appendChild(dummyInput);
