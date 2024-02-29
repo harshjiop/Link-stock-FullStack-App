@@ -1,7 +1,10 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Page } from "../models/Page.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import {
+  uploadOnCloudinary,
+  deleteFromCloudinary,
+} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import fs from "fs";
 
@@ -18,8 +21,8 @@ const Addlink = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required");
   }
 
-  if (url.startsWith('/') && title.toLowerCase() !== 'store') {
-    throw new ApiError(400, `Url Can't Start With '/'`)
+  if (url.startsWith("/") && title.toLowerCase() !== "store") {
+    throw new ApiError(400, `Url Can't Start With '/'`);
   }
 
   const thumbnailLocalPath = req.file?.path;
@@ -63,30 +66,31 @@ const Addlink = asyncHandler(async (req, res) => {
 });
 const Deletelink = asyncHandler(async (req, res) => {
   const { linkId } = req.body;
+  // console.log(linkId);
 
   const deletedlink = await Page.findById(linkId);
+  // console.log("dataa", deletedlink);
 
   if (!deletedlink) {
     throw new ApiError(400, "Link not found");
   }
 
   const thumbnailPublicId = deletedlink.thumbnail.public_id;
+
   if (thumbnailPublicId) {
-    const removeLinkFromCloudinary = await deleteFromCloudinary(
-      videoFilePublicId,
-      "video"
-    );
+    const removeLinkFromCloudinary =
+      await deleteFromCloudinary(thumbnailPublicId);
+
     if (!removeLinkFromCloudinary) {
       throw new ApiError(400, "Error while deleting file from cloudinary");
     }
   }
-
-  const DeleteLink = await deletedlink.deleteOne();
+  // console.log("id", deletedlink._id);
+  const DeleteLink = await deletedlink.deleteOne({ _id: deletedlink._id });
 
   if (!DeleteLink) {
     throw new ApiError(400, "Error while deleting video");
   }
-
   return res
     .status(200)
     .json(new ApiResponse(200, DeleteLink, "video deleted successfully"));
