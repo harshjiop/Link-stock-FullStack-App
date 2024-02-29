@@ -1,7 +1,5 @@
 import axios from 'axios'
-const apiInstance = axios.create({
-    baseURL:import.meta.env.VITE_API_URL
-})
+
 class Product {
 
     async addProduct(token, data) {
@@ -19,7 +17,7 @@ class Product {
                     form.append("Product_img", data.Product_img[i]);
                 }
 
-                const response = await apiInstance.post(`/api/v1/product/add-product`, form, {
+                const response = await axios.post(`/api/v1/product/add-product`, form, {
                     headers: {
                         'Authorization': token,
                     }
@@ -37,7 +35,7 @@ class Product {
 
     async getStoreDetails(userName) {
         try {
-            const response = await apiInstance.get(`/api/v1/${userName}/Store`
+            const response = await axios.get(`/api/v1/${userName}/Store`
             );
 
             if (response) {

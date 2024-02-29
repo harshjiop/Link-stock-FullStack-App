@@ -1,11 +1,9 @@
 import axios from "axios";
-const apiInstance = axios.create({
-    baseURL:import.meta.env.VITE_API_URL
-})
+
 class Links {
     async getLinks(token) {
         try {
-            const response = await apiInstance.get('/api/v1/link/all-link', {
+            const response = await axios.get('/api/v1/link/all-link', {
                 headers: {
                     Authorization: token
                 }
@@ -28,7 +26,7 @@ class Links {
 
             
 
-            const response = await apiInstance.post('/api/v1/link/add-link', form, {
+            const response = await axios.post('/api/v1/link/add-link', form, {
                 headers: {
                     Authorization: token
                 }
@@ -59,7 +57,7 @@ class Links {
 
     async deleteLinks(token, linkId) {
         try {
-            const response = await apiInstance.post('/api/v1/link/delete-link', { linkId }, {
+            const response = await axios.post('/api/v1/link/delete-link', { linkId }, {
                 headers: {
                     Authorization: token
                 }
@@ -76,7 +74,7 @@ class Links {
 
     async getGuestLinks(userName) {
         try {
-            const response = await apiInstance.get(`/api/v1/${userName}`)
+            const response = await axios.get(`/api/v1/${userName}`)
             return response.data.data[0];
 
         } catch (error) {

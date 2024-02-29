@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-let allowOrigins = [process.env.Cors_Origin, 'http://localhost:5173'];
+let allowOrigins = [process.env.Cors_Origin];
 
 app.use(
   cors({
