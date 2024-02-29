@@ -77,7 +77,7 @@ function ResendEmail() {
   return (
     <div
       className="w-full h-screen bg-[#171C2F] selection:bg-transparent relative flex justify-center items-center"
-      style={{ fontFamily: "Orbitron,sans-serif" }}
+      style={{ fontFamily: "Roboto,sans-serif" }}
     >
       {/* error wrapper */}
       <ErrorTemplate />

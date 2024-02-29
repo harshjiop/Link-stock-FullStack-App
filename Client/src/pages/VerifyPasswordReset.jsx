@@ -65,8 +65,8 @@ function VerifyPasswordReset() {
   }
   return (
     <div
-      className="h-screen w-full bg-[#171C2F] relative overflow-y-hidden"
-      style={{ fontFamily: "Orbitron,sans-serif" }}
+      className="h-screen w-full bg-[#171C2F] relative overflow-y-hidden overflow-x-hidden"
+      style={{ fontFamily: "Roboto,sans-serif" }}
     >
       {/* error wrapper */}
       <ErrorTemplate />

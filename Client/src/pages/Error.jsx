@@ -4,7 +4,7 @@ export default function Error() {
   return (
     <div
       className="bg-center bg-no-repeat bg-cover h-screen w-screen bg-[url(https://ik.imagekit.io/8fgpvoiai/Link%20Stock/pexels-photo-2422464_FnRIrHhNH.jpeg?updatedAt=1706291451448)] relative"
-      style={{ fontFamily: "Poppins,sans-serif" }}
+      style={{ fontFamily: "Roboto,sans-serif" }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-slate-900/40 backdrop-blur-sm flex justify-center items-center flex-col gap-3">
         {/* upper logo */}

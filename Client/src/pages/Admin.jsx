@@ -140,7 +140,7 @@ export default function Admin() {
   return (
     <div
       className="h-screen w-full flex justify-center items-center bg-[#171C2F] relative overflow-y-hidden overflow-x-hidden"
-      style={{ fontFamily: "Orbitron,sans-serif" }}
+      style={{ fontFamily: "Roboto,sans-serif" }}
     >
       {/* error wrapper */}
       <ErrorTemplate />

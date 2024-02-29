@@ -29,19 +29,20 @@ export default function Login() {
           localStorage.setItem("userData", localUserData);
           localStorage.setItem("token", userData.accessToken);
           dispatch(login({ userData }));
+          setMiniLoader(false);
           navigate("/admin/links");
         }
       }
     } catch (error) {
       setMiniLoader(false);
-      dispatch(updateStatus({ error: true, text: error.response.statusText }));
+      dispatch(updateStatus({ error: true, text: error.message }));
     }
   }
 
   return (
     <div
-      className="h-screen w-full bg-[#171C2F] relative overflow-y-hidden "
-      style={{ fontFamily: "Orbitron,sans-serif" }}
+      className="h-screen w-full bg-[#171C2F] relative overflow-y-hidden overflow-x-hidden "
+      style={{ fontFamily: "Roboto,sans-serif" }}
     >
       {/* error wrapper */}
       <ErrorTemplate />
