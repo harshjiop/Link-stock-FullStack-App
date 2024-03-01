@@ -8,7 +8,6 @@ import {
   updateAccountDetails,
   updateUserAvatar,
   getCurrentUser,
-  removeUserAvatar,
   UserSetTheme,
   ForgetPassword,
   ForgetPasswordUpdate,
@@ -35,7 +34,6 @@ router.route("/update-account").patch(verifyJWT, updateAccountDetails);
 router.route("/update-theme").patch(verifyJWT, UserSetTheme);
 router
   .route("/avatar")
-  .patch(verifyJWT, upload.single("avatar"), updateUserAvatar)
-  .post(verifyJWT, removeUserAvatar);
+  .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
 export default router;
