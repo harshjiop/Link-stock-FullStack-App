@@ -15,6 +15,7 @@ import fs from "fs";
 import path from "path";
 import { TransPorter, SendEmail } from "../utils/Transpoter.js";
 import { ResetPasswordTemplate } from "../utils/EmailTemplate/ResetPasswordTemplate.js";
+import { PasswordUpdateTemplate } from "../utils/EmailTemplate/PasswordUpdateTemplate.js";
 
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
@@ -273,7 +274,9 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Avatar file is missing");
   }
   const Get_User_avtar = await User.findById(req.user);
-  const deleteCloudanariy = await deleteFromCloudinary(Get_User_avtar?.avatar?.public_id);
+  const deleteCloudanariy = await deleteFromCloudinary(
+    Get_User_avtar?.avatar?.public_id
+  );
   const avatar = await uploadOnCloudinary(avatarLocalPath);
 
   if (!avatar.url) {
@@ -297,7 +300,6 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, user, "Avatar image updated successfully"));
 });
-
 
 const UserSetTheme = asyncHandler(async (req, res) => {
   const { theme } = req.body;
@@ -339,7 +341,7 @@ const ForgetPasswordUpdate = asyncHandler(async (req, res) => {
   if (!user) {
     throw new ApiError(401, "Invalid Access Token");
   }
-
+  await SendEmail(email, "Password Update SucessFull", PasswordUpdateTemplate);
   return res
     .status(200)
     .json(new ApiResponse(200, user, "Email Send successfully"));
