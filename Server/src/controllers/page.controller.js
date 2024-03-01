@@ -1,7 +1,10 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Page } from "../models/Page.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import {
+  uploadOnCloudinary,
+  deleteFromCloudinary,
+} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import fs from "fs";
 
@@ -25,18 +28,6 @@ const Addlink = asyncHandler(async (req, res) => {
   const thumbnailLocalPath = req.file?.path;
   const ThumbnailCloudinary = await uploadOnCloudinary(thumbnailLocalPath);
   // console.log("thubnail",ThumbnailCloudinary);
-  if (thumbnailLocalPath) {
-    console.log("note run");
-    const thumbnailLocalPathDelete = await fs.unlink(
-      thumbnailLocalPath,
-      function (err) {
-        if (err) {
-          console.log("error in deleting local thumbanil", err);
-        }
-        console.log("File deleted successfully!");
-      }
-    );
-  }
 
   const linkCreated = await Page.create({
     title,
