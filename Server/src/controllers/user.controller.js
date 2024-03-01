@@ -272,6 +272,8 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar file is missing");
   }
+  const Get_User_avtar = await User.findById(req.user);
+  const deleteCloudanariy = await deleteFromCloudinary(Get_User_avtar?.avatar?.public_id);
   const avatar = await uploadOnCloudinary(avatarLocalPath);
 
   if (!avatar.url) {
@@ -295,29 +297,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, user, "Avatar image updated successfully"));
 });
-const removeUserAvatar = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user);
-  const deleteCloudanariy = await deleteFromCloudinary(user?.avatar?.public_id);
-  console.log("delete", deleteCloudanariy);
 
-  const updateuser = await User.findByIdAndUpdate(
-    req.user?._id,
-    {
-      $set: {
-        avatar: {
-          url: "https://res.cloudinary.com/ddib2csvf/image/upload/v1706447714/Avtar.png",
-        },
-      },
-    },
-    { new: true }
-  ).select("-password");
-
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(200, updateuser, "Avatar image updated successfully")
-    );
-});
 
 const UserSetTheme = asyncHandler(async (req, res) => {
   const { theme } = req.body;
@@ -471,7 +451,6 @@ export {
   updateAccountDetails,
   updateUserAvatar,
   getCurrentUser,
-  removeUserAvatar,
   UserSetTheme,
   ForgetPassword,
   ForgetPasswordUpdate,
