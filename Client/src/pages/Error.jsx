@@ -8,10 +8,8 @@ export default function Error() {
     >
       <div className="absolute top-0 left-0 w-full h-full bg-slate-900/40 backdrop-blur-sm flex justify-center items-center flex-col gap-3">
         {/* upper logo */}
-        <div className=" w-[200px] h-[200px] bg-slate-900/50 px-6 py-4 backdrop-blur-xl rounded-xl">
-          <div className="border-2 border-red-500 h-full rounded-xl text-2xl text-red-600 flex justify-center items-center">
-            Logo Here
-          </div>
+        <div className=" w-[200px] h-[100px] bg-slate-900/50 px-6 py-4 backdrop-blur-xl rounded-xl flex justify-center items-center">
+          <img className="rounded" src="https://ik.imagekit.io/8fgpvoiai/Link%20Stock/800w-mNb5D51JPec_Wut2QXm78.jpg?updatedAt=1708786481427" alt="" />
         </div>
 
         {/* content */}
