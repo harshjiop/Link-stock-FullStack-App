@@ -11,16 +11,14 @@ import {
 const router = Router();
 
 router.use(verifyJWT);
+// router.use(UserVerified);
 
 //SECURED ROUTES
 router.route("/all-product").get(GetAllProduct);
 router.route("/update-product").patch(UpdateProduct);
 router.route("/delete-product").delete(DeleteProduct);
 
-router.route("/add-product").post(
-  upload.array('Product_img',5),
-  AddProduct
-);
+router.route("/add-product").post(upload.array("Product_img", 5), AddProduct);
 
 // router
 //   .route("/thumbnail")
