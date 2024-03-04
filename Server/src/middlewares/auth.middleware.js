@@ -70,9 +70,9 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
   if (!user) {
     throw new ApiError(401, "Invalid Access Token");
   }
-  if (user.account_email_Verified === false) {
-    throw new ApiError(401, "User Note verified");
-  }
+  // if (user.account_email_Verified === false) {
+  //   throw new ApiError(401, "User Note verified");
+  // }
   req.user = user;
   next();
 });
