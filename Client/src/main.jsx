@@ -15,6 +15,7 @@ import {
   ResetPassword,
   ResendEmail,
   VerifyPasswordReset,
+  AccountVerification,
 } from "./pages";
 import { Provider } from "react-redux";
 import {
@@ -65,7 +66,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/password-reset-confirm",
-    element: (<VerifyPasswordReset />),
+    element: <VerifyPasswordReset />,
+  },
+  {
+    path: "/account-verification",
+    element: <AccountVerification />,
   },
   {
     path: "/admin",

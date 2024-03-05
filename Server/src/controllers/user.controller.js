@@ -481,7 +481,7 @@ const SendEmailForVerifacation = asyncHandler(async (req, res) => {
           Hello Sir! <br><br>It looks like you just signed up for The App, that’s awesome! Can we ask you for email confirmation? Just click the button bellow.
         </p>
         <button  class="  bg-red rounded w-full my-8 p-4 ">
-        <a href="${process.env.Cors_Origin}/account-verifecation?token=${Account_VeriFecation_Token}"  class="text-white no-underline " >CONFIRM EMAIL ADRESS</a>
+        <a href="${process.env.Cors_Origin}/account-verification?token=${Account_VeriFecation_Token}"  class="text-white no-underline " >CONFIRM EMAIL ADRESS</a>
           </button>
         <p class="text-sm">
           Keep Rockin!<br> lets-start-code.com
@@ -535,7 +535,7 @@ const isEmailVerified = asyncHandler(async (req, res) => {
   );
   const user = await User.findOneAndUpdate(
     { _id },
-    { $set: { account_email_Verified: "true" } }
+    { $set: { account_email_Verified: "true" } },{new:true}
   );
   if (!user) {
     throw new ApiError(401, "Invalid Access Token");
