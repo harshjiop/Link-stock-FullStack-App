@@ -5,14 +5,16 @@ import { useForm } from "react-hook-form";
 import authentication from "../../services/authentication";
 import { login } from "../../store/authSlice";
 import { clearStatus, updateStatus } from "../../store/errorSlice";
-import { MdEdit } from "../../icons";
+import { MdEdit, LuMailX, TbMailCheck, LuMailWarning } from "../../icons";
 import { MiniLoader } from "../../pages";
+import { toast } from "react-toastify";
 
 export default function Account() {
   const [data, setData] = useState({});
   const [token, setToken] = useState("");
   const userData = useSelector((state) => state.auth.userData);
   const [miniLoader, setMiniLoader] = useState(false);
+  const [isMailSent, setIsMailSend] = useState(false);
 
   const { handleSubmit, register, watch, getValues } = useForm({
     defaultValues: {
@@ -39,8 +41,6 @@ export default function Account() {
   useEffect(() => {
     setData(userData);
   }, [userData]);
-
- 
 
   const onSubmit = async (data) => {
     setMiniLoader(true);
@@ -82,9 +82,27 @@ export default function Account() {
     }
   };
 
+  async function handleVerificationEmail() {
+    if (userData.account_email_Verified) {
+      dispatch(updateStatus({ error: false, text: "Email Already Verified" }));
+      return;
+    }
+    try {
+      const response = await authentication.sendAccountVerificationMail(token);
+      if (response.statusCode === 200) {
+        dispatch(
+          updateStatus({ error: false, text: "Verification Mail Send" })
+        );
+        setIsMailSend(true);
+      }
+    } catch (error) {
+      dispatch(updateStatus({ error: true, text: error.message }));
+    }
+  }
+
   if (data) {
     return (
-      <AdminContainer className="rounded-lg bg-black z-[100]">
+      <AdminContainer className="rounded-lg bg-black z-[100] selection:bg-transparent">
         {/* form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -127,7 +145,7 @@ export default function Account() {
 
           {/* user name */}
           <input
-            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold border w-[60%]"
+            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold border md:w-[60%] w-[90%]"
             type="text"
             name="username"
             id="username"
@@ -136,18 +154,49 @@ export default function Account() {
           />
 
           {/* email */}
-          <input
-            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold w-[60%]"
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Email"
-            {...register("email", { required: true })}
-          />
+          <div className="w-full flex flex-col justify-center items-center gap-1">
+            <input
+              className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold md:w-[60%] w-[90%]"
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email"
+              {...register("email", { required: true })}
+            />
+
+            <div
+              onClick={handleVerificationEmail}
+              className="md:w-[60%] w-[90%]  px-2 cursor-pointer"
+            >
+              {userData?.account_email_Verified ? (
+                <>
+                  <div className="text-green-500 flex items-center gap-2">
+                    <TbMailCheck className=" text-xl" />
+                    <p>Email is Verified</p>
+                  </div>
+                </>
+              ) : isMailSent ? (
+                <>
+                  {" "}
+                  <div className="text-yellow-500 flex items-center gap-2">
+                    <LuMailWarning className=" text-xl" />
+                    <p>Email Sent Check Email</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="text-red-500 flex items-center gap-2">
+                    <LuMailX className=" text-xl" />
+                    <p>Email is not Verified</p>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
 
           {/* full name */}
           <input
-            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold w-[60%]"
+            className="text-center  bg-white rounded text-black outline-none text-xl py-2 font-bold md:w-[60%] w-[90%]"
             type="text"
             name="fullname"
             id="fullname"
@@ -161,7 +210,7 @@ export default function Account() {
             value="Update Details"
           /> */}
 
-          <button className="text-center cursor-pointer px-3 bg-[#28BDD1] py-2 rounded-lg text-xl font-bold text-white flex items-center justify-center gap-3 w-[60%]">
+          <button className="text-center cursor-pointer px-3 bg-[#28BDD1] py-2 rounded-lg text-xl font-bold text-white flex items-center justify-center gap-3 md:w-[60%] w-[90%]">
             Update Details
             {miniLoader && <MiniLoader />}
           </button>
