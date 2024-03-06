@@ -77,7 +77,7 @@ const getuser_All_Product = asyncHandler(async (req, res) => {
 
     {
       $project: {
-        username:1,
+        username: 1,
         fullName: 1,
         email: 1,
         avatar: 1,
@@ -97,4 +97,65 @@ const getuser_All_Product = asyncHandler(async (req, res) => {
     );
 });
 
-export { getuser, getuser_All_Product };
+const gethomeuser = asyncHandler(async (req, res) => {
+  console.log("run get home user");
+
+  const UserData = await User.find().sort({ _id: -1 }).limit(2);
+
+  const UserName = await UserData.map(async (data, index) => {
+    // return data.username;
+    // console.log(data.username);
+    return await User.aggregate([
+      {
+        $match: {
+          username: data.username?.toLowerCase(),
+        },
+      },
+      {
+        $lookup: {
+          from: "pages",
+          localField: "_id",
+          foreignField: "owner",
+          as: "UserLink",
+        },
+      },
+      {
+        $lookup: {
+          from: "themes",
+          localField: "theme",
+          foreignField: "_id",
+          as: "UserTheme",
+        },
+      },
+      {
+        $project: {
+          fullName: 1,
+          email: 1,
+          avatar: 1,
+          bio: 1,
+          UserLink: 1,
+          UserTheme: 1,
+        },
+      },
+    ]);
+  });
+  console.log("username1", UserName);
+
+  // const newusername = UserName.map((element) => {
+  //   return element.then(
+  //     function (value) {
+  //       console.log("secessful", value, element);
+  //     },
+  //     function (error) {
+  //       /* code if some error */
+  //     }
+  //   );
+  // });
+  // console.log("username12", UserName);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, UserName, "Home User fetched successfully"));
+});
+
+export { getuser, getuser_All_Product, gethomeuser };
