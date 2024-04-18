@@ -24,12 +24,14 @@ import {
 } from "../icons";
 
 import { NavHashLink } from "react-router-hash-link";
+import links from "../services/links";
 
 export default function Home() {
   const dispatch = useDispatch();
   const [isLogin, setUserLogin] = useState(false);
   const userStatus = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
+  const [homeLinks, setHomeLinks] = useState([]);
 
   useEffect(() => {
     try {
@@ -44,6 +46,21 @@ export default function Home() {
     } catch (error) {
       dispatch(updateStatus({ error: true, text: error.message }));
     }
+  }, []);
+
+  // home links
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await links.getHomeLinks();
+        console.log("response", response.data);
+        if (response) {
+          setHomeLinks(response.data);
+        }
+      } catch (error) {
+        console.log("Error in accessgin home links");
+      }
+    })();
   }, []);
 
   return (
@@ -71,7 +88,7 @@ export default function Home() {
             {/* nav menu container*/}
             <div className="px-2 h-full md:w-auto w-[60%] text-[#BEC2D3]">
               <ul className="flex w-full   md:gap-10 gap-3 h-full justify-between md:justify-center text-2xl md:text-lg items-center font-semibold">
-                <NavHashLink  smooth to={"/#home"}>
+                <NavHashLink smooth to={"/#home"}>
                   <li>
                     <h1 className="md:inline-block hidden">Home</h1>
 
@@ -196,16 +213,19 @@ export default function Home() {
               {/* buttons container */}
               <div className=" mx-auto md:mx-0  rounded-xl w-[50%] h-14 flex gap-2">
                 {/* create link */}
-                <Link to='./login' className="h-full bg-[#28BDD1] text-[#F2EDE3] px-4 rounded-lg w-1/2 flex justify-center items-center">
+                <Link
+                  to="./login"
+                  className="h-full bg-[#28BDD1] text-[#F2EDE3] px-4 rounded-lg w-1/2 flex justify-center items-center"
+                >
                   create link
                 </Link>
                 <NavHashLink
-                smooth to={'./#templates'}
-                className=" border-2 border-[#28BDD1] text-[#BEC2D3] px-4 rounded-lg w-1/2 flex justify-center items-center"
+                  smooth
+                  to={"./#templates"}
+                  className=" border-2 border-[#28BDD1] text-[#BEC2D3] px-4 rounded-lg w-1/2 flex justify-center items-center"
                 >
-                Templates
+                  Templates
                 </NavHashLink>
-                
               </div>
             </div>
           </div>
@@ -345,7 +365,7 @@ export default function Home() {
       {/* Templates wrapper */}
       <div
         id="templates"
-        className="h-screen w-full relative flex justify-center items-center my-12 md:my-0"
+        className="md:h-screen h-full  py-[43rem] md:py-[0rem]  w-full relative flex justify-center items-center my-12 md:my-0"
       >
         {/* bg-vectors */}
         <div className="relative top-0 left-0 w-full h-full ">
@@ -379,7 +399,47 @@ export default function Home() {
           <h3 className="text-2xl text-[#28BDD1] text-center">Templates</h3>
 
           {/* platform strip wrapper */}
-          <div className="border rounded-lg border-[#BEC2D3] w-full h-[65%] z-10"></div>
+          <div className="border rounded-lg text-white border-[#BEC2D3] overflow-y-auto no-scrollbar w-full h-[65%] z-10 flex justify-center items-center flex-wrap gap-4 py-2">
+            {homeLinks.length ? (
+              <>
+                {homeLinks.map((data, index) => (
+                  <Link
+                    key={index}
+                    className=" rounded-2xl  w-[400px] h-[100px] "
+                    to={`${window.location.protocol}/${data[0]?.username}`}
+                  >
+                    {/* http://localhost:5173/ilokeshghosh */}
+                    <div
+                      className="innerContainer rounded-2xl h-full "
+                      style={{
+                        backgroundColor: `${data[0].UserTheme[0].mainStyles.innerContainer.backgroundColor}`,
+                      }}
+                    >
+                      {/* upper section */}
+                      <div className="upperSection flex  justify-center items-center  h-full px-2">
+                        {/* avatarContainer */}
+                        <img
+                          className="avatarContainer rounded-full"
+                          src={`${data[0]?.avatar?.url}`}
+                          alt=""
+                        />
+
+                        {/* content section */}
+                        <div
+                          className="contentSection"
+                          style={data[0].UserTheme[0].mainStyles.contentSection}
+                        >
+                          <h2>{data[0]?.username}</h2>
+                          <h1>{data[0]?.fullName}</h1>
+                          <h2>{data[0]?.email}</h2>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </>
+            ) : null}
+          </div>
 
           {/* below link */}
           <Link

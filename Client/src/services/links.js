@@ -26,7 +26,7 @@ class Links {
             form.append('isActive', true);
             form.append('thumbnail', data.thumbnail[0]);
 
-            
+
 
             const response = await apiInstance.post('/api/v1/link/add-link', form, {
                 headers: {
@@ -79,6 +79,15 @@ class Links {
             const response = await apiInstance.get(`/api/v1/${userName}`)
             return response.data.data[0];
 
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getHomeLinks() {
+        try {
+            const response = await apiInstance.get(`/api/v1`)
+            return response.data;
         } catch (error) {
             throw error;
         }
