@@ -121,11 +121,19 @@ const AddProduct = asyncHandler(async (req, res) => {
 const UpdateProduct = asyncHandler(async (req, res) => { });
 const DeleteProduct = asyncHandler(async (req, res) => {
   const { productid } = req.params;
-  console.log(productid);
-  // const Get_All_Product = await Product.find({ Product_owner });
+  const Product_owner = req.user._id;
+  const deletedProduct = await Product.findByIdAndDelete(productid);
+
+  if(!deletedProduct){
+    throw new ApiError('product not found');
+  }
+  const Get_All_Product = await Product.find({ Product_owner });
+  if(!Get_All_Product){
+    throw new ApiError('failed to get latest product');
+  }
   return res
     .status(200)
-    .json(new ApiResponse(200, productid, "All Product Geting Sucessful"));
+    .json(new ApiResponse(200, Get_All_Product[0], "All Product Geting Sucessful"));
 });
 
 export { AddProduct, DeleteProduct, GetAllProduct, UpdateProduct };
