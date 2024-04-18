@@ -9,6 +9,8 @@ import {
   MdModeEditOutline,
   IoShare,
   BsPatchCheckFill,
+  MdEdit,
+  MdDelete,
 } from "../icons/index.js";
 import { Link } from "react-router-dom";
 import product from "../services/product.js";
@@ -26,6 +28,12 @@ export default function Store() {
   const [loader, setLoader] = useState(true);
   const userData = useSelector((state) => state.auth.userData);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isdeleteClicked, setIsDeleteClicked] = useState(false);
+  const [deleteDetails, setDeleteDetails] = useState({
+    id: "",
+    name: "",
+    confirm: false,
+  });
 
   useEffect(() => {
     if (userData) {
@@ -50,6 +58,17 @@ export default function Store() {
         toast.error(error.message);
       }
     })();
+  }, []);
+
+  useEffect(() => {
+    try {
+      const localToken = localStorage.getItem("token");
+      if (localToken) {
+        setToken(localToken);
+      }
+    } catch (error) {
+      console.log("error is ");
+    }
   }, []);
 
   useEffect(() => {
@@ -92,6 +111,25 @@ export default function Store() {
     }
   }
 
+  async function handleDelete(id) {
+    if (token) {
+      if (id) {
+        const response = await product.deleteProduct(token, id);
+        if (response) {
+          const data = response[0];
+          console.log(data)
+          dispatch(addStoreOwner(data));
+          localStorage.setItem("storeOwner", JSON.stringify(response[0]));
+          // setLoader(false);
+        }
+      }else{
+        console.log('id not found')
+      }
+    }else{
+      console.log('token not found')
+    }
+  }
+
   function handleHover(e) {
     e.currentTarget.querySelector(".content").classNameList.toggle("opacity-0");
     e.currentTarget.querySelector(".content").classNameList.toggle("opacity-1");
@@ -111,7 +149,7 @@ export default function Store() {
 
   return (
     <div
-      className="h-screen overflow-y-auto no-scrollbar bg-[#171C2F] text-white py-4 w-full relative flex flex-col justify-center items-center"
+      className="h-screen overflow-y-auto no-scrollbar bg-[#171C2F] text-white w-full relative flex flex-col justify-center items-center"
       style={{ fontFamily: "Roboto,sans-serif" }}
     >
       {/* bg-vectors */}
@@ -143,8 +181,73 @@ export default function Store() {
 
       <ErrorTemplate />
 
+      {/* error modal box container*/}
+      {isdeleteClicked ? (
+        <>
+          <div className="absolute  top-0 left-0 w-full h-full z-[400]  bg-slate-900/90 flex justify-center items-center">
+            <div className="  h-[20rem] w-[30rem] bg-slate-800/90 flex flex-col justify-between items-center p-2 rounded-lg">
+              {/* texts */}
+              <div className="flex flex-col selection:bg-transparent text-xl gap-2">
+                <h2>
+                  Venturing into the realm of deletion? Simply affirm with '
+                  <span className="text-red-400 font-bold">YES</span>' and let
+                  the magic unfold.
+                </h2>
+                <h2>Farewell,</h2>
+                <h2 className="w-full h-6 overflow-x-auto no-scrollbar text-slate-400 flex outline-none">
+                  {deleteDetails?.name}
+                </h2>
+                <h2>your destiny awaits.</h2>
+              </div>
+
+              {/* inputs */}
+              <div className="flex flex-col w-full gap-4">
+                <input
+                  onChange={(e) => {
+                    if (e.target.value.toLowerCase() === "yes") {
+                      setDeleteDetails({
+                        ...deleteDetails,
+                        confirm: true,
+                      });
+                    } else {
+                      setDeleteDetails({
+                        ...deleteDetails,
+                        confirm: false,
+                      });
+                    }
+                  }}
+                  className="w-full rounded-xl outline-none py-2 px-4  bg-transparent border border-[#28BDD1]"
+                  type="text"
+                  name="confirm"
+                  id="confirm"
+                  placeholder="'YES'"
+                />
+                {/* buttons */}
+                <div className="flex justify-between gap-2">
+                  <button
+                    onClick={() => {
+                      setIsDeleteClicked(false);
+                    }}
+                    className="w-1/2 transition-all duration-300 ease-linear border border-[#28BDD1] rounded-xl py-2 text-center bg-transparent hover:bg-[#28BDD1]"
+                  >
+                    cancel
+                  </button>
+                  <button
+                    onClick={() => handleDelete(deleteDetails?.id)}
+                    disabled={!deleteDetails?.confirm}
+                    className="w-1/2 py-2 transition-all duration-300 ease-linear text-center bg-red-500 text-black rounded-xl disabled:bg-red-800/50 disabled:text-white hover:font-extrabold"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
       {/* container */}
-      <div className="md:w-[80%] w-full px-2 md:px-0 h-full flex flex-col gap-10 absolute top-5 mx-auto">
+      <div className="md:w-[80%] w-full px-2  md:px-0 h-full flex flex-col gap-10 absolute top-0 mx-auto overflow-y-auto no-scrollbar">
         {/*  breadcrumbs section */}
         <div className="flex gap-2 justify-start items-center font-bold selection:bg-transparent">
           <Link className="cursor-pointer" to={"../"}>
@@ -196,14 +299,14 @@ export default function Store() {
         <div className="flex flex-col items-center gap-5 pb-4  h-full">
           <h1 className="text-3xl font-bold">Products</h1>
           {/* products container */}
-          <div className="flex gap-10 flex-wrap justify-center items-center w-screen pb-4">
+          <div className="flex gap-10 flex-wrap justify-center items-center w-screen pb-4 ">
             {storeOwner.UserProduct.map((product) => {
               return (
                 <Link
                   target="_blank"
                   to={`${product.Product_Url}`}
                   key={product._id}
-                  className="h-[420px] w-[320px]"
+                  className="h-[420px] w-[320px] relative"
                 >
                   {/* <div
                     onMouseEnter={handleHover}
@@ -221,6 +324,27 @@ export default function Store() {
                       </h4>
                     </div>
                   </div> */}
+
+                  {isAdmin ? (
+                    <>
+                      <MdEdit
+                        // onClick={(e) => handleBtn(e)}
+                        className="absolute -top-4 right-8 z-[100] cursor-pointer text-4xl bg-yellow-400 border border-[#28BDD1] p-1 rounded-full text-black"
+                      ></MdEdit>
+
+                      <MdDelete
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setDeleteDetails({
+                            id: product._id,
+                            name: product.Product_Name,
+                          });
+                          setIsDeleteClicked(true);
+                        }}
+                        className="absolute top-8 -right-4 z-[100] cursor-pointer text-4xl bg-red-400 border border-[#28BDD1] p-1 rounded-full text-black"
+                      />
+                    </>
+                  ) : null}
 
                   <div className="relative h-full   flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
                     <div

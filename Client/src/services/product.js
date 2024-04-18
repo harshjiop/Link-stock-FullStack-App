@@ -48,6 +48,26 @@ class Product {
             throw error;
         }
     }
+
+    async deleteProduct(token, productid) {
+        try {
+            console.log(token);
+            const response = await apiInstance.delete(`/api/v1/product/delete-product/${productid}`, {
+                headers: {
+                    'Authorization': token,
+                }
+            }
+            );
+
+            if (response) {
+                return response.data.data
+            }
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
 
 export default new Product;
