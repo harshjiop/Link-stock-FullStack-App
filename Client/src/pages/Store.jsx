@@ -35,6 +35,8 @@ export default function Store() {
     confirm: false,
   });
 
+  // let sec = new Date().getSeconds();
+
   useEffect(() => {
     if (userData) {
       if ([userData.username, userName].some((each) => each.trim() !== "")) {
@@ -117,16 +119,16 @@ export default function Store() {
         const response = await product.deleteProduct(token, id);
         if (response) {
           const data = response[0];
-          console.log(data)
+          console.log(data);
           dispatch(addStoreOwner(data));
           localStorage.setItem("storeOwner", JSON.stringify(response[0]));
           // setLoader(false);
         }
-      }else{
-        console.log('id not found')
+      } else {
+        console.log("id not found");
       }
-    }else{
-      console.log('token not found')
+    } else {
+      console.log("token not found");
     }
   }
 
@@ -247,7 +249,7 @@ export default function Store() {
       ) : null}
 
       {/* container */}
-      <div className="md:w-[80%] w-full px-2  md:px-0 h-full flex flex-col gap-10 absolute top-0 mx-auto overflow-y-auto no-scrollbar">
+      <div className="md:w-[80%] w-full px-2  md:px-0 h-full flex flex-col gap-10 absolute top-0 mx-auto overflow-y-auto no-scrollbar overflow-x-hidden">
         {/*  breadcrumbs section */}
         <div className="flex gap-2 justify-start items-center font-bold selection:bg-transparent">
           <Link className="cursor-pointer" to={"../"}>
@@ -296,35 +298,18 @@ export default function Store() {
         </div>
 
         {/* lower/  products section*/}
-        <div className="flex flex-col items-center gap-5 pb-4  h-full">
+        <div className="flex flex-col items-center gap-5 pb-4  h-full w-full">
           <h1 className="text-3xl font-bold">Products</h1>
           {/* products container */}
-          <div className="flex gap-10 flex-wrap justify-center items-center w-screen pb-4 ">
+          <div className="flex gap-5 flex-wrap justify-between items-center p-5 pb-4">
             {storeOwner.UserProduct.map((product) => {
               return (
                 <Link
                   target="_blank"
                   to={`${product.Product_Url}`}
                   key={product._id}
-                  className="h-[420px] w-[320px] relative"
+                  className="h-[420px] min-h-[300px]  w-[320px] relative"
                 >
-                  {/* <div
-                    onMouseEnter={handleHover}
-                    onMouseLeave={handleHover}
-                    className="w-[314px] h-[422px] card rounded-xl border-2 border-[#BEC2D3] bg-no-repeat bg-cover bg-center relative "
-                    style={{
-                      backgroundImage: `url(${product?.Product_Img[0]?.Product_img_Cloudnary_Path})`,
-                    }}
-                  >
-                    <div className="absolute top-0 left-0 w-full h-full content bg-slate-900/70 rounded-xl flex opacity-0 transition-all duration-300 ease-linear flex-col justify-end items-center gap-2 py-3 selection:bg-transparent">
-                      <h2 className="text-2xl ">{product.Product_Name}</h2>
-                      <h3 className="text-lg">{product.Product_Desc}</h3>
-                      <h4 className="text-[#23856D] font-bold">
-                        ${product.Product_Price}
-                      </h4>
-                    </div>
-                  </div> */}
-
                   {isAdmin ? (
                     <>
                       <MdEdit
@@ -346,127 +331,47 @@ export default function Store() {
                     </>
                   ) : null}
 
-                  <div className="relative h-full   flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-                    <div
-                      className={`relative  flex h-[50%] overflow-hidden rounded-lg  bg-center bg-no-repeat bg-cover 
+                  <div className="relative h-full   flex w-full flex-col overflow-hidden rounded-lg border border-gray-100  shadow-md">
+                    <div className="flex flex-col w-full h-[70%] text-white bg-white rounded-b-xl">
+                      <div
+                        className={`relative   flex h-[80%] overflow-hidden rounded-xl  bg-center bg-no-repeat bg-cover  
                     `}
-                    >
-                      <img
-                        className="object-cover w-full h-full"
-                        src={product.Product_Img[0].Product_img_Cloudnary_Path}
-                        alt="product image"
-                      />
-                      {/* <span className="absolute top-0 right-0 text-black">asasdfasfddf</span> */}
-                      <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
-                        {/* {((product.Product_Price -
-                          product.Product_Discount_Price) /
-                          product.Product_Price) *
-                          100} */}
-                        {Math.round(
-                          ((product.Product_Price -
-                            product.Product_Discount_Price) /
-                            product.Product_Price) *
-                            100
-                        )}
-                        % OFF
-                        {/* 39% OFF */}
-                      </span>
+                      >
+                        <Slider slides={product.Product_Img} />
+
+                        <span className="absolute  top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
+                          {Math.round(
+                            ((product.Product_Price -
+                              product.Product_Discount_Price) /
+                              product.Product_Price) *
+                              100
+                          )}
+                          % OFF
+                        </span>
+                      </div>
+                      {/* name and price */}
+                      <div className="my-1 px-5 h-[20%] ">
+                        <h5 className="text-xl tracking-tight max-h-[40%] font-bold text-black overflow-y-hidden">
+                          {product.Product_Name}
+                          {/* Nike Air MX Super 2500 - Red */}
+                        </h5>
+
+                        <div className="  flex items-center max-h-[60%] justify-between">
+                          <p className="flex items-center gap-2">
+                            <span className="text-3xl font-bold text-slate-900">
+                              {/* $449 */}₹ {product.Product_Discount_Price}
+                            </span>
+                            <span className="text-sm text-slate-900 line-through">
+                              {/* $699 */}₹ {product.Product_Price}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="mt-4 px-5 pb-5 h-[40%]">
-                      <h5 className="text-xl tracking-tight max-h-[40%] font-bold text-slate-900 overflow-y-hidden">
-                        {product.Product_Name}
-                        {/* Nike Air MX Super 2500 - Red */}
-                      </h5>
-
-                      <div className="mt-2 mb-5 flex items-center max-h-[60%] justify-between">
-                        <p className="flex items-center gap-2">
-                          <span className="text-3xl font-bold text-slate-900">
-                            {/* $449 */}₹ {product.Product_Discount_Price}
-                          </span>
-                          <span className="text-sm text-slate-900 line-through">
-                            {/* $699 */}₹ {product.Product_Price}
-                          </span>
-                        </p>
-                        {/* <div className="flex items-center">
-                          <svg
-                            aria-hidden="true"
-                            className="h-5 w-5 text-yellow-300"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                          </svg>
-                          <svg
-                            aria-hidden="true"
-                            className="h-5 w-5 text-yellow-300"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                          </svg>
-                          <svg
-                            aria-hidden="true"
-                            className="h-5 w-5 text-yellow-300"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                          </svg>
-                          <svg
-                            aria-hidden="true"
-                            className="h-5 w-5 text-yellow-300"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                          </svg>
-                          <svg
-                            aria-hidden="true"
-                            className="h-5 w-5 text-yellow-300"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                          </svg>
-                          <span className="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">
-                            5.0
-                          </span>
-                        </div> */}
-                      </div>
-                      {/* <div className="flex ">
-                        <Link
-                          to="/"
-                          className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 m-1 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="mr-2 h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                            />
-                          </svg>
-                          Add to cart
-                        </Link>
-                        <Link
-                          to="/"
-                          className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 m-1 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                        >
-                          Buy Now
-                        </Link>
-                      </div> */}
+                    {/* product desc */}
+                    <div className="h-[40%] bg-transparent w-full rounded-xl text-white p-4 overflow-y-auto no-scrollbar">
+                      <p className="w-full">{product.Product_Desc}</p>
                     </div>
                   </div>
                 </Link>
@@ -475,6 +380,50 @@ export default function Store() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function Slider({ slides }) {
+  const [current, setCurrent] = useState(0);
+  const length = slides.length;
+
+  const nextSlide = () => {
+    setCurrent(current === length - 1 ? 0 : current + 1);
+  };
+  const prevSlide = () => {
+    setCurrent(current === 0 ? length - 1 : current + 1);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [current]);
+
+  if (!Array.isArray(slides) || slides.length <= 0) {
+    return null;
+  }
+
+  return (
+    <div className=" text-black w-full h-full">
+      {slides.map((slide, index) => {
+        return (
+          <div
+            className={`overflow-hidden border-2 rounded-xl border-[#28BDD1] h-full flex flex-col justify-center items-center bg-center bg-no-repeat bg-cover 
+            ${index != current ? "hidden" : ""}
+            `}
+            key={index}
+            style={{
+              backgroundImage: `url(
+                ${index === current && slide.Product_img_Cloudnary_Path}
+              )`,
+            }}
+          ></div>
+        );
+      })}
     </div>
   );
 }
