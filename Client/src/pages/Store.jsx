@@ -308,7 +308,7 @@ export default function Store() {
                   target="_blank"
                   to={`${product.Product_Url}`}
                   key={product._id}
-                  className="h-[420px] min-h-[300px]  w-[320px] relative"
+                  className="h-[420px] min-h-[300px]  w-[320px] relative mx-auto"
                 >
                   {isAdmin ? (
                     <>
