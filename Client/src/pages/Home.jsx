@@ -53,7 +53,6 @@ export default function Home() {
     (async () => {
       try {
         const response = await links.getHomeLinks();
-        console.log("response", response.data);
         if (response) {
           setHomeLinks(response.data);
         }

@@ -49,9 +49,9 @@ class Product {
         }
     }
 
-    async deleteProduct(token, productid) {
+    async deleteProduct(token, productid,userName) {
         try {
-            console.log(token);
+            // console.log(token);
             const response = await apiInstance.delete(`/api/v1/product/delete-product/${productid}`, {
                 headers: {
                     'Authorization': token,
@@ -59,8 +59,9 @@ class Product {
             }
             );
 
-            if (response) {
-                return response.data.data
+            if (response.status === 200) {
+                const productDetails = await this.getStoreDetails(userName);
+                return productDetails;
             }
 
         } catch (error) {
