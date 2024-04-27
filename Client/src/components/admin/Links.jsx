@@ -182,8 +182,10 @@ export default function Links() {
               </div>
             );
           })
+        ) : !linksArray ? (
+          <div className="h-full w-full bg-slate-500 bg-slate-500/20 rounded-lg">fjhg</div>
         ) : (
-          <div className="h-full w-full flex justify-center items-center text-red-600 font-bold text-2xl">
+          <div className="h-full w-full flex justify-center items-center text-red-600 font-bold text-2xl ">
             data is not available
           </div>
         )}
@@ -222,8 +224,8 @@ export default function Links() {
             />
           </div>
 
-           {/* avatar input */}
-           <div className="flex flex-col">
+          {/* avatar input */}
+          <div className="flex flex-col">
             <label className="text-2xl font-bold" htmlFor="url">
               Enter Thumbnail
             </label>

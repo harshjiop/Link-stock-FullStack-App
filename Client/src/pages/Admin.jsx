@@ -285,20 +285,22 @@ export default function Admin() {
                         </h1>
                       </Link>
                     ))
+                  ) : !userLinks ? (
+                    <div className="text-white h-full rounded-xl bg-slate-700/50"></div>
                   ) : (
-                    <div className="w-full text-center text-red-500">
+                    <div className="w-full text-center text-red-500 ">
                       Data Not Found
                     </div>
                   )}
                 </div>
               </div>
+            ) : userTheme ? (
+              <div className="h-full w-full bg-slate-300"></div>
             ) : (
-              <div className="border-4 rounded-3xl h-[550px] w-[360px] flex justify-center  items-center">
+              <div className="border-4 rounded-3xl h-[550px] w-[360px] flex justify-center  items-center ">
                 <h1 className="text-red-400">Theme Not Found</h1>
               </div>
             )}
-
-            <div></div>
           </div>
 
           <button
