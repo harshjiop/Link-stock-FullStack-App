@@ -181,8 +181,7 @@ const UpdateProduct = asyncHandler(async (req, res) => {
       new ApiResponse(200, ProductDeteles, "Your Product Update Sucessful")
     );
 });
-const DeleteProduct = asyncHandler(async (req, res) => {
-  console.log("run delete product ");
+const DeleteProduct = asyncHandler(async (req, res, next) => {
   const { productid } = req.params;
   const Product_owner = req.user._id;
   const ProductDeteles = await Product.findByIdAndDelete(productid);
@@ -197,14 +196,13 @@ const DeleteProduct = asyncHandler(async (req, res) => {
     });
   }
 
-  const Get_All_Product = await Product.find({ Product_owner });
-  if (!Get_All_Product) {
-    throw new ApiError("failed to get latest product");
-  }
+
+  
+  
   return res
     .status(200)
     .json(
-      new ApiResponse(200, Get_All_Product, "All Product Geting Sucessful")
+      new ApiResponse(200, ProductDeteles, "All Link Geting sucessful")
     );
 });
 

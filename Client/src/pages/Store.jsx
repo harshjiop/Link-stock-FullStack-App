@@ -18,7 +18,8 @@ import { addStoreOwner } from "../store/storeSlice.js";
 import { Error } from "../pages";
 import { login } from "../store/authSlice.js";
 import ErrorTemplate from "../components/ErrorTemplate.jsx";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Store() {
   const { userName } = useParams();
   const [token, setToken] = useState();
@@ -69,7 +70,7 @@ export default function Store() {
         setToken(localToken);
       }
     } catch (error) {
-      console.log("error is ");
+      toast.error(error.message);
     }
   }, []);
 
@@ -109,26 +110,31 @@ export default function Store() {
         setIsCopied(false);
       }, 500);
     } else {
-      console.log("invalid user name");
+      toast.error("invalid user name");
     }
   }
 
   async function handleDelete(id) {
     if (token) {
       if (id) {
-        const response = await product.deleteProduct(token, id);
+        const response = await product.deleteProduct(
+          token,
+          id,
+          userName.split("@")[1]
+        );
         if (response) {
           const data = response[0];
-          console.log(data);
           dispatch(addStoreOwner(data));
           localStorage.setItem("storeOwner", JSON.stringify(response[0]));
+          setIsDeleteClicked(false);
+          toast.success("Product Deleted");
           // setLoader(false);
         }
       } else {
-        console.log("id not found");
+        toast.error("id not found");
       }
     } else {
-      console.log("token not found");
+      toast.error("token not found");
     }
   }
 
@@ -181,7 +187,8 @@ export default function Store() {
         ></div>
       </div>
 
-      <ErrorTemplate />
+      {/* <ErrorTemplate /> */}
+      <ToastContainer autoClose={1000} theme="dark" />
 
       {/* error modal box container*/}
       {isdeleteClicked ? (
@@ -265,7 +272,7 @@ export default function Store() {
           <div className="flex md:flex-row flex-col items-center gap-12">
             <img
               className="w-[200px] h-[200px] rounded-full border-4 border-[#28BDD1]"
-              src={`${storeOwner.avatar.url}`}
+              src={`${storeOwner.avatar?.url}`}
               alt="profile_image"
             />
 
