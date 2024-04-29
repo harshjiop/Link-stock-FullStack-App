@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "./index.js";
 import {
@@ -24,6 +24,7 @@ export default function Store() {
   const { userName } = useParams();
   const [token, setToken] = useState();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isCopied, setIsCopied] = useState(false);
   const storeOwner = useSelector((state) => state.store.storeOwner);
   const [loader, setLoader] = useState(true);
@@ -320,7 +321,10 @@ export default function Store() {
                   {isAdmin ? (
                     <>
                       <MdEdit
-                        // onClick={(e) => handleBtn(e)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(`/store/edit-product/${product._id}`);
+                        }}
                         className="absolute -top-4 right-8 z-[100] cursor-pointer text-4xl bg-yellow-400 border border-[#28BDD1] p-1 rounded-full text-black"
                       ></MdEdit>
 

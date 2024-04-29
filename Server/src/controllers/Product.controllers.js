@@ -128,24 +128,29 @@ const AddProduct = asyncHandler(async (req, res) => {
 const UpdateProduct = asyncHandler(async (req, res) => {
   const { productid } = req.params;
   const {
-    Product_Name,
-    Product_Desc,
-    Product_Price,
-    Product_Discount_Price,
-    Product_Url,
+    // Product_Name,
+    // Product_Desc,
+    // Product_Price,
+    // Product_Discount_Price,
+    // Product_Url,
+
   } = req.body;
 
-  const Product_img_files = req.files;
+  const new_product_img = req.files;
 
-  if (
-    !Product_Name ||
-    !Product_Desc ||
-    !Product_Price ||
-    !Product_Discount_Price ||
-    !Product_Url
-  ) {
-    throw new ApiError(400, "All fields are required");
-  }
+  // console.log('data is ', req.body);
+
+  // if (
+  //   !Product_Name ||
+  //   !Product_Desc ||
+  //   !Product_Price ||
+  //   !Product_Discount_Price ||
+  //   !Product_Url
+  // ) {
+  //   throw new ApiError(400, "All fields are required");
+  // }
+
+
 
   // const Product_img_files_Cloudnary_url = [];
 
@@ -164,22 +169,24 @@ const UpdateProduct = asyncHandler(async (req, res) => {
   //   }
   // );
 
+
   // const ProductDeteles = await Product.findById(productid);
-  const ProductDeteles = await Product.findByIdAndUpdate(productid, {
-    Product_Name,
-    Product_Desc,
-    Product_Price,
-    Product_Discount_Price,
-    Product_Url,
-  });
+
+  // const ProductDeteles = await Product.findByIdAndUpdate(productid, {
+  //   Product_Name,
+  //   Product_Desc,
+  //   Product_Price,
+  //   Product_Discount_Price,
+  //   Product_Url,
+  // });
 
   // console.log("product detles", ProductDeteles);
 
-  return res
-    .status(201)
-    .json(
-      new ApiResponse(200, ProductDeteles, "Your Product Update Sucessful")
-    );
+  return res.sendStatus(200);
+  // .json(
+  //   new ApiResponse(200, ProductDeteles, "Your Product Update Sucessful")
+  // );
+
 });
 const DeleteProduct = asyncHandler(async (req, res, next) => {
   const { productid } = req.params;
@@ -197,8 +204,8 @@ const DeleteProduct = asyncHandler(async (req, res, next) => {
   }
 
 
-  
-  
+
+
   return res
     .status(200)
     .json(
@@ -206,7 +213,24 @@ const DeleteProduct = asyncHandler(async (req, res, next) => {
     );
 });
 
-export { AddProduct, DeleteProduct, GetAllProduct, UpdateProduct };
+const GetProductById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    throw new ApiError(404, 'ID not found');
+  }
+
+  const response = await Product.findById(id);
+
+  if (!response) {
+    throw new ApiError(400, "Product Not Found");
+  }
+
+  return res.status(200).json(new ApiResponse(200, response, 'Product Found'));
+
+})
+
+export { AddProduct, DeleteProduct, GetAllProduct, UpdateProduct, GetProductById };
 
 // {
 

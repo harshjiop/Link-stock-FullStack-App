@@ -26,6 +26,7 @@ import {
   AuthLayout,
 } from "./components/index.js";
 import store from "./store/store.js";
+import EditProduct from "./pages/EditProduct.jsx";
 
 const router = createBrowserRouter([
   {
@@ -145,6 +146,11 @@ const router = createBrowserRouter([
   {
     path: "/store/add-product",
     element: <AddProduct />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/store/edit-product/:id",
+    element: <EditProduct />,
     errorElement: <Error />,
   },
 ]);
