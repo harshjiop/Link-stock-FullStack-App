@@ -137,15 +137,25 @@ const UpdateProduct = asyncHandler(async (req, res) => {
 
   const Product_img_files = req.files;
 
-  if (
-    !Product_Name ||
-    !Product_Desc ||
-    !Product_Price ||
-    !Product_Discount_Price ||
-    !Product_Url
-  ) {
-    throw new ApiError(400, "All fields are required");
-  }
+  console.log(
+    "request body",
+    Product_Name,
+    Product_Desc,
+    Product_Price,
+    Product_Discount_Price,
+    Product_Url
+  );
+  console.log("request body", req.body);
+
+  // if (
+  //   !Product_Name ||
+  //   !Product_Desc ||
+  //   !Product_Price ||
+  //   !Product_Discount_Price ||
+  //   !Product_Url
+  // ) {
+  //   throw new ApiError(400, "All fields are required");
+  // }
 
   // const Product_img_files_Cloudnary_url = [];
 
@@ -165,21 +175,19 @@ const UpdateProduct = asyncHandler(async (req, res) => {
   // );
 
   // const ProductDeteles = await Product.findById(productid);
-  const ProductDeteles = await Product.findByIdAndUpdate(productid, {
-    Product_Name,
-    Product_Desc,
-    Product_Price,
-    Product_Discount_Price,
-    Product_Url,
-  });
+  // const ProductDeteles = await Product.findByIdAndUpdate(productid, {
+  //   Product_Name,
+  //   Product_Desc,
+  //   Product_Price,
+  //   Product_Discount_Price,
+  //   Product_Url,
+  // });
 
   // console.log("product detles", ProductDeteles);
 
   return res
     .status(201)
-    .json(
-      new ApiResponse(200, ProductDeteles, "Your Product Update Sucessful")
-    );
+    .json(new ApiResponse(200, "Your Product Update Sucessful"));
 });
 const DeleteProduct = asyncHandler(async (req, res) => {
   console.log("run delete product ");
