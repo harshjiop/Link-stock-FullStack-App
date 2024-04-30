@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^2.0.1",
     "axios": "^1.6.7",
     "dotenv": "^16.4.1",
+    "immer": "^10.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.3",
@@ -24,7 +25,8 @@
     "react-router": "^6.21.3",
     "react-router-dom": "^6.21.3",
     "react-router-hash-link": "^2.4.3",
-    "react-toastify": "^10.0.4"
+    "react-toastify": "^10.0.4",
+    "use-immer": "^0.9.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

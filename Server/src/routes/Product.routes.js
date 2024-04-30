@@ -6,6 +6,7 @@ import {
   DeleteProduct,
   GetAllProduct,
   UpdateProduct,
+  GetProductById
 } from "../controllers/Product.controllers.js";
 
 const router = Router();
@@ -18,6 +19,8 @@ router.route("/all-product").get(GetAllProduct);
 router.route("/update-product/:productid").patch(UpdateProduct);
 // router.route("/update-product/").patch(UpdateProduct);
 router.route("/delete-product/:productid").delete(DeleteProduct);
+
+router.route('/:id').get(GetProductById);
 
 router.route("/add-product").post(upload.array("Product_img", 5), AddProduct);
 
