@@ -128,14 +128,26 @@ const AddProduct = asyncHandler(async (req, res) => {
 const UpdateProduct = asyncHandler(async (req, res) => {
   const { productid } = req.params;
   const {
-    Product_Name,
-    Product_Desc,
-    Product_Price,
-    Product_Discount_Price,
-    Product_Url,
+    // Product_Name,
+    // Product_Desc,
+    // Product_Price,
+    // Product_Discount_Price,
+    // Product_Url,
   } = req.body;
 
-  const Product_img_files = req.files;
+  const new_product_img = req.files;
+
+  // console.log('data is ', req.body);
+
+  // if (
+  //   !Product_Name ||
+  //   !Product_Desc ||
+  //   !Product_Price ||
+  //   !Product_Discount_Price ||
+  //   !Product_Url
+  // ) {
+  //   throw new ApiError(400, "All fields are required");
+  // }
 
   console.log(
     "request body",
@@ -189,8 +201,7 @@ const UpdateProduct = asyncHandler(async (req, res) => {
     .status(201)
     .json(new ApiResponse(200, "Your Product Update Sucessful"));
 });
-const DeleteProduct = asyncHandler(async (req, res) => {
-  console.log("run delete product ");
+const DeleteProduct = asyncHandler(async (req, res, next) => {
   const { productid } = req.params;
   const Product_owner = req.user._id;
   const ProductDeteles = await Product.findByIdAndDelete(productid);
@@ -205,18 +216,34 @@ const DeleteProduct = asyncHandler(async (req, res) => {
     });
   }
 
-  const Get_All_Product = await Product.find({ Product_owner });
-  if (!Get_All_Product) {
-    throw new ApiError("failed to get latest product");
-  }
   return res
     .status(200)
-    .json(
-      new ApiResponse(200, Get_All_Product, "All Product Geting Sucessful")
-    );
+    .json(new ApiResponse(200, ProductDeteles, "All Link Geting sucessful"));
 });
 
-export { AddProduct, DeleteProduct, GetAllProduct, UpdateProduct };
+const GetProductById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    throw new ApiError(404, "ID not found");
+  }
+
+  const response = await Product.findById(id);
+
+  if (!response) {
+    throw new ApiError(400, "Product Not Found");
+  }
+
+  return res.status(200).json(new ApiResponse(200, response, "Product Found"));
+});
+
+export {
+  AddProduct,
+  DeleteProduct,
+  GetAllProduct,
+  UpdateProduct,
+  GetProductById,
+};
 
 // {
 
