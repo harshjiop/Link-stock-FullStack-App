@@ -127,81 +127,86 @@ const AddProduct = asyncHandler(async (req, res) => {
 });
 const UpdateProduct = asyncHandler(async (req, res) => {
   const { productid } = req.params;
+
   const {
-    // Product_Name,
-    // Product_Desc,
-    // Product_Price,
-    // Product_Discount_Price,
-    // Product_Url,
-  } = req.body;
-
-  const new_product_img = req.files;
-
-  // console.log('data is ', req.body);
-
-  // if (
-  //   !Product_Name ||
-  //   !Product_Desc ||
-  //   !Product_Price ||
-  //   !Product_Discount_Price ||
-  //   !Product_Url
-  // ) {
-  //   throw new ApiError(400, "All fields are required");
-  // }
-
-  console.log(
-    "request body",
     Product_Name,
     Product_Desc,
     Product_Price,
     Product_Discount_Price,
-    Product_Url
-  );
-  console.log("request body", req.body);
+    Product_Url,
+    Image_Delete_List,
+  } = req.body;
 
-  // if (
-  //   !Product_Name ||
-  //   !Product_Desc ||
-  //   !Product_Price ||
-  //   !Product_Discount_Price ||
-  //   !Product_Url
-  // ) {
-  //   throw new ApiError(400, "All fields are required");
-  // }
+  const Product_img_files = req.files;
 
-  // const Product_img_files_Cloudnary_url = [];
+  if (
+    !Product_Name ||
+    !Product_Desc ||
+    !Product_Price ||
+    !Product_Discount_Price ||
+    !Product_Url
+  ) {
+    throw new ApiError(400, "All fields are required");
+  }
 
-  // for (const Product_img of Product_img_files) {
-  //   const { path } = Product_img;
-  //   const Cloudinary_New_Path = await uploadOnCloudinary(path);
-  //   Product_img_files_Cloudnary_url.push(Cloudinary_New_Path);
-  // }
+  const UpdateProdectData = await Product.findById(productid);
 
-  // const Product_Photo = Product_img_files_Cloudnary_url.map(
-  //   function (Product_img_files_Cloudnary_url, index) {
-  //     const Product_img_Cloudnary_Path = Product_img_files_Cloudnary_url?.url;
-  //     const Product_img_Cloudnary_Public_id =
-  //       Product_img_files_Cloudnary_url?.public_id;
-  //     return { Product_img_Cloudnary_Public_id, Product_img_Cloudnary_Path };
-  //   }
-  // );
+  if (Image_Delete_List) {
+    //  Todo Deleting image
+  }
 
-  // const ProductDeteles = await Product.findById(productid);
-  // const ProductDeteles = await Product.findByIdAndUpdate(productid, {
-  //   Product_Name,
-  //   Product_Desc,
-  //   Product_Price,
-  //   Product_Discount_Price,
-  //   Product_Url,
-  // });
+  if (Product_img_files) {
+    const OldProductImage = UpdateProdectData.Product_Img;
+    console.log("OldProductImage", OldProductImage);
+    const Product_img_files_Cloudnary_url = [];
 
-  // console.log("product detles", ProductDeteles);
+    for (const Product_img of Product_img_files) {
+      const { path } = Product_img;
+      const Cloudinary_New_Path = await uploadOnCloudinary(path);
+      Product_img_files_Cloudnary_url.push(Cloudinary_New_Path);
+    }
 
-  return res
-    .status(201)
-    .json(new ApiResponse(200, "Your Product Update Sucessful"));
+    const Product_Photo = Product_img_files_Cloudnary_url.map(
+      function (Product_img_files_Cloudnary_url, index) {
+        const Product_img_Cloudnary_Path = Product_img_files_Cloudnary_url?.url;
+        const Product_img_Cloudnary_Public_id =
+          Product_img_files_Cloudnary_url?.public_id;
+        return { Product_img_Cloudnary_Public_id, Product_img_Cloudnary_Path };
+      }
+    );
+
+    const newimage = [...OldProductImage, ...Product_Photo];
+
+    const ProductDeteles = await Product.findByIdAndUpdate(productid, {
+      Product_Name,
+      Product_Desc,
+      Product_Price,
+      Product_Discount_Price,
+      Product_Url,
+      Product_Img: newimage,
+    });
+
+    return res
+      .status(201)
+      .json(new ApiResponse(200, "Your Product Update Sucessful"));
+  } else {
+    const ProductDeteles = await Product.findByIdAndUpdate(productid, {
+      Product_Name,
+      Product_Desc,
+      Product_Price,
+      Product_Discount_Price,
+      Product_Url,
+    });
+
+    return res
+      .status(201)
+      .json(
+        new ApiResponse(200, ProductDeteles, "Your Product Update Sucessful")
+      );
+  }
 });
-const DeleteProduct = asyncHandler(async (req, res, next) => {
+const DeleteProduct = asyncHandler(async (req, res) => {
+  console.log("run delete product ");
   const { productid } = req.params;
   const Product_owner = req.user._id;
   const ProductDeteles = await Product.findByIdAndDelete(productid);
@@ -216,9 +221,15 @@ const DeleteProduct = asyncHandler(async (req, res, next) => {
     });
   }
 
+  const Get_All_Product = await Product.find({ Product_owner });
+  if (!Get_All_Product) {
+    throw new ApiError("failed to get latest product");
+  }
   return res
     .status(200)
-    .json(new ApiResponse(200, ProductDeteles, "All Link Geting sucessful"));
+    .json(
+      new ApiResponse(200, Get_All_Product, "All Product Geting Sucessful")
+    );
 });
 
 const GetProductById = asyncHandler(async (req, res) => {
@@ -244,29 +255,3 @@ export {
   UpdateProduct,
   GetProductById,
 };
-
-// {
-
-//   "Product_Name": "Update name",
-//   "Product_Desc": "cvghjkl;lkjbv ",
-//   "Product_Img": [
-//     {
-//       "Product_img_Cloudnary_Public_id": "zljt3jrg7duuwu6hsykj",
-//       "Product_img_Cloudnary_Path": "http://res.cloudinary.com/ddib2csvf/image/upload/v1708786822/zljt3jrg7duuwu6hsykj.webp"
-//     }
-//   ],
-//   "Product_Price": 1000,
-//   "Product_Discount_Price": 9001,
-//   "Product_status": true,
-//   "Product_Retailer": "",
-//   "Product_Url": "vgygv drtyuhv",
-//   "createdAt": {
-//     "$date": "2024-02-24T15:00:32.131Z"
-//   },
-//   "updatedAt": {
-//     "$date": "2024-04-26T00:34:12.648Z"
-//   },
-//   "__v": 0
-// }
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiOTU1YTNjOWI3MzYxZWUzNWUyMGIiLCJlbWFpbCI6ImhrODA1MTg3MTQ5NnBAZ21haWwuY29tIiwidXNlcm5hbWUiOiJoYXJzaCIsImZ1bGxOYW1lIjoiSGFyc2h2YXJkaGFuIGt1bWFyIiwiaWF0IjoxNzA3ODg3MjUzLCJleHAiOjE3MDc5NzM2NTN9.Vv_FngFUkTZZaBbnXRwlsjgUDAh4cZCHb9zPWGeLZLI
