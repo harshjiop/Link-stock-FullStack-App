@@ -47,7 +47,7 @@ class Product {
         form.append("Product_Price", data.Product_Price);
         form.append("Product_Retailer", data.Product_Retailer);
         form.append("Product_Url", data.Product_Url);
-        form.append("Image_Delete_List", imageDeleteList);
+        form.append("Image_Delete_List", JSON.stringify(imageDeleteList));
 
         // console.log('data at ui ', data.Product_Name)
 

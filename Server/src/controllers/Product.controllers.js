@@ -150,14 +150,29 @@ const UpdateProduct = asyncHandler(async (req, res) => {
   }
 
   const UpdateProdectData = await Product.findById(productid);
+  const OldProductImage = UpdateProdectData.Product_Img;
+  const Arrey_Delete_Image_PublicId = [];
+  const New_Old_Product_Image = [];
 
   if (Image_Delete_List) {
-    //  Todo Deleting image
+    const DeletedImage = JSON.parse(Image_Delete_List);
+    DeletedImage.map((data) => {
+      deleteFromCloudinary(data?.id);
+      Arrey_Delete_Image_PublicId.push(data?.id);
+    });
   }
 
+  OldProductImage.forEach((image) => {
+    if (
+      !Arrey_Delete_Image_PublicId.includes(
+        image.Product_img_Cloudnary_Public_id
+      )
+    ) {
+      New_Old_Product_Image.push(image);
+    }
+  });
+
   if (Product_img_files) {
-    const OldProductImage = UpdateProdectData.Product_Img;
-    console.log("OldProductImage", OldProductImage);
     const Product_img_files_Cloudnary_url = [];
 
     for (const Product_img of Product_img_files) {
@@ -175,7 +190,7 @@ const UpdateProduct = asyncHandler(async (req, res) => {
       }
     );
 
-    const newimage = [...OldProductImage, ...Product_Photo];
+    const newimage = [...New_Old_Product_Image, ...Product_Photo];
 
     const ProductDeteles = await Product.findByIdAndUpdate(productid, {
       Product_Name,
