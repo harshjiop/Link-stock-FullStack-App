@@ -65,41 +65,55 @@ export default function AddProduct() {
 
   async function onSubmit(data) {
     if (data) {
-      try {
-        if (
-          Object.entries(data)
-            .filter(([key, value]) => key !== "Product_Retailer")
-            .some(([key, value]) => {
-              if (typeof value !== "string") {
-                return false;
-              }
-              return value.trim() === "";
-            })
-        ) {
-          throw new Error("All Fields Except Product_Retailer Are Required");
-        }
-        const respsonse = await product.addProduct(token, data);
-        if (respsonse) {
-          toast.success("Product Added");
-          setValue("Product_Name");
-          setValue("Product_Desc");
-          setValue("Product_Price");
-          setValue("Product_Discount_Price");
-          setValue("Product_img");
-          setValue("Product_Retailer");
-          setValue("Product_Url");
-          setOptionalFieldsVisibility(false);
-          setAddAnother(false);
-          setSelectedImage();
-          if (!addAnother) {
-            setTimeout(() => {
-              navigate(`/store/@${storeOwner.username}`);
-            }, 500);
+      const regex = new RegExp(
+        "^(https?:\\/\\/)?" + // protocol
+          "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // domain name
+          "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+          "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+          "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+          "(\\#[-a-z\\d_]*)?$",
+        "i"
+      );
+
+      if (regex.exec(data.Product_Url) !== null) {
+        try {
+          if (
+            Object.entries(data)
+              .filter(([key, value]) => key !== "Product_Retailer")
+              .some(([key, value]) => {
+                if (typeof value !== "string") {
+                  return false;
+                }
+                return value.trim() === "";
+              })
+          ) {
+            throw new Error("All Fields Except Product_Retailer Are Required");
           }
+          const respsonse = await product.addProduct(token, data);
+          if (respsonse) {
+            toast.success("Product Added");
+            setValue("Product_Name");
+            setValue("Product_Desc");
+            setValue("Product_Price");
+            setValue("Product_Discount_Price");
+            setValue("Product_img");
+            setValue("Product_Retailer");
+            setValue("Product_Url");
+            setOptionalFieldsVisibility(false);
+            setAddAnother(false);
+            setSelectedImage();
+            if (!addAnother) {
+              setTimeout(() => {
+                navigate(`/store/@${storeOwner.username}`);
+              }, 500);
+            }
+          }
+        } catch (error) {
+          toast.error(error.message ?? "Error To Add Product");
         }
-      } catch (error) {
-        console.log("ada", error);
-        toast.error(error.message ?? "Error To Add Product");
+      } else {
+        setValue("Product_Url");
+        toast.error("Invalid Product URL");
       }
     }
 

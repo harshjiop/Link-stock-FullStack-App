@@ -47,9 +47,9 @@ export default function EditProduct() {
     }
   }, [productData]);
 
-  useEffect(() => {
-    console.log("image to be deleted list", imageDeleteList);
-  }, [imageDeleteList]);
+  // useEffect(() => {
+  //   console.log("image to be deleted list", imageDeleteList);
+  // }, [imageDeleteList]);
 
   useEffect(() => {
     try {
@@ -103,13 +103,37 @@ export default function EditProduct() {
 
   async function onSubmit(data) {
     if (data) {
-      const response = await product.updateProduct(token, data, imageDeleteList,id);
+      const regex = new RegExp(
+        "^(https?:\\/\\/)?" + // protocol
+          "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // domain name
+          "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+          "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+          "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+          "(\\#[-a-z\\d_]*)?$",
+        "i"
+      );
 
-      if (response) {
-        toast.success("Product Updated");
-        setTimeout(() => {
-          navigate(`/store/@${storeOwner?.username}`);
-        }, 2000);
+      if (regex.exec(data.Product_Url) !== null) {
+        try {
+          const response = await product.updateProduct(
+            token,
+            data,
+            imageDeleteList,
+            id
+          );
+
+          if (response) {
+            toast.success("Product Updated");
+            setTimeout(() => {
+              navigate(`/store/@${storeOwner?.username}`);
+            }, 2000);
+          }
+        } catch (error) {
+          toast.error(error?.message && "Error While Updating Product");
+        }
+      } else {
+        setValue("Product_Url", productData.Product_Url || "");
+        toast.error("Invalid Product URL");
       }
     }
   }

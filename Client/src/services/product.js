@@ -57,7 +57,6 @@ class Product {
           }
         }
 
-        console.log("servise data", form.data);
 
         // form.forEach((each) => {
         //     console.log('each is ', each)

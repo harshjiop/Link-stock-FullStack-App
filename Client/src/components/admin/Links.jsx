@@ -7,6 +7,7 @@ import { updateStatus, clearStatus } from "../../store/errorSlice";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
+import { toast,ToastContainer } from "react-toastify";
 
 export default function Links() {
   const [token, setToken] = useState();
@@ -47,16 +48,34 @@ export default function Links() {
     handleAddHeader();
     if (token && data.title && data.url && data.thumbnail) {
       // const regex = /^(https?:\/\/)?(www\.)?/i;
-      try {
-        const response = await links.addLinks(token, data);
-        if (response) {
-          setValue("url", "");
-          setValue("title", "");
-          localStorage.setItem("links", JSON.stringify(response.data));
-          dispatch(setLinks(response.data));
+
+      const regex = new RegExp(
+        "^(https?:\\/\\/)?" + // protocol
+          "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // domain name
+          "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+          "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+          "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+          "(\\#[-a-z\\d_]*)?$",
+        "i"
+      ); // fragment locator
+
+      if (regex.exec(data.url) !== null) {
+        try {
+          const response = await links.addLinks(token, data);
+          if (response) {
+            setValue("url", "");
+            setValue("title", "");
+            localStorage.setItem("links", JSON.stringify(response.data));
+            dispatch(setLinks(response.data));
+          }
+        } catch (error) {
+          dispatch(updateStatus({ error: true, text: error.message }));
         }
-      } catch (error) {
-        dispatch(updateStatus({ error: true, text: error.message }));
+      } else {
+        setValue("url", "");
+        setValue("title", "");
+        setValue("thumbnail");
+        toast.error("Invalid URL");
       }
     }
   }
@@ -98,8 +117,11 @@ export default function Links() {
 
   return (
     <AdminContainer className="gap-1 justify-start relative z-[100]">
-      {/* add buttons */}
 
+
+      <ToastContainer/>
+
+      {/* add buttons */}
       <div className="h-[10%] mx-auto w-full flex justify-between items-center text-black text-lg  font-bold">
         <button
           onClick={handleAddHeader}
@@ -183,7 +205,9 @@ export default function Links() {
             );
           })
         ) : !linksArray ? (
-          <div className="h-full w-full bg-slate-500 bg-slate-500/20 rounded-lg">fjhg</div>
+          <div className="h-full w-full bg-slate-500 bg-slate-500/20 rounded-lg">
+            fjhg
+          </div>
         ) : (
           <div className="h-full w-full flex justify-center items-center text-red-600 font-bold text-2xl ">
             data is not available
