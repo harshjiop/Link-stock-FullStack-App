@@ -4,6 +4,11 @@
 
 Your digital playground where the web of links intertwines with boundless choices, guiding you through a realm of endless exploration and excitement, one click at a time!
 
+## Guest Login Credential
+Username: guestUser
+
+Password: guestUser
+
 ## Features
 
 #### 🖇️ Link Hub
@@ -60,6 +65,9 @@ To experience Link Store, follow these simple steps:
 
    ![Add Product](https://ik.imagekit.io/8fgpvoiai/Link%20Stock/documentation/Screenshot%202024-04-27%20122910_bG0Oe_A1vi.png?updatedAt=1714201281947)
    _Add Product_
+
+   ![Edit/Update Product](https://ik.imagekit.io/8fgpvoiai/Link%20Stock/documentation/Screenshot%202024-05-11%20134901_hyuLWY82pi.png?updatedAt=1715415599044)
+   _Edit/Update Product_
 
    ![Delete Product](https://ik.imagekit.io/8fgpvoiai/Link%20Stock/documentation/Screenshot%202024-04-27%20122949_RM6Rx0xKIC.png?updatedAt=1714201282031)
    _Delete Product_
