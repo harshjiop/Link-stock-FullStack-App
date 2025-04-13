@@ -173,9 +173,10 @@ export default function Admin() {
       </div>
 
       {/* admin container */}
-      <div className="md:w-[90%] w-full h-[90%] mx-auto flex justify-between">
+      <div className="md:w-[90%] w-full h-[90%] mx-auto flex justify-between ">
+
         {/* left section */}
-        <div className="mobile  lg:z-0 z-[200] lg:w-[40%]  hidden lg:flex  w-full h-full   lg:static absolute top-0 left-0 lg:bg-transparent bg-slate-900/60  justify-center items-center">
+        <div className="mobile lg:z-0 z-[200] lg:w-[40%] hidden  lg:flex  w-full h-full  lg:static absolute top-0 left-0 lg:bg-transparent bg-slate-900/60  justify-center items-center ">
           <div className="h-full z-0 w-full  bg-no-repeat bg-cover bg-center flex justify-center items-center ">
             {/* container */}
             {userTheme || selectedTheme ? (
@@ -220,8 +221,8 @@ export default function Admin() {
                         : userTheme.mainStyles.contentSection
                     }
                   >
+                    <h1 className="">{userData?.fullName}</h1>
                     <h2 className="text-xs">{userData?.username}</h2>
-                    <h1 className="text-xs">{userData?.fullName}</h1>
                     <h2 className="text-xs">{userData?.email}</h2>
                   </div>
                 </div>
@@ -243,11 +244,11 @@ export default function Admin() {
                           link.url.startsWith("http")
                             ? link.url
                             : link.url.startsWith("/")
-                            ? `${window.location.protocol}` +
+                              ? `${window.location.protocol}` +
                               "//" +
                               window.location.host +
                               link.url
-                            : `http://${link.url}`
+                              : `http://${link.url}`
                         }
                         key={index}
                         className="linkSection"
@@ -305,7 +306,7 @@ export default function Admin() {
 
           <button
             onClick={handleMobile}
-            className="lg:hidden inline-block  text-[#C92138]  absolute top-0 left-0 text-4xl w-10"
+            className="lg:hidden inline-block  text-[#C92138]  absolute top-0 left-0 text-4xl w-10 "
           >
             <MdOutlineCancel />
           </button>

@@ -6,6 +6,7 @@ import links from "../services/links";
 import { Error, Loader } from "../pages";
 import { ErrorTemplate } from "../components";
 import { updateStatus, clearStatus } from "../store/errorSlice";
+import { width } from "@mui/system";
 
 export default function Guest() {
   const { userName } = useParams();
@@ -36,6 +37,7 @@ export default function Guest() {
       dispatch(updateStatus({ error: true, text: "User Name Not Found" }));
     }
   }, []);
+
 
   if (userData && userLinks && userTheme) {
     return (
@@ -82,11 +84,11 @@ export default function Guest() {
                     link.url.startsWith("http")
                       ? link.url
                       : link.url.startsWith("/")
-                      ? `${window.location.protocol}` +
+                        ? `${window.location.protocol}` +
                         "//" +
                         window.location.host +
                         link.url
-                      : `http://${link.url}`
+                        : `http://${link.url}`
                   }
                   key={index}
                   className="linkSection"

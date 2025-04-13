@@ -399,7 +399,7 @@ export default function Home() {
 
           {/* platform strip wrapper */}
           <div className="border rounded-lg text-white border-[#BEC2D3] overflow-y-auto no-scrollbar w-full h-[65%] z-10 flex justify-center items-center flex-wrap gap-4 py-2">
-            {homeLinks.length ? (
+            {homeLinks?.length ? (
               <>
                 {homeLinks.map((data, index) => (
                   <Link
@@ -411,7 +411,7 @@ export default function Home() {
                     <div
                       className="innerContainer rounded-2xl h-full "
                       style={{
-                        backgroundColor: `${data[0].UserTheme[0].mainStyles.innerContainer.backgroundColor}`,
+                        backgroundColor: `${data[0].UserTheme[0]?.mainStyles?.innerContainer.backgroundColor}`,
                       }}
                     >
                       {/* upper section */}
@@ -426,7 +426,7 @@ export default function Home() {
                         {/* content section */}
                         <div
                           className="contentSection"
-                          style={data[0].UserTheme[0].mainStyles.contentSection}
+                          style={data[0].UserTheme[0]?.mainStyles.contentSection}
                         >
                           <h2>{data[0]?.username}</h2>
                           <h1>{data[0]?.fullName}</h1>

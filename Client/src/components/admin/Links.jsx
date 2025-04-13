@@ -7,7 +7,7 @@ import { updateStatus, clearStatus } from "../../store/errorSlice";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { toast,ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Links() {
   const [token, setToken] = useState();
@@ -51,11 +51,11 @@ export default function Links() {
 
       const regex = new RegExp(
         "^(https?:\\/\\/)?" + // protocol
-          "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // domain name
-          "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-          "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-          "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-          "(\\#[-a-z\\d_]*)?$",
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
         "i"
       ); // fragment locator
 
@@ -119,7 +119,7 @@ export default function Links() {
     <AdminContainer className="gap-1 justify-start relative z-[100]">
 
 
-      <ToastContainer/>
+      <ToastContainer />
 
       {/* add buttons */}
       <div className="h-[10%] mx-auto w-full flex justify-between items-center text-black text-lg  font-bold">
@@ -155,12 +155,13 @@ export default function Links() {
                 className="flex  gap-8 bg-black px-5 py-2 rounded-md w-full text-white shadow-"
                 style={{ boxShadow: "2px 5px #28BDD1" }}
               >
-                <div className="flex justify-start gap-4 w-[90%] ">
+                {/* Link Data Container*/}
+                <div className="flex justify-start items-center gap-4 w-[90%]">
                   {/* icons */}
                   {data ? (
                     <>
                       <img
-                        className="w-[50px] rounded-[50%] border-2 border-[#28BDD1]"
+                        className="w-[50px] h-[50px] rounded-[50%] border-2 border-[#28BDD1]"
                         src={`${data.thumbnail?.url}`}
                         alt="icons"
                       />
@@ -181,11 +182,11 @@ export default function Links() {
                         data.url.startsWith("http")
                           ? data.url
                           : data.url.startsWith("/")
-                          ? `${window.location.protocol}` +
+                            ? `${window.location.protocol}` +
                             "//" +
                             window.location.host +
                             data.url
-                          : `http://${data.url}`
+                            : `http://${data.url}`
                       }
                     >
                       {data.url}
