@@ -364,7 +364,7 @@ export default function Home() {
       {/* Templates wrapper */}
       <div
         id="templates"
-        className="md:h-screen h-full  py-[43rem] md:py-[0rem]  w-full relative flex justify-center items-center my-12 md:my-0"
+        className="md:h-screen h-full  py-[43rem] md:py-[0rem]  w-full relative flex justify-center items-center my-12 md:my-0 "
       >
         {/* bg-vectors */}
         <div className="relative top-0 left-0 w-full h-full ">
@@ -404,7 +404,7 @@ export default function Home() {
                 {homeLinks.map((data, index) => (
                   <Link
                     key={index}
-                    className=" rounded-2xl  w-[400px] h-[100px] "
+                    className=" rounded-2xl  w-[200px] h-[400px] border"
                     to={`${window.location.protocol}/${data[0]?.username}`}
                   >
                     {/* http://localhost:5173/ilokeshghosh */}
@@ -415,17 +415,17 @@ export default function Home() {
                       }}
                     >
                       {/* upper section */}
-                      <div className="upperSection flex  justify-center items-center  h-full px-2">
+                      <div className="upperSection flex flex-col  justify-start items-center  h-full px-2 py-2 ">
                         {/* avatarContainer */}
                         <img
-                          className="avatarContainer rounded-full"
+                          className="avatarContainer rounded-full w-[120px] h-[120px]"
                           src={`${data[0]?.avatar?.url}`}
                           alt=""
                         />
 
                         {/* content section */}
                         <div
-                          className="contentSection"
+                          className="contentSection overflow-hidden"
                           style={data[0].UserTheme[0]?.mainStyles.contentSection}
                         >
                           <h2>{data[0]?.username}</h2>

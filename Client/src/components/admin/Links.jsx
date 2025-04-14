@@ -122,7 +122,7 @@ export default function Links() {
       <ToastContainer />
 
       {/* add buttons */}
-      <div className="h-[10%] mx-auto w-full flex justify-between items-center text-black text-lg  font-bold">
+      <div className="h-[10%] mx-auto  w-full flex justify-between items-center text-black text-lg  font-bold">
         <button
           onClick={handleAddHeader}
           className="text w-[30%] bg-[#28BDD1] py-2 rounded-xl"
@@ -216,7 +216,7 @@ export default function Links() {
         )}
       </div>
 
-      <div className="w-0 h-0 opacity-0 transition-all duration-500 ease-linear addFormContainer    absolute  rounded-xl top-[10%] left-0 bg-black text-white">
+      <div className="w-0 h-0  opacity-0 transition-all duration-500 ease-linear addFormContainer    absolute  rounded-xl top-[16%] left-0 bg-black text-white">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="px-4 py-4 flex flex-col gap-4"

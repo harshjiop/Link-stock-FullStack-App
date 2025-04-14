@@ -89,9 +89,9 @@ Project : [Link Store](https://link-stock-full-stack-app.vercel.app/)
 
 Design : [Figma](https://www.figma.com/file/rdZooRylt3XZPabWEw7iAp/social-reference?type=design&node-id=0%3A1&mode=design&t=Jim1GHxAntyAJRK1-1)
 
-Sample Link : [Links](https://www.lets-start-code.com/ilokeshghosh)
+Sample Link : [Links](https://link-stock-full-stack-app.vercel.app/guestuser)
 
-Sample Store: [Store](https://www.lets-start-code.com/store/@ilokeshghosh)
+Sample Store: [Store](https://link-stock-full-stack-app.vercel.app/store/@guestuser)
 
 ## Contributors
 
