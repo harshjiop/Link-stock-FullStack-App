@@ -7,7 +7,8 @@ import { AiOutlineMobile, AiFillHome } from "react-icons/ai";
 import { IoIosInformationCircle } from "react-icons/io";
 import { TiUserAdd } from "react-icons/ti";
 import { IoLogInSharp, IoChatbubble, IoShare, IoColorPaletteOutline } from "react-icons/io5";
-import { SiAddthis } from "react-icons/si";
+// import { SiAddthis } from "react-icons/si";
+import { MdAdd  as SiAddthis} from "react-icons/md";
 import { LuImagePlus, LuMailX, LuMailWarning } from "react-icons/lu";
 import { PiLinkSimpleBold } from "react-icons/pi";
 

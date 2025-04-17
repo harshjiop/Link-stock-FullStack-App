@@ -39,7 +39,7 @@ Personalize your profile with custom themes and colors to match your brand ident
 
 To experience Link Store, follow these simple steps:
 
-1. Visit [Link Store](https://www.lets-start-code.com/).
+1. Visit [Link Store](https://link-stock-full-stack-app.vercel.app/).
    ![Landing Page](https://ik.imagekit.io/8fgpvoiai/Link%20Stock/documentation/Screenshot%202024-04-27%20122204_a1QD5LTp1.png?updatedAt=1714201249854)
    _Landing Page_
 2. Sign up for a new account or log in if you already have one.
@@ -85,13 +85,13 @@ To experience Link Store, follow these simple steps:
 
 ## Links
 
-Project : [Link Store](https://www.lets-start-code.com/)
+Project : [Link Store](https://link-stock-full-stack-app.vercel.app/)
 
 Design : [Figma](https://www.figma.com/file/rdZooRylt3XZPabWEw7iAp/social-reference?type=design&node-id=0%3A1&mode=design&t=Jim1GHxAntyAJRK1-1)
 
-Sample Link : [Links](https://www.lets-start-code.com/ilokeshghosh)
+Sample Link : [Links](https://link-stock-full-stack-app.vercel.app/guestuser)
 
-Sample Store: [Store](https://www.lets-start-code.com/store/@ilokeshghosh)
+Sample Store: [Store](https://link-stock-full-stack-app.vercel.app/store/@guestuser)
 
 ## Contributors
 

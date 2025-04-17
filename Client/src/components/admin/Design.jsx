@@ -8,6 +8,7 @@ import axios from "axios";
 import { ThemePreview } from "../index";
 import { setSelectedThemesId } from "../../store/themeSlice";
 import { login } from "../../store/authSlice";
+import { borderRadius, display } from "@mui/system";
 export default function Design() {
   const userData = useSelector((state) => state.auth.userData);
   const themesList = useSelector((state) => state.themes.themes);
@@ -47,6 +48,8 @@ export default function Design() {
       }
     }
   }
+
+
 
   return (
     <>

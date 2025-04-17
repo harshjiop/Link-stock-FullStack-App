@@ -47,7 +47,7 @@ const userSchema = new Schema(
     theme: {
       type: Schema.Types.ObjectId,
       ref: "Theme",
-      default: "65d7509a76325fad6a78c49f",
+      default: "67fbc403eadaddb0b3222e1d",
     },
 
     password: {

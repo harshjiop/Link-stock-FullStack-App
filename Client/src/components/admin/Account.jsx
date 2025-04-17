@@ -180,7 +180,7 @@ export default function Account() {
                   {" "}
                   <div className="text-yellow-500 flex items-center gap-2">
                     <LuMailWarning className=" text-xl" />
-                    <p>Email Sent Check Email</p>
+                    <p>Email Sent Check MailBox</p>
                   </div>
                 </>
               ) : (
